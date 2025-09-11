@@ -1,34 +1,34 @@
-import { FancyButton } from "@pixi/ui";
+import { FancyButton } from '@pixi/ui'
 
-import { engine } from "../getEngine";
+import { engine } from '../getEngine'
 
-import { Label } from "./Label";
+import { Label } from './Label'
 
 const defaultButtonOptions = {
-  text: "",
+  text: '',
   width: 301,
   height: 112,
   fontSize: 28,
-};
+}
 
-type ButtonOptions = typeof defaultButtonOptions;
+type ButtonOptions = typeof defaultButtonOptions
 
 /**
  * The big rectangle button, with a label, idle and pressed states
  */
 export class Button extends FancyButton {
-  constructor(options: Partial<ButtonOptions> = {}) {
-    const opts = { ...defaultButtonOptions, ...options };
+  constructor (options: Partial<ButtonOptions> = {}) {
+    const opts = { ...defaultButtonOptions, ...options }
 
     super({
-      defaultView: "button.png",
+      defaultView: 'button.png',
       nineSliceSprite: [38, 50, 38, 50],
       anchor: 0.5,
       text: new Label({
         text: opts.text,
         style: {
-          fill: 0x4a4a4a,
-          align: "center",
+          fill: 0x4A4A4A,
+          align: 'center',
           fontSize: opts.fontSize,
         },
       }),
@@ -51,20 +51,20 @@ export class Button extends FancyButton {
           duration: 100,
         },
       },
-    });
+    })
 
-    this.width = opts.width;
-    this.height = opts.height;
+    this.width = opts.width
+    this.height = opts.height
 
-    this.onDown.connect(this.handleDown.bind(this));
-    this.onHover.connect(this.handleHover.bind(this));
+    this.onDown.connect(this.handleDown.bind(this))
+    this.onHover.connect(this.handleHover.bind(this))
   }
 
-  private handleHover() {
-    engine().audio.sfx.play("main/sounds/sfx-hover.wav");
+  private handleHover () {
+    engine().audio.sfx.play('main/sounds/sfx-hover.wav')
   }
 
-  private handleDown() {
-    engine().audio.sfx.play("main/sounds/sfx-press.wav");
+  private handleDown () {
+    engine().audio.sfx.play('main/sounds/sfx-press.wav')
   }
 }
