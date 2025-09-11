@@ -1,4 +1,4 @@
-import type { MainScreen } from '@/app/screens/main/MainScreen'
+import type { MainScreen } from '@/app/screens/main/ScreenMain'
 import { animate } from 'motion'
 import { randomFloat } from '@/engine/utils/random'
 import { waitFor } from '@/engine/utils/waitFor'

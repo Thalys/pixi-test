@@ -1,4 +1,3 @@
-import type { AnimationPlaybackControls } from 'motion/react'
 import type { Ticker } from 'pixi.js'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
@@ -106,46 +105,34 @@ export class MainScreen extends Container {
 
   /** Resize the screen, fired whenever window size changes */
   public resize (width: number, height: number) {
-    const centerX = width * 0.5
-    const centerY = height * 0.5
+    const mcx = width * 0.5
+    const mcy = height * 0.5
 
-    this.mainContainer.x = centerX
-    this.mainContainer.y = centerY
+    this.mainContainer.x = mcx
+    this.mainContainer.y = mcy
     this.pauseButton.x = 30
     this.pauseButton.y = 30
     this.settingsButton.x = width - 30
     this.settingsButton.y = 30
-    this.removeButton.x = width / 2 - 100
-    this.removeButton.y = height - 75
-    this.addButton.x = width / 2 + 100
-    this.addButton.y = height - 75
 
     this.bouncer.resize(width, height)
   }
 
   /** Show screen with animations */
   public async show (): Promise<void> {
-    engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
-
     const elementsToAnimate = [
       this.pauseButton,
       this.settingsButton,
-      this.addButton,
-      this.removeButton,
     ]
 
-    let finalPromise!: AnimationPlaybackControls
     for (const element of elementsToAnimate) {
       element.alpha = 0
-      finalPromise = animate(
+      animate(
         element,
         { alpha: 1 },
         { duration: 0.3, delay: 0.75, ease: 'backOut' },
       )
     }
-
-    await finalPromise.finished
-    this.bouncer.show(this)
   }
 
   /** Hide screen with animations */
