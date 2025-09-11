@@ -3,13 +3,11 @@ import type { Ticker } from 'pixi.js'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
-
-import { engine } from '../../getEngine'
-import { PausePopup } from '../../popups/PausePopup'
-import { SettingsPopup } from '../../popups/SettingsPopup'
-import { Button } from '../../ui/Button'
-
-import { Bouncer } from './Bouncer'
+import { engine } from '@/app/getEngine'
+import { PausePopup } from '@/app/popups/PausePopup'
+import { SettingsPopup } from '@/app/popups/SettingsPopup'
+import { Bouncer } from '@/app/screens/main/Bouncer'
+import { Button } from '@/app/ui/Button'
 
 /** The screen that holds the app */
 export class MainScreen extends Container {

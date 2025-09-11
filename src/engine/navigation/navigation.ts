@@ -1,6 +1,5 @@
 import type { Ticker } from 'pixi.js'
-import type { CreationEngine } from '../engine'
-
+import type { CreationEngine } from '@/engine/engine'
 import { Assets, BigPool, Container } from 'pixi.js'
 
 /** Interface for app screens */

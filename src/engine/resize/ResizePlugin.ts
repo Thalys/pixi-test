@@ -5,8 +5,7 @@ import type {
   ResizePluginOptions,
 } from 'pixi.js'
 import { ExtensionType } from 'pixi.js'
-
-import { resize } from './resize'
+import { resize } from '@/engine/resize/resize'
 
 // Custom utility type:
 export type DeepRequired<T> = Required<{

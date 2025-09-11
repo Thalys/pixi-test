@@ -1,9 +1,7 @@
-import type { MainScreen } from './MainScreen'
-
+import type { MainScreen } from '@/app/screens/main/MainScreen'
 import { animate } from 'motion'
-import { randomFloat } from '../../../engine/utils/random'
-
-import { waitFor } from '../../../engine/utils/waitFor'
+import { randomFloat } from '@/engine/utils/random'
+import { waitFor } from '@/engine/utils/waitFor'
 import { DIRECTION, Logo } from './Logo'
 
 export class Bouncer {

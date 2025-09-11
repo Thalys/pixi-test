@@ -1,10 +1,9 @@
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
-
-import { engine } from '../getEngine'
-import { Button } from '../ui/Button'
-import { Label } from '../ui/Label'
-import { RoundedBox } from '../ui/RoundedBox'
+import { engine } from '@/app/getEngine'
+import { Button } from '@/app/ui/Button'
+import { Label } from '@/app/ui/Label'
+import { RoundedBox } from '@/app/ui/RoundedBox'
 
 /** Popup that shows up when gameplay is paused */
 export class PausePopup extends Container {

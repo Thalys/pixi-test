@@ -2,13 +2,12 @@ import type { Text } from 'pixi.js'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
-
-import { engine } from '../getEngine'
-import { Button } from '../ui/Button'
-import { Label } from '../ui/Label'
-import { RoundedBox } from '../ui/RoundedBox'
-import { VolumeSlider } from '../ui/VolumeSlider'
-import { userSettings } from '../utils/userSettings'
+import { engine } from '@/app/getEngine'
+import { Button } from '@/app/ui/Button'
+import { Label } from '@/app/ui/Label'
+import { RoundedBox } from '@/app/ui/RoundedBox'
+import { VolumeSlider } from '@/app/ui/VolumeSlider'
+import { userSettings } from '@/app/utils/userSettings'
 
 /** Popup for volume */
 export class SettingsPopup extends Container {

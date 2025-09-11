@@ -1,8 +1,6 @@
 import { FancyButton } from '@pixi/ui'
-
-import { engine } from '../getEngine'
-
-import { Label } from './Label'
+import { engine } from '@/app/getEngine'
+import { Label } from '@/app/ui/Label'
 
 const defaultButtonOptions = {
   text: '',
