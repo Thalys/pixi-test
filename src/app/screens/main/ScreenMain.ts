@@ -65,8 +65,8 @@ export class MainScreen extends ScreenBaseUI {
     engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
 
     const elementsToAnimate = [
-      this.pauseButton,
-      this.settingsButton,
+      this.btnPause,
+      this.btnSettings,
       this.btnOne,
       this.btnTwo,
       this.btnThree,

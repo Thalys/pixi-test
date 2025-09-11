@@ -1,13 +1,13 @@
+import { initDevtools } from '@pixi/devtools'
 import { setEngine } from '@/app/engine-singleton'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
-
 import { userSettings } from '@/app/utils/user-settings'
 import { CreationEngine } from '@/engine/engine'
 /**
- * Importing these modules will automatically register there plugins with the engine.
+ * Importing these modules will automatically register their plugins with the engine
  */
 import '@pixi/sound'
-// import "@esotericsoftware/spine-pixi-v8";
+// import "@esotericsoftware/spine-pixi-v8"
 
 // Create a new creation engine instance
 const engine = new CreationEngine()
@@ -19,6 +19,8 @@ setEngine(engine);
     background: '#1E1E1E',
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   })
+
+  initDevtools({ app: engine })
 
   // Initialize the user settings
   userSettings.init()

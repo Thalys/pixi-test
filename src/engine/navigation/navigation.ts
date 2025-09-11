@@ -41,6 +41,7 @@ export class Navigation {
 
   public init (app: CreationEngine) {
     this.app = app
+    this.container.label = 'navigation'
   }
 
   /** Set the  default load screen */

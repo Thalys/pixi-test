@@ -14,8 +14,8 @@ export class ScreenBaseUI extends Container implements AppScreen {
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
   public mainContainer: Container
-  protected pauseButton: FancyButton
-  protected settingsButton: FancyButton
+  protected btnPause: FancyButton
+  protected btnSettings: FancyButton
   protected paused = false
 
   constructor () {
@@ -34,25 +34,27 @@ export class ScreenBaseUI extends Container implements AppScreen {
         duration: 100,
       },
     }
-    this.pauseButton = new FancyButton({
+    this.btnPause = new FancyButton({
       defaultView: 'icon-pause.png',
       anchor: 0.5,
       animations: buttonAnimations,
     })
-    this.pauseButton.onPress.connect(() => {
+    this.btnPause.label = 'btnPause'
+    this.btnPause.onPress.connect(() => {
       void engine().navigation.presentPopup(PausePopup)
     })
-    this.addChild(this.pauseButton)
+    this.addChild(this.btnPause)
 
-    this.settingsButton = new FancyButton({
+    this.btnSettings = new FancyButton({
       defaultView: 'icon-settings.png',
       anchor: 0.5,
       animations: buttonAnimations,
     })
-    this.settingsButton.onPress.connect(() => {
+    this.btnSettings.label = 'btnSettings'
+    this.btnSettings.onPress.connect(() => {
       void engine().navigation.presentPopup(SettingsPopup)
     })
-    this.addChild(this.settingsButton)
+    this.addChild(this.btnSettings)
   }
 
   /** Prepare the screen just before showing */
@@ -83,17 +85,17 @@ export class ScreenBaseUI extends Container implements AppScreen {
 
     this.mainContainer.x = mcx
     this.mainContainer.y = mcy
-    this.pauseButton.x = 30
-    this.pauseButton.y = 30
-    this.settingsButton.x = width - 30
-    this.settingsButton.y = 30
+    this.btnPause.x = 30
+    this.btnPause.y = 30
+    this.btnSettings.x = width - 30
+    this.btnSettings.y = 30
   }
 
   /** Show screen with animations */
   public async show (): Promise<void> {
     const elementsToAnimate = [
-      this.pauseButton,
-      this.settingsButton,
+      this.btnPause,
+      this.btnSettings,
     ]
 
     let finalPromise!: AnimationPlaybackControls
