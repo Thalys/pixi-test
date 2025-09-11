@@ -1,9 +1,8 @@
 import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
-import type { Ticker } from 'pixi.js'
 import { animate } from 'motion'
 import { engine } from '@/app/getEngine'
-import { Bouncer } from '@/app/screens/main/Bouncer'
+import { ScreenOne } from '@/app/screens/one/ScreenOne'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 
@@ -11,60 +10,60 @@ import { Button } from '@/app/ui/Button'
 export class MainScreen extends ScreenBaseUI {
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
-  private addButton: FancyButton
-  private removeButton: FancyButton
-  private bouncer: Bouncer
+  private btnOne: FancyButton
+  private btnTwo: FancyButton
+  private btnThree: FancyButton
 
   constructor () {
     super()
 
-    this.bouncer = new Bouncer()
-
-    this.addButton = new Button({
-      text: 'Add',
-      width: 175,
-      height: 110,
+    this.btnOne = new Button({
+      text: 'Ace of Shadows',
+      width: 400,
+      height: 130,
     })
-    this.addButton.onPress.connect(() => this.bouncer.add())
-    this.addChild(this.addButton)
+    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(ScreenOne) })
+    this.addChild(this.btnOne)
 
-    this.removeButton = new Button({
-      text: 'Remove',
-      width: 175,
-      height: 110,
+    this.btnTwo = new Button({
+      text: 'Magic Words',
+      width: 400,
+      height: 130,
     })
-    this.removeButton.onPress.connect(() => this.bouncer.remove())
-    this.addChild(this.removeButton)
-  }
+    this.btnTwo.onPress.connect(() => { console.warn('Not implemented') })
+    this.addChild(this.btnTwo)
 
-  /** Update the screen */
-  public override update (time: Ticker) {
-    super.update(time)
-    if (this.paused) { return }
-    this.bouncer.update()
+    this.btnThree = new Button({
+      text: 'Phoenix Flame',
+      width: 400,
+      height: 130,
+    })
+    this.btnThree.onPress.connect(() => { console.warn('Not implemented') })
+    this.addChild(this.btnThree)
   }
 
   /** Resize the screen, fired whenever window size changes */
   public override resize (width: number, height: number) {
     super.resize(width, height)
-    this.removeButton.x = width / 2 - 100
-    this.removeButton.y = height - 75
-    this.addButton.x = width / 2 + 100
-    this.addButton.y = height - 75
-    this.bouncer.resize(width, height)
+    this.btnOne.x = width / 2
+    this.btnOne.y = 200
+    this.btnTwo.x = width / 2
+    this.btnTwo.y = 340
+    this.btnThree.x = width / 2
+    this.btnThree.y = 480
   }
 
   /** Show screen with animations */
   public override async show (): Promise<void> {
-    // don't call super, re-implemented
-    // super.show()
+    // super.show() // intentional, re-implemented
     engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
 
     const elementsToAnimate = [
       this.pauseButton,
       this.settingsButton,
-      this.addButton,
-      this.removeButton,
+      this.btnOne,
+      this.btnTwo,
+      this.btnThree,
     ]
 
     let finalPromise!: AnimationPlaybackControls
@@ -78,6 +77,5 @@ export class MainScreen extends ScreenBaseUI {
     }
 
     await finalPromise.finished
-    this.bouncer.show(this)
   }
 }
