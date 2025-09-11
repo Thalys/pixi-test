@@ -5,6 +5,7 @@ import { engine } from '@/app/engine-singleton'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
+import { userSettings } from '@/app/utils/user-settings'
 
 /** The screen that holds the app */
 export class MainScreen extends ScreenBaseUI {
@@ -22,7 +23,10 @@ export class MainScreen extends ScreenBaseUI {
       width: 400,
       height: 130,
     })
-    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(Screen1) })
+    this.btnOne.onPress.connect(() => {
+      userSettings.setLastScreen('Screen1')
+      void engine().navigation.showScreen(Screen1)
+    })
     this.addChild(this.btnOne)
 
     this.btnTwo = new Button({

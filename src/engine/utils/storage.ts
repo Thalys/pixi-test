@@ -3,9 +3,10 @@
  * not only string as in plain localStorage.
  */
 class StorageWrapper {
+
   /** Get a string value from storage */
-  public getString (key: string) {
-    return localStorage.getItem(key) ?? undefined
+  public getString <T extends string>(key: string): T {
+    return localStorage.getItem(key) ?? undefined as any
   }
 
   /** Set a string value to storage */

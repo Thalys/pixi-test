@@ -1,9 +1,13 @@
+import type { Screens } from '@/app/screens/types'
 import { setEngine } from '@/app/engine-singleton'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { MainScreen } from '@/app/screens/main/ScreenMain'
+import { Screen1 } from '@/app/screens/screen-1/Screen1'
+import { Screen2 } from '@/app/screens/screen-2/Screen2'
+
+import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { userSettings } from '@/app/utils/user-settings'
 import { CreationEngine } from '@/engine/engine'
-
 /**
  * Importing these modules will automatically register there plugins with the engine.
  */
@@ -26,6 +30,21 @@ setEngine(engine);
 
   // Show the load screen
   await engine.navigation.showScreen(LoadScreen)
-  // Show the main screen once the load screen is dismissed
-  await engine.navigation.showScreen(MainScreen)
+
+  const lastScreen: Screens = userSettings.getLastScreen()
+  switch (lastScreen) {
+    case 'Screen1':
+      await engine.navigation.showScreen(Screen1)
+      break
+    case 'Screen2':
+      await engine.navigation.showScreen(Screen2)
+      break
+    case 'Screen3':
+      await engine.navigation.showScreen(Screen3)
+      break
+    case 'Main':
+    default:
+      await engine.navigation.showScreen(MainScreen)
+  }
+
 })()
