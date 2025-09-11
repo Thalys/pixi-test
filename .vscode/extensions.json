@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "neotan.vscode-auto-restart-typescript-eslint-servers",
+    "oven.bun-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "ntnyq.eslint-command",
+    "peterschmalfeldt.explorer-exclude",
+    "yoavbls.pretty-ts-errors"
+  ]
+}

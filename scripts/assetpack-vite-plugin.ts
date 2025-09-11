@@ -8,6 +8,7 @@ import { pixiPipes } from '@assetpack/core/pixi'
 export function assetpackPlugin () {
   const apConfig = {
     entry: './raw-assets',
+    cacheLocation: './node_modules/.cache/.assetpack',
     pipes: [
       ...pixiPipes({
         cacheBust: false,
