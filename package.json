@@ -8,7 +8,7 @@
     "build": "bun check && bunx --bun vite build",
     "dev": "vite",
     "check": "bun run typecheck && bun run lint",
-    "fix": "bun run typecheck && bun run lint:fix",
+    "fix": "bun run typecheck; bun run lint:fix",
     "lint": "bunx --bun eslint",
     "lint:fix": "bunx --bun eslint --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
