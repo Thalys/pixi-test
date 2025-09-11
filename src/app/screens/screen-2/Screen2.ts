@@ -4,21 +4,17 @@ import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 /**
  * Screen with the first assignment
  */
-export class ScreenOne extends ScreenBaseUI {
+export class Screen2 extends ScreenBaseUI {
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
 
-  constructor () {
-    super()
-  }
+  constructor () { super() }
 
   /** Prepare the screen just before showing */
   public override prepare () {}
 
   /** Update the screen */
-  public override update (time: Ticker) {
-
-  }
+  public override update (time: Ticker) {}
 
   /** Fully reset */
   public override reset () {}
@@ -29,9 +25,7 @@ export class ScreenOne extends ScreenBaseUI {
   }
 
   /** Show screen with animations */
-  public override async show (): Promise<void> {
-
-  }
+  public override async show (): Promise<void> {}
 
   public override async hide () {}
 }

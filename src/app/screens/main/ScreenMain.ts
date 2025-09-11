@@ -2,7 +2,7 @@ import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
 import { animate } from 'motion'
 import { engine } from '@/app/engine-singleton'
-import { ScreenOne } from '@/app/screens/one/ScreenOne'
+import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 
@@ -22,7 +22,7 @@ export class MainScreen extends ScreenBaseUI {
       width: 400,
       height: 130,
     })
-    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(ScreenOne) })
+    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(Screen1) })
     this.addChild(this.btnOne)
 
     this.btnTwo = new Button({
