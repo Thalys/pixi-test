@@ -64,7 +64,7 @@ export class Navigation {
 
   /** Set the  default load screen */
   public setBackground (ctor: AppScreenConstructor) {
-    this.background = new ctor()
+    this.background = new ctor() // eslint-disable-line new-cap
     this.addAndShowScreen(this.background)
   }
 
@@ -188,7 +188,7 @@ export class Navigation {
       await this.hideAndRemoveScreen(this.currentPopup)
     }
 
-    this.currentPopup = new ctor()
+    this.currentPopup = new ctor() // eslint-disable-line new-cap
     await this.addAndShowScreen(this.currentPopup)
   }
 

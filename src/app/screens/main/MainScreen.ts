@@ -50,9 +50,9 @@ export class MainScreen extends Container {
       anchor: 0.5,
       animations: buttonAnimations,
     })
-    this.pauseButton.onPress.connect(async () =>
-      engine().navigation.presentPopup(PausePopup),
-    )
+    this.pauseButton.onPress.connect(() => {
+      void engine().navigation.presentPopup(PausePopup)
+    })
     this.addChild(this.pauseButton)
 
     this.settingsButton = new FancyButton({
@@ -60,9 +60,9 @@ export class MainScreen extends Container {
       anchor: 0.5,
       animations: buttonAnimations,
     })
-    this.settingsButton.onPress.connect(async () =>
-      engine().navigation.presentPopup(SettingsPopup),
-    )
+    this.settingsButton.onPress.connect(() => {
+      void engine().navigation.presentPopup(SettingsPopup)
+    })
     this.addChild(this.settingsButton)
 
     this.addButton = new Button({
@@ -86,7 +86,6 @@ export class MainScreen extends Container {
   public prepare () {}
 
   /** Update the screen */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public update (_time: Ticker) {
     if (this.paused) { return }
     this.bouncer.update()
@@ -147,7 +146,7 @@ export class MainScreen extends Container {
       )
     }
 
-    await finalPromise
+    await finalPromise.finished
     this.bouncer.show(this)
   }
 

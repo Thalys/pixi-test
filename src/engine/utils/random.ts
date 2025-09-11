@@ -71,12 +71,12 @@ export function randomRange (
 
 /**
  * Returns a random item from an object or array
- * @param arr - array to be selected
+ * @param obj - array to be selected
  * @param random - The random function to be used (defaults to Math.random)
  */
 export function randomItem<T> (obj: T, random = Math.random): T[keyof T] {
   if (Array.isArray(obj)) {
-    return obj[Math.floor(random() * obj.length)]
+    return obj[Math.floor(random() * obj.length)] as any
   }
 
   const keys = Object.keys(obj as Record<string, unknown>)
@@ -88,7 +88,6 @@ export function randomItem<T> (obj: T, random = Math.random): T[keyof T] {
  * Returns a random boolean.
  * @param weight - The chance of true value, between 0 and 1
  * @param random - The random function to be used (defaults to Math.random)
- * @returns
  */
 export function randomBool (weight = 0.5, random = Math.random): boolean {
   return random() < weight
@@ -98,7 +97,6 @@ export function randomBool (weight = 0.5, random = Math.random): boolean {
  * Random shuffle an array in place, without cloning it
  * @param array - The array that will be shuffled
  * @param random - The random function to be used (defaults to Math.random)
- * @returns
  */
 export function randomShuffle<T> (array: T[], random = Math.random): T[] {
   let currentIndex = array.length
@@ -120,7 +118,6 @@ export function randomShuffle<T> (array: T[], random = Math.random): T[] {
  * Return a random string hash - not guaranteed to be unique
  * @param length - The length of the hash
  * @param random - The random function to be used (defaults to Math.random)
- * @returns
  */
 export function randomHash (
   length: number,

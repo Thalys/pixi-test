@@ -59,7 +59,9 @@ export class SettingsPopup extends Container {
 
     this.doneButton = new Button({ text: 'OK' })
     this.doneButton.y = this.panelBase.boxHeight * 0.5 - 78
-    this.doneButton.onPress.connect(async () => engine().navigation.dismissPopup())
+    this.doneButton.onPress.connect(() => {
+      void engine().navigation.dismissPopup()
+    })
     this.panel.addChild(this.doneButton)
 
     this.versionLabel = new Label({

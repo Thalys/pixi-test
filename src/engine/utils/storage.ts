@@ -17,7 +17,7 @@ class StorageWrapper {
   public getNumber (key: string) {
     const str = this.getString(key) ?? undefined
     const value = Number(str)
-    return isNaN(value) ? null : value
+    return Number.isNaN(value) ? null : value
   }
 
   /** Set a number value to storage */

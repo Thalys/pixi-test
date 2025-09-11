@@ -110,9 +110,8 @@ export class CreationResizePlugin {
       if (this._resizeTo === globalThis.window) {
         canvasWidth = globalThis.innerWidth
         canvasHeight = globalThis.innerHeight
-      }
-      // Resize to other HTML entities
-      else {
+      } else {
+        // Resize to other HTML entities
         const { clientWidth, clientHeight } = this._resizeTo as HTMLElement
 
         canvasWidth = clientWidth

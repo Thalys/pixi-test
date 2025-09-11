@@ -5,8 +5,7 @@ import type {
 } from 'pixi.js'
 import { sound } from '@pixi/sound'
 import { Application, Assets, extensions, ResizePlugin } from 'pixi.js'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - This is a dynamically generated file by AssetPack
+
 import manifest from '../manifest.json'
 
 import { CreationAudioPlugin } from './audio/AudioPlugin'
