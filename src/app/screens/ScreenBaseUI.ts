@@ -1,3 +1,4 @@
+import type { AnimationPlaybackControls } from 'motion'
 import type { Ticker } from 'pixi.js'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
@@ -5,27 +6,21 @@ import { Container } from 'pixi.js'
 import { engine } from '@/app/getEngine'
 import { PausePopup } from '@/app/popups/PausePopup'
 import { SettingsPopup } from '@/app/popups/SettingsPopup'
-import { Bouncer } from '@/app/screens/main/Bouncer'
-import { Button } from '@/app/ui/Button'
 
 /** The screen that holds the app */
-export class ScreenOne extends Container {
+export class ScreenBaseUI extends Container {
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
   public mainContainer: Container
-  private pauseButton: FancyButton
-  private settingsButton: FancyButton
-  private addButton: FancyButton
-  private removeButton: FancyButton
-  private bouncer: Bouncer
-  private paused = false
+  protected pauseButton: FancyButton
+  protected settingsButton: FancyButton
+  protected paused = false
 
   constructor () {
     super()
 
     this.mainContainer = new Container()
     this.addChild(this.mainContainer)
-    this.bouncer = new Bouncer()
 
     const buttonAnimations = {
       hover: {
@@ -56,32 +51,13 @@ export class ScreenOne extends Container {
       void engine().navigation.presentPopup(SettingsPopup)
     })
     this.addChild(this.settingsButton)
-
-    this.addButton = new Button({
-      text: 'Add',
-      width: 175,
-      height: 110,
-    })
-    this.addButton.onPress.connect(() => this.bouncer.add())
-    this.addChild(this.addButton)
-
-    this.removeButton = new Button({
-      text: 'Remove',
-      width: 175,
-      height: 110,
-    })
-    this.removeButton.onPress.connect(() => this.bouncer.remove())
-    this.addChild(this.removeButton)
   }
 
   /** Prepare the screen just before showing */
   public prepare () {}
 
   /** Update the screen */
-  public update (_time: Ticker) {
-    if (this.paused) { return }
-    this.bouncer.update()
-  }
+  public update (time: Ticker) {}
 
   /** Pause gameplay - automatically fired when a popup is presented */
   public async pause () {
@@ -109,8 +85,6 @@ export class ScreenOne extends Container {
     this.pauseButton.y = 30
     this.settingsButton.x = width - 30
     this.settingsButton.y = 30
-
-    this.bouncer.resize(width, height)
   }
 
   /** Show screen with animations */
@@ -120,15 +94,26 @@ export class ScreenOne extends Container {
       this.settingsButton,
     ]
 
+    let finalPromise!: AnimationPlaybackControls
     for (const element of elementsToAnimate) {
       element.alpha = 0
-      animate(
+      finalPromise = animate(
         element,
         { alpha: 1 },
         { duration: 0.3, delay: 0.75, ease: 'backOut' },
       )
     }
+
+    await finalPromise.finished
   }
 
+  /** Hide screen with animations */
   public async hide () {}
+
+  /** Auto pause the app when window go out of focus */
+  public blur () {
+    if (!engine().navigation.currentPopup) {
+      engine().navigation.presentPopup(PausePopup)
+    }
+  }
 }

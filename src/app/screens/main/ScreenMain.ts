@@ -1,62 +1,24 @@
-import type { AnimationPlaybackControls } from 'motion/react'
+import type { FancyButton } from '@pixi/ui'
+import type { AnimationPlaybackControls } from 'motion'
 import type { Ticker } from 'pixi.js'
-import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
-import { Container } from 'pixi.js'
 import { engine } from '@/app/getEngine'
-import { PausePopup } from '@/app/popups/PausePopup'
-import { SettingsPopup } from '@/app/popups/SettingsPopup'
 import { Bouncer } from '@/app/screens/main/Bouncer'
+import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 
 /** The screen that holds the app */
-export class MainScreen extends Container {
+export class MainScreen extends ScreenBaseUI {
   /** Assets bundles required by this screen */
-  public static assetBundles = ['main']
-  public mainContainer: Container
-  private pauseButton: FancyButton
-  private settingsButton: FancyButton
+  public static override assetBundles = ['main']
   private addButton: FancyButton
   private removeButton: FancyButton
   private bouncer: Bouncer
-  private paused = false
 
   constructor () {
     super()
 
-    this.mainContainer = new Container()
-    this.addChild(this.mainContainer)
     this.bouncer = new Bouncer()
-
-    const buttonAnimations = {
-      hover: {
-        props: { scale: { x: 1.1, y: 1.1 } },
-        duration: 100,
-      },
-      pressed: {
-        props: { scale: { x: 0.9, y: 0.9 } },
-        duration: 100,
-      },
-    }
-    this.pauseButton = new FancyButton({
-      defaultView: 'icon-pause.png',
-      anchor: 0.5,
-      animations: buttonAnimations,
-    })
-    this.pauseButton.onPress.connect(() => {
-      void engine().navigation.presentPopup(PausePopup)
-    })
-    this.addChild(this.pauseButton)
-
-    this.settingsButton = new FancyButton({
-      defaultView: 'icon-settings.png',
-      anchor: 0.5,
-      animations: buttonAnimations,
-    })
-    this.settingsButton.onPress.connect(() => {
-      void engine().navigation.presentPopup(SettingsPopup)
-    })
-    this.addChild(this.settingsButton)
 
     this.addButton = new Button({
       text: 'Add',
@@ -75,51 +37,27 @@ export class MainScreen extends Container {
     this.addChild(this.removeButton)
   }
 
-  /** Prepare the screen just before showing */
-  public prepare () {}
-
   /** Update the screen */
-  public update (_time: Ticker) {
+  public override update (time: Ticker) {
+    super.update(time)
     if (this.paused) { return }
     this.bouncer.update()
   }
 
-  /** Pause gameplay - automatically fired when a popup is presented */
-  public async pause () {
-    this.mainContainer.interactiveChildren = false
-    this.paused = true
-  }
-
-  /** Resume gameplay */
-  public async resume () {
-    this.mainContainer.interactiveChildren = true
-    this.paused = false
-  }
-
-  /** Fully reset */
-  public reset () {}
-
   /** Resize the screen, fired whenever window size changes */
-  public resize (width: number, height: number) {
-    const centerX = width * 0.5
-    const centerY = height * 0.5
-
-    this.mainContainer.x = centerX
-    this.mainContainer.y = centerY
-    this.pauseButton.x = 30
-    this.pauseButton.y = 30
-    this.settingsButton.x = width - 30
-    this.settingsButton.y = 30
+  public override resize (width: number, height: number) {
+    super.resize(width, height)
     this.removeButton.x = width / 2 - 100
     this.removeButton.y = height - 75
     this.addButton.x = width / 2 + 100
     this.addButton.y = height - 75
-
     this.bouncer.resize(width, height)
   }
 
   /** Show screen with animations */
-  public async show (): Promise<void> {
+  public override async show (): Promise<void> {
+    // don't call super, re-implemented
+    // super.show()
     engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
 
     const elementsToAnimate = [
@@ -141,15 +79,5 @@ export class MainScreen extends Container {
 
     await finalPromise.finished
     this.bouncer.show(this)
-  }
-
-  /** Hide screen with animations */
-  public async hide () {}
-
-  /** Auto pause the app when window go out of focus */
-  public blur () {
-    if (!engine().navigation.currentPopup) {
-      engine().navigation.presentPopup(PausePopup)
-    }
   }
 }

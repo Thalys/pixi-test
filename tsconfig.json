@@ -23,6 +23,7 @@
     "noFallthroughCasesInSwitch": false,
     "noUncheckedSideEffectImports": true,
     "useUnknownInCatchVariables": true,
+    "noImplicitOverride": true,
 
     "baseUrl": "./",
     "paths": {
