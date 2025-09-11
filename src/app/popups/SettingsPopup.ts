@@ -1,4 +1,5 @@
 import type { Text } from 'pixi.js'
+import type { AppScreens } from '@/engine/navigation/types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
@@ -11,6 +12,7 @@ import { userSettings } from '@/app/utils/user-settings'
 
 /** Popup for volume */
 export class SettingsPopup extends Container {
+  public definition: AppScreens = 'SettingsPopup'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
   /** Container for the popup UI components */

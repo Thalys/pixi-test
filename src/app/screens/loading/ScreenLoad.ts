@@ -1,4 +1,5 @@
 import type { ObjectTarget } from 'motion/react'
+import type { AppScreens } from '@/engine/navigation/types'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
 import { Background } from '@/app/screens/loading/Background'
@@ -7,6 +8,7 @@ import { ProgressBar } from '@/app/screens/loading/ProgressBar'
 
 /** Screen shown while loading assets */
 export class LoadScreen extends Container {
+  public definition: AppScreens = 'LoadScreen'
   /** Assets bundles required by this screen */
   public static assetBundles = ['preload']
   /** The PixiJS logo */

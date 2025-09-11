@@ -1,3 +1,4 @@
+import type { AppScreens } from '@/engine/navigation/types'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
 import { engine } from '@/app/engine-singleton'
@@ -7,6 +8,7 @@ import { RoundedBox } from '@/app/ui/RoundedBox'
 
 /** Popup that shows up when gameplay is paused */
 export class PausePopup extends Container {
+  public definition: AppScreens = 'PausePopup'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
   /** Container for the popup UI components */

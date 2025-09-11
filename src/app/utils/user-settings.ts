@@ -1,4 +1,4 @@
-import type { Screens } from '@/app/screens/types'
+import type { AppScreens } from '@/engine/navigation/types'
 import { engine } from '@/app/engine-singleton'
 import { storage } from '@/engine/utils/storage'
 
@@ -53,8 +53,8 @@ class UserSettings {
   }
 
   /** Get background music volume */
-  public getLastScreen (): Screens {
-    return storage.getString<Screens>(KEY_LAST_SCREEN) ?? 'Main'
+  public getLastScreen (): AppScreens {
+    return storage.getString<AppScreens>(KEY_LAST_SCREEN) ?? 'Main'
   }
 
   /** Set background music volume */

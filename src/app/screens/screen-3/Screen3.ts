@@ -1,10 +1,12 @@
 import type { Ticker } from 'pixi.js'
+import type { AppScreens } from '@/engine/navigation/types'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 
 /**
  * Screen with the first assignment
  */
 export class Screen3 extends ScreenBaseUI {
+  public override definition: AppScreens = 'Screen3'
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
 

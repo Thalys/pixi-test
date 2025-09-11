@@ -1,5 +1,6 @@
 import type { AnimationPlaybackControls } from 'motion'
 import type { Ticker } from 'pixi.js'
+import type { AppScreen, AppScreens } from '@/engine/navigation/types'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
@@ -8,7 +9,8 @@ import { PausePopup } from '@/app/popups/PausePopup'
 import { SettingsPopup } from '@/app/popups/SettingsPopup'
 
 /** The screen that holds the app */
-export class ScreenBaseUI extends Container {
+export class ScreenBaseUI extends Container implements AppScreen {
+  public definition: AppScreens = 'MainScreen'
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
   public mainContainer: Container

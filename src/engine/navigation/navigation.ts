@@ -1,39 +1,11 @@
-import type { Ticker } from 'pixi.js'
 import type { CreationEngine } from '@/engine/engine'
+import type { AppScreen, AppScreenConstructor, AppScreens } from '@/engine/navigation/types'
 import { Assets, BigPool, Container } from 'pixi.js'
-
-/** Interface for app screens */
-interface AppScreen extends Container {
-  /** Show the screen */
-  show?: () => Promise<void>
-  /** Hide the screen */
-  hide?: () => Promise<void>
-  /** Pause the screen */
-  pause?: () => Promise<void>
-  /** Resume the screen */
-  resume?: () => Promise<void>
-  /** Prepare screen, before showing */
-  prepare?: () => void
-  /** Reset screen, after hidden */
-  reset?: () => void
-  /** Update the screen, passing delta time/step */
-  update?: (time: Ticker) => void
-  /** Resize the screen */
-  resize?: (width: number, height: number) => void
-  /** Blur the screen */
-  blur?: () => void
-  /** Focus the screen */
-  focus?: () => void
-  /** Method to react on assets loading progress */
-  onLoad?: (progress: number) => void
-}
-
-/** Interface for app screens constructors */
-interface AppScreenConstructor {
-  new (): AppScreen
-  /** List of assets bundles required by the screen */
-  assetBundles?: string[]
-}
+import { MainScreen } from '@/app/screens/main/ScreenMain'
+import { Screen1 } from '@/app/screens/screen-1/Screen1'
+import { Screen2 } from '@/app/screens/screen-2/Screen2'
+import { Screen3 } from '@/app/screens/screen-3/Screen3'
+import { userSettings } from '@/app/utils/user-settings'
 
 export class Navigation {
   /** Reference to the main application */
@@ -56,6 +28,16 @@ export class Navigation {
 
   /** Current popup being displayed */
   public currentPopup?: AppScreen
+
+  destroy () {
+    window.removeEventListener('keydown', this._onKeyDown)
+    window.removeEventListener('popstate', this._onPopState)
+  }
+
+  constructor () {
+    window.addEventListener('keydown', this._onKeyDown)
+    window.addEventListener('popstate', this._onPopState)
+  }
 
   public init (app: CreationEngine) {
     this.app = app
@@ -159,6 +141,7 @@ export class Navigation {
     // Create the new screen and add that to the stage
     this.currentScreen = BigPool.get(ctor)
     await this.addAndShowScreen(this.currentScreen)
+    this.stackScreenState(this.currentScreen.definition)
   }
 
   /**
@@ -221,5 +204,46 @@ export class Navigation {
     this.currentScreen?.focus?.()
     this.currentPopup?.focus?.()
     this.background?.focus?.()
+  }
+
+  stackScreenState (definition: AppScreens) {
+    history.pushState({ page: definition }, definition)
+  }
+
+  private _onKeyDown = (e: KeyboardEvent) => {
+    // console.log(`key pressed: [ ${e.key} ]`)
+    if (e.key === 'Escape') {
+      // console.log('Emitting "goBack" signal.')
+      this._onPopState()
+    }
+  }
+
+  private _onPopState = (e?: PopStateEvent) => {
+    e?.preventDefault()
+    // This fires when the user hits the browser/Android back button.
+    // console.log('Back button pressed. Emitting "goBack" signal.')
+    this.showScreen(MainScreen)
+  }
+
+  private _getSavedScreen = () => {
+    const lastScreen: AppScreens = userSettings.getLastScreen()
+    switch (lastScreen) {
+      case 'Screen1':
+        return Screen1
+      case 'Screen2':
+        return Screen2
+      case 'Screen3':
+        return Screen3
+      case 'LoadScreen':
+      case 'PausePopup':
+      case 'SettingsPopup':
+      case 'MainScreen':
+      default:
+        return MainScreen
+    }
+  }
+
+  public showLastSessionScreen = async () => {
+    await this.showScreen(this._getSavedScreen())
   }
 }

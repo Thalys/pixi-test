@@ -1,5 +1,6 @@
 import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
+import type { AppScreens } from '@/engine/navigation/types'
 import { animate } from 'motion'
 import { engine } from '@/app/engine-singleton'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
@@ -9,6 +10,7 @@ import { userSettings } from '@/app/utils/user-settings'
 
 /** The screen that holds the app */
 export class MainScreen extends ScreenBaseUI {
+  public override definition: AppScreens = 'MainScreen'
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
   private btnOne: FancyButton
