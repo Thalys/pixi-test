@@ -4,7 +4,6 @@
     "": {
       "name": "softgames-thalys-test",
       "dependencies": {
-        "@esotericsoftware/spine-pixi-v8": "^4.2.74",
         "@pixi/sound": "^6.0.1",
         "@pixi/ui": "^2.2.2",
         "motion": "^12.4.7",
@@ -131,10 +130,6 @@
     "@eslint/object-schema": ["@eslint/object-schema@2.1.6", "", {}, "sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.3.5", "", { "dependencies": { "@eslint/core": "^0.15.2", "levn": "^0.4.1" } }, "sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w=="],
-
-    "@esotericsoftware/spine-core": ["@esotericsoftware/spine-core@4.2.90", "", {}, "sha512-4pR2r7ujN9lm1nYLpDMHV6D078EAo/Ks6Ut3n3B/Lx9HdmkEAoZ01s+zB3xK88QWCkCbLu5UHe/AZbbwNXnc8Q=="],
-
-    "@esotericsoftware/spine-pixi-v8": ["@esotericsoftware/spine-pixi-v8@4.2.90", "", { "dependencies": { "@esotericsoftware/spine-core": "4.2.90" }, "peerDependencies": { "pixi.js": "^8.12.0" } }, "sha512-wtrbdHs6jC9SO+uj9gYBs0YwKU4iFCNfZi+Cr8I3QBr8f2JdCEeV3F2J961YUp4OFfWUZfuxQL2pyHXr5L+0Xw=="],
 
     "@ffmpeg-installer/darwin-arm64": ["@ffmpeg-installer/darwin-arm64@4.1.5", "", { "os": "darwin", "cpu": "arm64" }, "sha512-hYqTiP63mXz7wSQfuqfFwfLOfwwFChUedeCVKkBtl/cliaTM7/ePI9bVzfZ2c+dWu3TqCwLDRWNSJ5pqZl8otA=="],
 
