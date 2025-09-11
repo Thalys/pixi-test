@@ -1,0 +1,70 @@
+<svg
+  viewBox="0 0 336 480"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Define patterns and gradients -->
+  <defs>
+    <!-- A subtle diagonal line pattern -->
+    <pattern id="diagonalLines" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)">
+      <path d="M 0,5 l 10,0" stroke="#B91C1C" stroke-width="1" />
+    </pattern>
+    <!-- A small dot pattern -->
+    <pattern id="dots" patternUnits="userSpaceOnUse" width="12" height="12">
+      <circle cx="2" cy="2" r="1" fill="#FCA5A5" />
+    </pattern>
+  </defs>
+
+  <!-- Card Base -->
+  <rect width="336" height="480" rx="20" fill="#DC2626" />
+
+  <!-- Apply the diagonal line pattern over the base -->
+  <rect width="336" height="480" rx="20" fill="url(#diagonalLines)" />
+
+  <!-- White Border -->
+  <rect x="15" y="15" width="306" height="450" rx="10" fill="none" stroke="white" stroke-width="3" />
+
+  <!-- Inner patterned panel -->
+  <rect x="25" y="25" width="286" height="430" rx="5" fill="#DC2626" />
+  <rect x="25" y="25" width="286" height="430" rx="5" fill="url(#dots)" opacity="0.5" />
+
+  <!-- Central Decorative Medallion -->
+  <g transform="translate(168, 240)">
+    <!-- Medallion Background -->
+    <circle cx="0" cy="0" r="100" fill="white" opacity="0.9" />
+    <circle cx="0" cy="0" r="95" fill="#EF4444" />
+    <circle cx="0" cy="0" r="95" fill="url(#dots)" opacity="0.3" />
+
+    <!-- Symmetrical Abstract Symbol -->
+    <g fill="white">
+      <!-- Top/Bottom elements -->
+      <path d="M0 -70 L 20 -50 L 0 -60 L -20 -50 Z" />
+      <path d="M0 70 L 20 50 L 0 60 L -20 50 Z" />
+
+      <!-- Left/Right elements -->
+      <path d="M-70 0 L -50 20 L -60 0 L -50 -20 Z" />
+      <path d="M70 0 L 50 20 L 60 0 L 50 -20 Z" />
+
+      <!-- Corner Flourishes -->
+      <circle cx="45" cy="45" r="8" />
+      <circle cx="-45" cy="45" r="8" />
+      <circle cx="45" cy="-45" r="8" />
+      <circle cx="-45" cy="-45" r="8" />
+
+      <!-- Central Diamond -->
+      <rect x="-15" y="-15" width="30" height="30" transform="rotate(45)" />
+    </g>
+  </g>
+
+  <!-- Corner Symbols (Simplified) -->
+  <g fill="white">
+    <!-- Top Left -->
+    <path transform="translate(40, 40) scale(0.5)" d="M0 -20 L 10 -10 L 0 -15 L -10 -10 Z" />
+    <!-- Top Right -->
+    <path transform="translate(296, 40) scale(0.5)" d="M0 -20 L 10 -10 L 0 -15 L -10 -10 Z" />
+    <!-- Bottom Left -->
+    <path transform="translate(40, 440) scale(0.5)" d="M0 20 L 10 10 L 0 15 L -10 10 Z" />
+    <!-- Bottom Right -->
+    <path transform="translate(296, 440) scale(0.5)" d="M0 20 L 10 10 L 0 15 L -10 10 Z" />
+  </g>
+</svg>

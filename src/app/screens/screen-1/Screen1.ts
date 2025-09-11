@@ -1,5 +1,7 @@
 import type { Ticker } from 'pixi.js'
 import type { AppScreens } from '@/engine/navigation/types'
+import { engine } from '@/app/engine-singleton'
+import { CardBack } from '@/app/screens/screen-1/card-back'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 
 /**
@@ -8,9 +10,24 @@ import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 export class Screen1 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen1'
   /** Assets bundles required by this screen */
-  public static override assetBundles = ['main']
+  public static override assetBundles = ['main', 'cards']
 
-  constructor () { super() }
+  private cardStack: CardBack[] = []
+
+  constructor () {
+    super()
+
+    const { screen } = engine()
+
+    for (let i = 0; i < 1; i++) {
+      const card = new CardBack()
+      this.cardStack.push(card)
+      this.mainContainer.addChild(card)
+
+      card.x = screen.width * 0.1 + i * 10
+      card.y = screen.height * 0.1
+    }
+  }
 
   /** Prepare the screen just before showing */
   public override prepare () {}

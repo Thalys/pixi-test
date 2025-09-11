@@ -23,7 +23,6 @@ setEngine(engine);
   // Initialize the user settings
   userSettings.init()
 
-  // Show the load screen
   await engine.navigation.showScreen(LoadScreen)
   await engine.navigation.showLastSessionScreen()
 })()
