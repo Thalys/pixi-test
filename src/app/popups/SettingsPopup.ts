@@ -7,7 +7,7 @@ import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
 import { VolumeSlider } from '@/app/ui/VolumeSlider'
-import { userSettings } from '@/app/utils/userSettings'
+import { userSettings } from '@/app/utils/user-settings'
 
 /** Popup for volume */
 export class SettingsPopup extends Container {

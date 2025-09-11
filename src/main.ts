@@ -1,7 +1,7 @@
 import { setEngine } from '@/app/engine-singleton'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { MainScreen } from '@/app/screens/main/ScreenMain'
-import { userSettings } from '@/app/utils/userSettings'
+import { userSettings } from '@/app/utils/user-settings'
 import { CreationEngine } from '@/engine/engine'
 
 /**
