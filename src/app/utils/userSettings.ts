@@ -1,4 +1,4 @@
-import { engine } from '@/app/getEngine'
+import { engine } from '@/app/engine-singleton'
 import { storage } from '@/engine/utils/storage'
 
 // Keys for saved items in storage

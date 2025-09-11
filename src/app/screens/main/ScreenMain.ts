@@ -1,7 +1,7 @@
 import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
 import { animate } from 'motion'
-import { engine } from '@/app/getEngine'
+import { engine } from '@/app/engine-singleton'
 import { ScreenOne } from '@/app/screens/one/ScreenOne'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'

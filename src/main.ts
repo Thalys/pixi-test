@@ -1,4 +1,4 @@
-import { setEngine } from '@/app/getEngine'
+import { setEngine } from '@/app/engine-singleton'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { MainScreen } from '@/app/screens/main/ScreenMain'
 import { userSettings } from '@/app/utils/userSettings'
