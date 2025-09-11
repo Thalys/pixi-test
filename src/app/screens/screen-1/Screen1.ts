@@ -5,12 +5,18 @@ import { CardBack } from '@/app/screens/screen-1/card-back'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 
 /**
- * Screen with the first assignment
+ * Ace of Shadows
+ *
+ * Create 144 sprites (NOT graphic objects) that are stacked on top of each other like
+ * cards in a deck. The top card must cover the bottom card, but not completely.
+ * Every 1 second the top card should move to a different stack - the animation of the
+ * movement should take 2 seconds.
  */
+
 export class Screen1 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen1'
   /** Assets bundles required by this screen */
-  public static override assetBundles = ['main', 'cards']
+  public static override assetBundles = ['main', 'ace_of_shadows']
 
   private cardStack: CardBack[] = []
 
