@@ -11,6 +11,7 @@ import { SettingsPopup } from '@/app/popups/SettingsPopup'
 /** The screen that holds the app */
 export class ScreenBaseUI extends Container implements AppScreen {
   public definition: AppScreens = 'MainScreen'
+  public override label: string = '☠️ ScreenBaseUI'
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
   public mainContainer: Container
@@ -34,26 +35,25 @@ export class ScreenBaseUI extends Container implements AppScreen {
         duration: 100,
       },
     }
+
+    const goToPausePopup = () => { void engine().navigation.presentPopup(PausePopup) }
     this.btnPause = new FancyButton({
       defaultView: 'icon-pause.png',
       anchor: 0.5,
       animations: buttonAnimations,
     })
     this.btnPause.label = 'btnPause'
-    this.btnPause.onPress.connect(() => {
-      void engine().navigation.presentPopup(PausePopup)
-    })
+    this.btnPause.onPress.connect(goToPausePopup)
     this.addChild(this.btnPause)
 
+    const goToSettings = () => { void engine().navigation.presentPopup(SettingsPopup) }
     this.btnSettings = new FancyButton({
       defaultView: 'icon-settings.png',
       anchor: 0.5,
       animations: buttonAnimations,
     })
     this.btnSettings.label = 'btnSettings'
-    this.btnSettings.onPress.connect(() => {
-      void engine().navigation.presentPopup(SettingsPopup)
-    })
+    this.btnSettings.onPress.connect(goToSettings)
     this.addChild(this.btnSettings)
   }
 
