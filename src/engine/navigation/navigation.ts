@@ -6,6 +6,7 @@ import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { userSettings } from '@/app/utils/user-settings'
+import { Measure } from '@/engine/utils/measure-plane'
 
 export class Navigation {
   /** Reference to the main application */
@@ -22,6 +23,9 @@ export class Navigation {
 
   /** Constant background view for all screens */
   public background?: AppScreen
+
+  /** Measurement overlay for development */
+  public measureLayer?: AppScreen
 
   /** Current screen being displayed */
   public currentScreen?: AppScreen
@@ -44,10 +48,16 @@ export class Navigation {
     this.container.label = 'navigation'
   }
 
-  /** Set the  default load screen */
+  /** Set the default background screen */
   public setBackground (ctor: AppScreenConstructor) {
     this.background = new ctor() // eslint-disable-line new-cap
     this.addAndShowScreen(this.background)
+  }
+
+  /** Set the measurement overlay layer */
+  public setMeasureLayer (ctor: AppScreenConstructor) {
+    this.measureLayer = new ctor() // eslint-disable-line new-cap
+    this.addAndShowScreen(this.measureLayer)
   }
 
   /** Add screen to the stage, link update & resize functions */
@@ -162,6 +172,7 @@ export class Navigation {
     this.currentScreen?.resize?.(width, height)
     this.currentPopup?.resize?.(width, height)
     this.background?.resize?.(width, height)
+    this.measureLayer?.resize?.(width, height)
   }
 
   /**
@@ -202,6 +213,7 @@ export class Navigation {
     this.currentScreen?.blur?.()
     this.currentPopup?.blur?.()
     this.background?.blur?.()
+    this.measureLayer?.blur?.()
   }
 
   /**
@@ -211,6 +223,7 @@ export class Navigation {
     this.currentScreen?.focus?.()
     this.currentPopup?.focus?.()
     this.background?.focus?.()
+    this.measureLayer?.focus?.()
   }
 
   stackScreenState (value: AppScreens) {
@@ -240,6 +253,7 @@ export class Navigation {
         return 'Screen2'
       case 'Screen3':
         return 'Screen3'
+      case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
       case 'PausePopup':
@@ -276,5 +290,23 @@ export class Navigation {
       return
     }
     await this.showScreen(this.matchRefScreen(ref) || ScreenMain)
+  }
+
+  /**
+   * Toggle the measurement overlay visibility
+   */
+  public toggleMeasureLayer () {
+    if (this.measureLayer && 'toggle' in this.measureLayer) {
+      ;(this.measureLayer as Measure).toggle()
+    }
+  }
+
+  /**
+   * Initialize the measurement layer for development
+   */
+  public initMeasureLayer () {
+    if (!this.measureLayer) {
+      this.setMeasureLayer(Measure as unknown as AppScreenConstructor)
+    }
   }
 }

@@ -1,5 +1,6 @@
+import type { Ticker } from 'pixi.js'
+import type { AppScreen } from '@/engine/navigation/types'
 import { Container, Graphics, Text, TextStyle } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
 
 export interface MeasureOptions {
   majorTick: number
@@ -12,9 +13,10 @@ export interface MeasureOptions {
   backgroundColor: number
 }
 
-export class Measure extends Container {
+export class Measure extends Container implements AppScreen {
 
   public override label = 'Measure'
+  public definition = 'Measure' as const
 
   private rulers: Graphics = new Graphics()
   private labels: Container = new Container()
@@ -38,18 +40,14 @@ export class Measure extends Container {
       this.options = { ...this.options, ...options }
     }
 
-    const { screen, stage } = engine()
-    this.buildRulers(screen.width, screen.height)
-
     this.addChild(this.rulers)
     this.addChild(this.labels)
     this.addChild(this.crosshair)
 
-    stage.addChild(this)
-
     this.x = 0
     this.y = 0
     this.alpha = 0.8
+    this.visible = false
   }
 
   /**
@@ -185,17 +183,50 @@ export class Measure extends Container {
     this.labels.addChild(label)
   }
 
-  /**
-   * Update rulers when screen size changes
-   */
-  resize (width: number, height: number) {
+  // AppScreen interface methods
+  async show (): Promise<void> {
+    this.visible = true
+  }
+
+  async hide (): Promise<void> {
+    this.visible = false
+  }
+
+  prepare (): void {
+    // Setup initial state
+  }
+
+  reset (): void {
+    // Clean up state
+    this.rulers.clear()
+    this.crosshair.clear()
+    this.labels.removeChildren()
+  }
+
+  update (ticker: Ticker): void {
+    // Update logic if needed
+  }
+
+  resize (width: number, height: number): void {
     this.buildRulers(width, height)
+  }
+
+  blur (): void {
+    this.alpha = 0.5
+  }
+
+  focus (): void {
+    this.alpha = 0.8
+  }
+
+  onLoad (progress: number): void {
+    // Handle loading progress
   }
 
   /**
    * Toggle visibility of the measurement overlay
    */
-  toggle () {
+  toggle (): void {
     this.visible = !this.visible
   }
 }

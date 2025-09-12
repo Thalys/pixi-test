@@ -10,6 +10,8 @@ export const appScreens = [
 
   'SettingsPopup',
   'PausePopup',
+
+  'Measure',
 ] as const
 
 export type AppScreens = typeof appScreens[number]

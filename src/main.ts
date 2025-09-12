@@ -17,7 +17,7 @@ setEngine(engine);
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   })
 
-  const stageMeasure = new Measure()
+  engine.navigation.setMeasureLayer(Measure)
 
   initDevtools({ app: engine })
 
