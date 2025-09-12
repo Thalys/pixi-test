@@ -1,42 +1,43 @@
-import { Sprite, Texture } from 'pixi.js'
+import type { FederatedPointerEvent } from 'pixi.js'
+import { Container, Sprite, Texture } from 'pixi.js'
 
-import {
-  randomBool,
-  randomFloat,
-  randomInt,
-} from '@/engine/utils/random'
+export class Logo extends Container {
 
-export enum DIRECTION {
-  NE,
-  NW,
-  SE,
-  SW,
-}
-
-export class Logo extends Sprite {
-  public direction!: DIRECTION
-  public speed!: number
-
-  get left () {
-    return -this.width * 0.5
+  private bg: Sprite
+  private fg: Sprite
+  onPointerUpOutside = (event: FederatedPointerEvent) => {
+    this.fg.alpha = 0
   }
 
-  get right () {
-    return this.width * 0.5
+  onPointerOver = (event: FederatedPointerEvent) => {
+    this.fg.alpha = 1
   }
 
-  get top () {
-    return -this.height * 0.5
-  }
-
-  get bottom () {
-    return this.height * 0.5
+  onPointerOut = (event: FederatedPointerEvent) => {
+    this.fg.alpha = 0
   }
 
   constructor () {
-    const tex = randomBool() ? 'logo.svg' : 'logo-white.svg'
-    super({ texture: Texture.from(tex), anchor: 0.5, scale: 0.25 })
-    this.direction = randomInt(0, 3)
-    this.speed = randomFloat(1, 6)
+    super()
+
+    this.bg = Sprite.from(Texture.from('logo.svg'))
+    this.bg.anchor = 0.5
+    this.bg.scale = 0.2
+    this.addChild(this.bg)
+
+    this.fg = Sprite.from(Texture.from('logo-white.svg'))
+    this.fg.anchor = 0.5
+    this.fg.scale = 0.2
+    this.fg.alpha = 0
+    this.addChild(this.fg)
+
+    this.fg.eventMode = 'static'
+    this.fg.cursor = 'pointer'
+    this.fg
+      // .on('pointerdown', this.onPointerDown)
+      // .on('pointerup', this.onPointerUp)
+      .on('pointerupoutside', this.onPointerUpOutside)
+      .on('pointerover', this.onPointerOver)
+      .on('pointerout', this.onPointerOut)
   }
 }

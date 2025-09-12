@@ -4,6 +4,7 @@ import type { AppScreens } from '@/engine/navigation/types'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
 import { engine } from '@/app/engine-singleton'
+import { Logo } from '@/app/screens/main/Logo'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
@@ -18,6 +19,7 @@ export class MainScreen extends ScreenBaseUI {
   private btnOne: FancyButton
   private btnTwo: FancyButton
   private btnThree: FancyButton
+  private logo: Logo
 
   constructor () {
     super()
@@ -51,6 +53,14 @@ export class MainScreen extends ScreenBaseUI {
     })
     this.btnThree.onPress.connect(() => { console.warn('Not implemented') })
     this.addChild(this.btnThree)
+
+    this.logo = new Logo()
+    this.logo.interactive = true
+    this.logo.cursor = 'pointer'
+    this.logo.on('pointerdown', () => {
+      window.open('https://pixijs.com', '_blank')
+    })
+    this.addChild(this.logo)
   }
 
   public override async pause (): Promise<void> {
@@ -79,6 +89,9 @@ export class MainScreen extends ScreenBaseUI {
     this.btnTwo.y = 340
     this.btnThree.x = width / 2
     this.btnThree.y = 480
+
+    this.logo.x = width - this.logo.width / 2 - 20
+    this.logo.y = height - this.logo.height / 2 - 20
   }
 
   /** Show screen with animations */
@@ -92,6 +105,7 @@ export class MainScreen extends ScreenBaseUI {
       this.btnOne,
       this.btnTwo,
       this.btnThree,
+      this.logo,
     ]
 
     let finalPromise!: AnimationPlaybackControls
