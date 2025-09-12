@@ -17,4 +17,4 @@ the animation of the movement should take 2 seconds
 - Run the application in full screen.
 
 > **["A man chooses, a slave obeys"](https://www.youtube.com/watch?v=oG25S51qJQQ)**\
-> &nbsp;&nbsp;&nbsp;&nbsp;— [_Andrew Ryan_](https://bioshock.fandom.com/wiki/Andrew_Ryan)
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— [_Andrew Ryan_](https://bioshock.fandom.com/wiki/Andrew_Ryan)

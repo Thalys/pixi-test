@@ -2,6 +2,7 @@ import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
 import type { AppScreens } from '@/engine/navigation/types'
 import { animate } from 'motion'
+import { Container } from 'pixi.js'
 import { engine } from '@/app/engine-singleton'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
@@ -13,12 +14,16 @@ export class MainScreen extends ScreenBaseUI {
   public override definition: AppScreens = 'MainScreen'
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
+  public mainContainer: Container
   private btnOne: FancyButton
   private btnTwo: FancyButton
   private btnThree: FancyButton
 
   constructor () {
     super()
+
+    this.mainContainer = new Container()
+    this.addChild(this.mainContainer)
 
     this.btnOne = new Button({
       text: 'Ace of Shadows',
@@ -48,9 +53,26 @@ export class MainScreen extends ScreenBaseUI {
     this.addChild(this.btnThree)
   }
 
+  public override async pause (): Promise<void> {
+    super.pause()
+    this.mainContainer.interactiveChildren = false
+  }
+
+  public override async resume (): Promise<void> {
+    super.resume()
+    this.mainContainer.interactiveChildren = true
+  }
+
   /** Resize the screen, fired whenever window size changes */
   public override resize (width: number, height: number) {
     super.resize(width, height)
+
+    const mcx = width * 0.5
+    const mcy = height * 0.5
+
+    this.mainContainer.x = mcx
+    this.mainContainer.y = mcy
+
     this.btnOne.x = width / 2
     this.btnOne.y = 200
     this.btnTwo.x = width / 2

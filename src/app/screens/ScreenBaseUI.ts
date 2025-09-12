@@ -14,16 +14,12 @@ export class ScreenBaseUI extends Container implements AppScreen {
   public override label: string = '☠️ ScreenBaseUI'
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
-  public mainContainer: Container
   protected btnPause: FancyButton
   protected btnSettings: FancyButton
   protected paused = false
 
   constructor () {
     super()
-
-    this.mainContainer = new Container()
-    this.addChild(this.mainContainer)
 
     const buttonAnimations = {
       hover: {
@@ -65,13 +61,11 @@ export class ScreenBaseUI extends Container implements AppScreen {
 
   /** Pause gameplay - automatically fired when a popup is presented */
   public async pause () {
-    this.mainContainer.interactiveChildren = false
     this.paused = true
   }
 
   /** Resume gameplay */
   public async resume () {
-    this.mainContainer.interactiveChildren = true
     this.paused = false
   }
 
@@ -80,11 +74,6 @@ export class ScreenBaseUI extends Container implements AppScreen {
 
   /** Resize the screen, fired whenever window size changes */
   public resize (width: number, height: number) {
-    const mcx = width * 0.5
-    const mcy = height * 0.5
-
-    this.mainContainer.x = mcx
-    this.mainContainer.y = mcy
     this.btnPause.x = 30
     this.btnPause.y = 30
     this.btnSettings.x = width - 30
