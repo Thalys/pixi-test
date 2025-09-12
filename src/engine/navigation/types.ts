@@ -3,7 +3,7 @@ import type { Container, Ticker } from 'pixi.js'
 export const appScreens = [
   'LoadScreen',
 
-  'MainScreen',
+  'ScreenMain',
   'Screen1',
   'Screen2',
   'Screen3',

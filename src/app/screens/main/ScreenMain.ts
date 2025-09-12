@@ -8,11 +8,10 @@ import { Logo } from '@/app/screens/main/Logo'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
-import { userSettings } from '@/app/utils/user-settings'
 
 /** The screen that holds the app */
-export class MainScreen extends ScreenBaseUI {
-  public override definition: AppScreens = 'MainScreen'
+export class ScreenMain extends ScreenBaseUI {
+  public override definition: AppScreens = 'ScreenMain'
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
   public mainContainer: Container
@@ -33,7 +32,6 @@ export class MainScreen extends ScreenBaseUI {
       height: 130,
     })
     this.btnOne.onPress.connect(() => {
-      userSettings.setLastScreen('Screen1')
       void engine().navigation.showScreen(Screen1)
     })
     this.addChild(this.btnOne)

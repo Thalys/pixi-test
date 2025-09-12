@@ -54,11 +54,12 @@ class UserSettings {
 
   /** Get background music volume */
   public getLastScreen (): AppScreens {
-    return storage.getString<AppScreens>(KEY_LAST_SCREEN) ?? 'Main'
+    const value = storage.getString<AppScreens>(KEY_LAST_SCREEN) ?? 'Main'
+    return value
   }
 
   /** Set background music volume */
-  public setLastScreen (value: string) {
+  public setLastScreen (value: AppScreens) {
     storage.setString(KEY_LAST_SCREEN, value)
   }
 }

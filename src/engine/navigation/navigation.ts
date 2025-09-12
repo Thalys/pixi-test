@@ -1,7 +1,7 @@
 import type { CreationEngine } from '@/engine/engine'
 import type { AppScreen, AppScreenConstructor, AppScreens } from '@/engine/navigation/types'
 import { Assets, BigPool, Container } from 'pixi.js'
-import { MainScreen } from '@/app/screens/main/ScreenMain'
+import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
@@ -142,7 +142,13 @@ export class Navigation {
     // Create the new screen and add that to the stage
     this.currentScreen = BigPool.get(ctor)
     await this.addAndShowScreen(this.currentScreen)
-    this.stackScreenState(this.currentScreen.definition)
+
+    const ref = this.crossReference(this.currentScreen.definition)
+    if (ref === null) {
+      return
+    }
+    userSettings.setLastScreen(ref)
+    this.stackScreenState(ref)
   }
 
   /**
@@ -207,8 +213,8 @@ export class Navigation {
     this.background?.focus?.()
   }
 
-  stackScreenState (definition: AppScreens) {
-    history.pushState({ page: definition }, definition)
+  stackScreenState (value: AppScreens) {
+    history.pushState({ page: value }, value)
   }
 
   private _onKeyDown = (e: KeyboardEvent) => {
@@ -223,12 +229,29 @@ export class Navigation {
     e?.preventDefault()
     // This fires when the user hits the browser/Android back button.
     // console.log('Back button pressed. Emitting "goBack" signal.')
-    this.showScreen(MainScreen)
+    this.showScreen(ScreenMain)
   }
 
-  private _getSavedScreen = () => {
-    const lastScreen: AppScreens = userSettings.getLastScreen()
-    switch (lastScreen) {
+  private crossReference = (screen: AppScreens): AppScreens | null => {
+    switch (screen) {
+      case 'Screen1':
+        return 'Screen1'
+      case 'Screen2':
+        return 'Screen2'
+      case 'Screen3':
+        return 'Screen3'
+      case 'LoadScreen':
+        return null // don't save for loading screen
+      case 'PausePopup':
+      case 'SettingsPopup':
+      case 'ScreenMain':
+      default:
+        return 'ScreenMain'
+    }
+  }
+
+  private matchRefScreen = (screen: AppScreens): AppScreenConstructor | null => {
+    switch (screen) {
       case 'Screen1':
         return Screen1
       case 'Screen2':
@@ -236,15 +259,22 @@ export class Navigation {
       case 'Screen3':
         return Screen3
       case 'LoadScreen':
+        return null // don't save for loading screen
       case 'PausePopup':
       case 'SettingsPopup':
-      case 'MainScreen':
+      case 'ScreenMain':
       default:
-        return MainScreen
+        return ScreenMain
     }
   }
 
   public showLastSessionScreen = async () => {
-    await this.showScreen(this._getSavedScreen())
+    const lastScreen: AppScreens = userSettings.getLastScreen()
+    const ref = this.crossReference(lastScreen)
+    if (!ref) {
+      await this.showScreen(ScreenMain)
+      return
+    }
+    await this.showScreen(this.matchRefScreen(ref) || ScreenMain)
   }
 }

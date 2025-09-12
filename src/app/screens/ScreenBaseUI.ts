@@ -10,7 +10,7 @@ import { SettingsPopup } from '@/app/popups/SettingsPopup'
 
 /** The screen that holds the app */
 export class ScreenBaseUI extends Container implements AppScreen {
-  public definition: AppScreens = 'MainScreen'
+  public definition: AppScreens = 'ScreenMain'
   public override label: string = '☠️ ScreenBaseUI'
   /** Assets bundles required by this screen */
   public static assetBundles = ['main']
