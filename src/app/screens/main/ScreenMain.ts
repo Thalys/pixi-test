@@ -53,11 +53,6 @@ export class ScreenMain extends ScreenBaseUI {
     this.addChild(this.btnThree)
 
     this.logo = new Logo()
-    this.logo.interactive = true
-    this.logo.cursor = 'pointer'
-    this.logo.on('pointerdown', () => {
-      window.open('https://pixijs.com', '_blank')
-    })
     this.addChild(this.logo)
   }
 
