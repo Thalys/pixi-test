@@ -13,6 +13,8 @@ import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
  * movement should take 2 seconds.
  */
 
+const CARDS_TOTAL_COUNT = 144
+
 export class Screen1 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen1'
   public override label: string = 'Screen1'
@@ -24,15 +26,10 @@ export class Screen1 extends ScreenBaseUI {
   constructor () {
     super()
 
-    const { screen } = engine()
-
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < CARDS_TOTAL_COUNT; i++) {
       const card = new CardBack()
       this.cardStack.push(card)
-      this.mainContainer.addChild(card)
-
-      card.x = screen.width * 0.1 + i * 10
-      card.y = screen.height * 0.1
+      this.addChild(card)
     }
   }
 
@@ -48,6 +45,19 @@ export class Screen1 extends ScreenBaseUI {
   /** Resize the screen, fired whenever window size changes */
   public override resize (width: number, height: number) {
     super.resize(width, height)
+
+    const { screen } = engine()
+
+    for (let i = 0; i < this.cardStack.length; i++) {
+      const card = this.cardStack.at(i)
+      if (!card) { continue }
+
+      const borderOffsetX = screen.width * 0.08
+      const availableWidth = screen.width - (borderOffsetX * 2 + card.visualWidth())
+      const offsetX = availableWidth / CARDS_TOTAL_COUNT
+      card.x = borderOffsetX + i * offsetX + card.visualWidth() / 2
+      card.y = screen.height * 0.08 + card.visualHeight() / 2
+    }
   }
 
   /** Show screen with animations */
