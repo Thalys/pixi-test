@@ -185,7 +185,7 @@ export class Navigation {
    * Dismiss current popup, if there is one
    */
   public async dismissPopup () {
-    if (!this.currentPopup) { return }
+    if (!this.currentPopup) return
     const popup = this.currentPopup
     this.currentPopup = undefined
     await this.hideAndRemoveScreen(popup)

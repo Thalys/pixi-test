@@ -6,6 +6,8 @@ import { Container } from 'pixi.js'
 import { engine } from '@/app/engine-singleton'
 import { Logo } from '@/app/screens/main/Logo'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
+import { Screen2 } from '@/app/screens/screen-2/Screen2'
+import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 
@@ -26,30 +28,16 @@ export class ScreenMain extends ScreenBaseUI {
     this.mainContainer = new Container()
     this.addChild(this.mainContainer)
 
-    this.btnOne = new Button({
-      text: 'Ace of Shadows',
-      width: 400,
-      height: 130,
-    })
-    this.btnOne.onPress.connect(() => {
-      void engine().navigation.showScreen(Screen1)
-    })
+    this.btnOne = new Button({ text: 'Ace of Shadows', width: 400, height: 130 })
+    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(Screen1) })
     this.addChild(this.btnOne)
 
-    this.btnTwo = new Button({
-      text: 'Magic Words',
-      width: 400,
-      height: 130,
-    })
-    this.btnTwo.onPress.connect(() => { console.warn('Not implemented') })
+    this.btnTwo = new Button({ text: 'Magic Words', width: 400, height: 130 })
+    this.btnTwo.onPress.connect(() => { void engine().navigation.showScreen(Screen2) })
     this.addChild(this.btnTwo)
 
-    this.btnThree = new Button({
-      text: 'Phoenix Flame',
-      width: 400,
-      height: 130,
-    })
-    this.btnThree.onPress.connect(() => { console.warn('Not implemented') })
+    this.btnThree = new Button({ text: 'Phoenix Flame', width: 400, height: 130 })
+    this.btnThree.onPress.connect(() => { void engine().navigation.showScreen(Screen3) })
     this.addChild(this.btnThree)
 
     this.logo = new Logo()

@@ -25,8 +25,8 @@ export function assetpackPlugin () {
     name: 'vite-plugin-assetpack',
     configResolved (resolvedConfig) {
       mode = resolvedConfig.command
-      if (!resolvedConfig.publicDir) { return }
-      if (apConfig.output) { return }
+      if (!resolvedConfig.publicDir) return
+      if (apConfig.output) return
       // remove the root from the public dir
       const publicDir = resolvedConfig.publicDir.replace(process.cwd(), '')
 
@@ -38,7 +38,9 @@ export function assetpackPlugin () {
     },
     buildStart: async () => {
       if (mode === 'serve') {
-        if (ap) { return }
+
+        if (ap) return
+
         ap = new AssetPack(apConfig)
         await ap.watch()
       } else {

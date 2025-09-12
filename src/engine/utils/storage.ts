@@ -40,7 +40,9 @@ class StorageWrapper {
   /** Get an object value from storage or undefined if value can't be parsed */
   public getObject (key: string) {
     const str = this.getString(key)
-    if (!str) { return undefined }
+
+    if (!str) return undefined
+
     try {
       return JSON.parse(str)
     } catch (e) {
