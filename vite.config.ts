@@ -2,28 +2,26 @@
 
 import type { UserConfig } from 'vite'
 import path from 'node:path'
-import process from 'node:process'
 import { defineConfig } from 'vite'
-import { assetpackPlugin } from './scripts/assetpack-vite-plugin'
-import { logger } from './src/tools/logger'
-
-logger.debug(process.env.npm_package_version)
+import { vitePluginVersionMark as pluginVersionMark } from 'vite-plugin-version-mark'
+import { pluginAssetpack } from './scripts/assetpack-vite-plugin'
 
 export default defineConfig(async ({ command, mode, isPreview }) => {
+
   console.log({ command, mode, isPreview })
   const config: UserConfig = {
-    cacheDir: path.resolve(__dirname, 'node_modules/.cache/vite'),
-    plugins: [assetpackPlugin()],
+    plugins: [
+      pluginAssetpack(),
+      pluginVersionMark({ ifShortSHA: true }),
+    ],
+
+    cacheDir: path.resolve(__dirname, './node_modules/.cache/.vite'),
+    clearScreen: false,
     server: {
       port: 3489,
       open: false,
     },
-    define: {
-      VITE_APP_VERSION: `${process.env.npm_package_version}`,
-      __DEV__: !isPreview,
-      NODE_ENV: `${mode}`,
-    },
-    envPrefix: ['VITE_'],
+
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src/'),
