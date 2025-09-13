@@ -1,13 +1,13 @@
 {
-  //
+  // [vite] resolves the source map locations for the temporary Vite config file
   "debug.javascript.terminalOptions": {
     "resolveSourceMapLocations": [
       "${workspaceFolder}/**",
       "!**/node_modules/**",
       "**/node_modules/.vite-temp/**",
-      "**/node_modules/.cache/vite/**",
+      "**/node_modules/.cache/.vite/**"
     ]
-  }
+  },
 
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,

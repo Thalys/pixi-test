@@ -5,12 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "clean",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:3489",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "name": "dev",
       "request": "launch",
       "type": "chrome",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnFirstSessionStart",
       "url": "http://localhost:3489",
       "port": 9222,
+      "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
       "runtimeArgs": [
         "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
@@ -20,9 +28,10 @@
       "name": "preview",
       "request": "launch",
       "type": "chrome",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnFirstSessionStart",
       "url": "http://localhost:4173",
       "port": 9222,
+      "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
       "runtimeArgs": [
         "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
@@ -32,9 +41,10 @@
       "name": "scratch",
       "request": "launch",
       "type": "chrome",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnFirstSessionStart",
       "url": "http://localhost:3489/index.scratch.local.html",
       "port": 9222,
+      "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
       "runtimeArgs": [
         "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
@@ -44,9 +54,10 @@
       "name": "anime",
       "request": "launch",
       "type": "chrome",
-      "internalConsoleOptions": "neverOpen",
+      "internalConsoleOptions": "openOnFirstSessionStart",
       "url": "http://localhost:3489/index.anime.local.html",
       "port": 9222,
+      "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
       "runtimeArgs": [
         "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
