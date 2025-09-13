@@ -17,6 +17,18 @@
       ]
     },
     {
+      "name": "preview",
+      "request": "launch",
+      "type": "chrome",
+      "internalConsoleOptions": "neverOpen",
+      "url": "http://localhost:4173",
+      "port": 9222,
+      "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
+      "runtimeArgs": [
+        "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
+      ]
+    },
+    {
       "name": "scratch",
       "request": "launch",
       "type": "chrome",
