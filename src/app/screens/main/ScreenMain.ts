@@ -1,6 +1,6 @@
 import type { FancyButton } from '@pixi/ui'
 import type { AnimationPlaybackControls } from 'motion'
-import type { AppScreens } from '@/engine/navigation/types'
+import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
 import { engine } from '@/app/engine-singleton'

@@ -1,5 +1,5 @@
 import type { Text } from 'pixi.js'
-import type { AppScreens } from '@/engine/navigation/types'
+import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'

@@ -1,5 +1,5 @@
 import type { CreationEngine } from '@/engine/engine'
-import type { AppScreen, AppScreenConstructor, AppScreens } from '@/engine/navigation/types'
+import type { IAppScreen, IAppScreenConstructor, AppScreens } from '@/engine/navigation/navigation.types'
 import { Assets, BigPool, Container } from 'pixi.js'
 import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
@@ -22,16 +22,16 @@ export class Navigation {
   public height = 0
 
   /** Constant background view for all screens */
-  public background?: AppScreen
+  public background?: IAppScreen
 
   /** Measurement overlay for development */
-  public measureLayer?: AppScreen
+  public measureLayer?: IAppScreen
 
   /** Current screen being displayed */
-  public currentScreen?: AppScreen
+  public currentScreen?: IAppScreen
 
   /** Current popup being displayed */
-  public currentPopup?: AppScreen
+  public currentPopup?: IAppScreen
 
   destroy () {
     window.removeEventListener('keydown', this._onKeyDown)
@@ -49,19 +49,19 @@ export class Navigation {
   }
 
   /** Set the default background screen */
-  public setBackground (ctor: AppScreenConstructor) {
+  public setBackground (ctor: IAppScreenConstructor) {
     this.background = new ctor() // eslint-disable-line new-cap
     this.addAndShowScreen(this.background)
   }
 
   /** Set the measurement overlay layer */
-  public setMeasureLayer (ctor: AppScreenConstructor) {
+  public setMeasureLayer (ctor: IAppScreenConstructor) {
     this.measureLayer = new ctor() // eslint-disable-line new-cap
     this.addAndShowScreen(this.measureLayer)
   }
 
   /** Add screen to the stage, link update & resize functions */
-  private async addAndShowScreen (screen: AppScreen) {
+  private async addAndShowScreen (screen: IAppScreen) {
     // Add navigation container to stage if it does not have a parent yet
     if (!this.container.parent) {
       this.app.stage.addChild(this.container)
@@ -95,7 +95,7 @@ export class Navigation {
   }
 
   /** Remove screen from the stage, unlink update & resize functions */
-  private async hideAndRemoveScreen (screen: AppScreen) {
+  private async hideAndRemoveScreen (screen: IAppScreen) {
     // Prevent interaction in the screen
     screen.interactiveChildren = false
 
@@ -124,7 +124,7 @@ export class Navigation {
    * Hide current screen (if there is one) and present a new screen.
    * Any class that matches AppScreen interface can be used here.
    */
-  public async showScreen (ctor: AppScreenConstructor) {
+  public async showScreen (ctor: IAppScreenConstructor) {
     // Block interactivity in current screen
     if (this.currentScreen) {
       this.currentScreen.interactiveChildren = false
@@ -178,7 +178,7 @@ export class Navigation {
   /**
    * Show up a popup over current screen
    */
-  public async presentPopup (ctor: AppScreenConstructor) {
+  public async presentPopup (ctor: IAppScreenConstructor) {
     if (this.currentScreen) {
       this.currentScreen.interactiveChildren = false
       await this.currentScreen.pause?.()
@@ -264,7 +264,7 @@ export class Navigation {
     }
   }
 
-  private matchRefScreen = (screen: AppScreens): AppScreenConstructor | null => {
+  private matchRefScreen = (screen: AppScreens): IAppScreenConstructor | null => {
     switch (screen) {
       case 'Screen1':
         return Screen1
@@ -307,7 +307,7 @@ export class Navigation {
    */
   public initMeasureLayer () {
     if (!this.measureLayer) {
-      this.setMeasureLayer(Measure as unknown as AppScreenConstructor)
+      this.setMeasureLayer(Measure as unknown as IAppScreenConstructor)
     }
   }
 }

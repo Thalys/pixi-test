@@ -17,7 +17,7 @@ export const appScreens = [
 export type AppScreens = typeof appScreens[number]
 
 /** Interface for app screens */
-export interface AppScreen extends Container {
+export interface IAppScreen extends Container {
   definition: AppScreens
   /** Show the screen */
   show?: () => Promise<void>
@@ -44,8 +44,8 @@ export interface AppScreen extends Container {
 }
 
 /** Interface for app screens constructors */
-export interface AppScreenConstructor {
-  new (): AppScreen
+export interface IAppScreenConstructor {
+  new (): IAppScreen
   /** List of assets bundles required by the screen */
   assetBundles?: string[]
 }

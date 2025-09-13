@@ -1,4 +1,4 @@
-import type { AppScreens } from '@/engine/navigation/types'
+import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { engine } from '@/app/engine-singleton'
 import { animateCards } from '@/app/screens/screen-1/anim'
 import { CardBack } from '@/app/screens/screen-1/card-back'

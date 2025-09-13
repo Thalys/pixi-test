@@ -8,9 +8,9 @@ import { Application, Assets, extensions, ResizePlugin } from 'pixi.js'
 
 import manifest from '../manifest.json'
 
-import { CreationAudioPlugin } from './audio/AudioPlugin'
+import { CreationAudioPlugin } from './audio/audio.plugin'
 
-import { CreationNavigationPlugin } from './navigation/NavigationPlugin'
+import { CreationNavigationPlugin } from './navigation/navigation.plugin'
 import { CreationResizePlugin } from './resize/ResizePlugin'
 import { getResolution } from './utils/getResolution'
 import 'pixi.js/app'

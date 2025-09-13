@@ -1,5 +1,5 @@
 import type { Ticker } from 'pixi.js'
-import type { AppScreen } from '@/engine/navigation/types'
+import type { IAppScreen } from '@/engine/navigation/navigation.types'
 import { Container, Graphics, Text, TextStyle } from 'pixi.js'
 
 export interface MeasureOptions {
@@ -13,7 +13,7 @@ export interface MeasureOptions {
   backgroundColor: number
 }
 
-export class Measure extends Container implements AppScreen {
+export class Measure extends Container implements IAppScreen {
 
   public override label = 'Measure'
   public definition = 'Measure' as const
