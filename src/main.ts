@@ -4,6 +4,7 @@ import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { userSettings } from '@/app/utils/user-settings'
 import { CreationEngine } from '@/engine/engine'
 import { Measure } from '@/engine/utils/measure-plane'
+import { logger } from '@/tools/logger'
 import '@/app/extra-modules'
 
 // Create a new creation engine instance
@@ -17,7 +18,11 @@ setEngine(engine);
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   })
 
-  import.meta.env.DEV && engine.navigation.setMeasureLayer(Measure)
+  logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+
+  if (import.meta.env.MODE !== 'production') {
+    engine.navigation.setMeasureLayer(Measure)
+  }
 
   initDevtools({ app: engine })
 
