@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "bun check && bunx --bun vite build",
+    "clean": "rm -rf dist node_modules public/assets src/manifest.json",
     "dev": "vite",
     "check": "bun run typecheck && bun run lint",
     "fix": "bun run typecheck; bun run lint:fix",

@@ -1,4 +1,5 @@
-// vite.config.mts
+// @ts-check
+
 import type { AssetPackConfig } from '@assetpack/core'
 import type { Plugin, ResolvedConfig } from 'vite'
 import process from 'node:process'

@@ -66,9 +66,9 @@ export class SettingsPopup extends Container {
     this.panel.addChild(this.doneButton)
 
     this.versionLabel = new Label({
-      text: `Version ${APP_VERSION}`,
+      text: `v${import.meta.env.VITE_APP_VERSION}`,
       style: {
-        fill: 0xFFFFFF,
+        fill: 0xEF6294,
         fontSize: 12,
       },
     })
