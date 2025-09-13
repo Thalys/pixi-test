@@ -272,6 +272,7 @@ export class Navigation {
         return Screen2
       case 'Screen3':
         return Screen3
+      case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
       case 'PausePopup':

@@ -30,4 +30,5 @@ src/manifest.json
 
 .claude
 *.local.*
-
+.env*
+!.env.example
