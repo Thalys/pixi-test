@@ -44,6 +44,7 @@ export default antfu(
         'style/semi': ['error', 'never'],
         'style/space-before-function-paren': ['error', 'always'],
         'style/space-in-parens': ['error', 'never'],
+        'style/no-trailing-spaces': ['error'],
       },
     },
     typescript: {
@@ -73,6 +74,7 @@ export default antfu(
       markdown: 'dprint',
     },
     ignores: [
+      '!src/*.local.{ts,tsx}',
       '.assetpack',
       '.cache',
       'build',
