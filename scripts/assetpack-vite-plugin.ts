@@ -6,7 +6,7 @@ import process from 'node:process'
 import { AssetPack } from '@assetpack/core'
 import { pixiPipes } from '@assetpack/core/pixi'
 
-export function assetpackPlugin () {
+export function pluginAssetpack () {
   const apConfig = {
     entry: './raw-assets',
     cacheLocation: './node_modules/.cache/.assetpack',
@@ -20,7 +20,7 @@ export function assetpackPlugin () {
     ],
   } as AssetPackConfig
   let mode: ResolvedConfig['command']
-  let ap: AssetPack | undefined
+  let assetPack: AssetPack | undefined
 
   return {
     name: 'vite-plugin-assetpack',
@@ -40,18 +40,18 @@ export function assetpackPlugin () {
     buildStart: async () => {
       if (mode === 'serve') {
 
-        if (ap) return
+        if (assetPack) return
 
-        ap = new AssetPack(apConfig)
-        await ap.watch()
+        assetPack = new AssetPack(apConfig)
+        await assetPack.watch()
       } else {
         await new AssetPack(apConfig).run()
       }
     },
     buildEnd: async () => {
-      if (ap) {
-        await ap.stop()
-        ap = undefined
+      if (assetPack) {
+        await assetPack.stop()
+        assetPack = undefined
       }
     },
   } as Plugin
