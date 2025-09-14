@@ -4,7 +4,7 @@ import { SettingsPopup } from '@/app/popups/SettingsPopup'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { userSettings } from '@/app/utils/user-settings'
 import { CreationEngine } from '@/engine/engine'
-import { Measure } from '@/engine/utils/measure-plane'
+import { Measure } from '@/engine/utils/stage-ruler'
 import { logger } from '@/tools/logger'
 import '@/app/extra-modules'
 

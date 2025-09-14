@@ -11,7 +11,7 @@ import manifest from '../manifest.json'
 import { CreationAudioPlugin } from './audio/audio.plugin'
 
 import { CreationNavigationPlugin } from './navigation/navigation.plugin'
-import { CreationResizePlugin } from './resize/ResizePlugin'
+import { CreationResizePlugin } from './resize/resize.plugin'
 import { getResolution } from './utils/getResolution'
 import 'pixi.js/app'
 

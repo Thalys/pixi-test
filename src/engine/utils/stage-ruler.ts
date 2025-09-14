@@ -1,16 +1,17 @@
 import type { Ticker } from 'pixi.js'
 import type { IAppScreen } from '@/engine/navigation/navigation.types'
+import type { MeasureOptions } from '@/engine/utils/stage-ruler.types'
 import { Container, Graphics, Text, TextStyle } from 'pixi.js'
 
-export interface MeasureOptions {
-  majorTick: number
-  minorTick: number
-  microTick: number
-  showLabels: boolean
-  showCrosshair: boolean
-  rulerColor: number
-  labelColor: number
-  backgroundColor: number
+let _options: MeasureOptions = {
+  majorTick: 100,
+  minorTick: 50,
+  microTick: 10,
+  showLabels: true,
+  showCrosshair: true,
+  rulerColor: 0xFFFFFF,
+  labelColor: 0xFFFFFF,
+  backgroundColor: 0x000000,
 }
 
 export class Measure extends Container implements IAppScreen {
@@ -22,22 +23,11 @@ export class Measure extends Container implements IAppScreen {
   private labels: Container = new Container()
   private crosshair: Graphics = new Graphics()
 
-  private options: MeasureOptions = {
-    majorTick: 100,
-    minorTick: 50,
-    microTick: 10,
-    showLabels: true,
-    showCrosshair: true,
-    rulerColor: 0xFFFFFF,
-    labelColor: 0xFFFFFF,
-    backgroundColor: 0x000000,
-  }
-
   constructor (options?: Partial<MeasureOptions>) {
     super()
 
     if (options) {
-      this.options = { ...this.options, ...options }
+      _options = { ..._options, ...options }
     }
 
     this.addChild(this.rulers)
@@ -54,7 +44,7 @@ export class Measure extends Container implements IAppScreen {
    * Creates ruler-style measurement guides with ticks and labels
    */
   buildRulers (w: number, h: number) {
-    const { showCrosshair } = this.options
+    const { showCrosshair } = _options
 
     // Clear existing graphics
     this.rulers.clear()
@@ -62,8 +52,8 @@ export class Measure extends Container implements IAppScreen {
     this.labels.removeChildren()
 
     // Ruler background strips
-    this.rulers.rect(0, 0, w, 30).fill({ color: this.options.backgroundColor, alpha: 0.7 })
-    this.rulers.rect(0, 0, 30, h).fill({ color: this.options.backgroundColor, alpha: 0.7 })
+    this.rulers.rect(0, 0, w, 30).fill({ color: _options.backgroundColor, alpha: 0.7 })
+    this.rulers.rect(0, 0, 30, h).fill({ color: _options.backgroundColor, alpha: 0.7 })
 
     // Horizontal ruler (top)
     this.buildHorizontalRuler(w)
@@ -78,7 +68,7 @@ export class Measure extends Container implements IAppScreen {
   }
 
   private buildHorizontalRuler (width: number) {
-    const { majorTick, minorTick, microTick, showLabels } = this.options
+    const { majorTick, minorTick, microTick, showLabels } = _options
 
     for (let x = 0; x <= width; x += microTick) {
       let tickHeight = 5
@@ -100,15 +90,15 @@ export class Measure extends Container implements IAppScreen {
 
       this.rulers.moveTo(x, 30 - tickHeight)
         .lineTo(x, 30)
-        .stroke({ color: this.options.rulerColor, width: strokeWidth })
+        .stroke({ color: _options.rulerColor, width: strokeWidth })
     }
 
     // Ruler border
-    this.rulers.moveTo(0, 30).lineTo(width, 30).stroke({ color: this.options.rulerColor, width: 2 })
+    this.rulers.moveTo(0, 30).lineTo(width, 30).stroke({ color: _options.rulerColor, width: 2 })
   }
 
   private buildVerticalRuler (height: number) {
-    const { majorTick, minorTick, microTick, showLabels } = this.options
+    const { majorTick, minorTick, microTick, showLabels } = _options
 
     for (let y = 0; y <= height; y += microTick) {
       let tickWidth = 5
@@ -130,11 +120,11 @@ export class Measure extends Container implements IAppScreen {
 
       this.rulers.moveTo(30 - tickWidth, y)
         .lineTo(30, y)
-        .stroke({ color: this.options.rulerColor, width: strokeWidth })
+        .stroke({ color: _options.rulerColor, width: strokeWidth })
     }
 
     // Ruler border
-    this.rulers.moveTo(30, 0).lineTo(30, height).stroke({ color: this.options.rulerColor, width: 2 })
+    this.rulers.moveTo(30, 0).lineTo(30, height).stroke({ color: _options.rulerColor, width: 2 })
   }
 
   private buildCrosshair (width: number, height: number) {
@@ -142,23 +132,23 @@ export class Measure extends Container implements IAppScreen {
     const centerY = height / 2
 
     // Horizontal crosshair line
-    this.crosshair.moveTo(30, centerY).lineTo(width, centerY).stroke({ color: this.options.rulerColor, width: 1, alpha: 0.5 })
+    this.crosshair.moveTo(30, centerY).lineTo(width, centerY).stroke({ color: _options.rulerColor, width: 1, alpha: 0.5 })
 
     // Vertical crosshair line
-    this.crosshair.moveTo(centerX, 30).lineTo(centerX, height).stroke({ color: this.options.rulerColor, width: 1, alpha: 0.5 })
+    this.crosshair.moveTo(centerX, 30).lineTo(centerX, height).stroke({ color: _options.rulerColor, width: 1, alpha: 0.5 })
 
     // Center point marker
     this.crosshair.circle(centerX, centerY, 3)
-      .fill({ color: this.options.rulerColor, alpha: 0.7 })
+      .fill({ color: _options.rulerColor, alpha: 0.7 })
   }
 
   private addLabel (text: string, x: number, y: number, anchor: 'left' | 'center' | 'right' = 'left') {
     const style = new TextStyle({
       fontFamily: 'monospace',
       fontSize: 10,
-      fill: this.options.labelColor,
+      fill: _options.labelColor,
       stroke: {
-        color: this.options.backgroundColor,
+        color: _options.backgroundColor,
         width: 1,
       },
     })

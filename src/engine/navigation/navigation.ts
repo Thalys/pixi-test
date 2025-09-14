@@ -1,12 +1,12 @@
 import type { CreationEngine } from '@/engine/engine'
-import type { IAppScreen, IAppScreenConstructor, AppScreens } from '@/engine/navigation/navigation.types'
+import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation/navigation.types'
 import { Assets, BigPool, Container } from 'pixi.js'
 import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { userSettings } from '@/app/utils/user-settings'
-import { Measure } from '@/engine/utils/measure-plane'
+import { Measure } from '@/engine/utils/stage-ruler'
 
 export class Navigation {
   /** Reference to the main application */
