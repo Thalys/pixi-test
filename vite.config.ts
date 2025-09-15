@@ -5,7 +5,7 @@ import path from 'node:path'
 import { defineConfig } from 'vite'
 import { vitePluginVersionMark as pluginVersionMark } from 'vite-plugin-version-mark'
 import pkg from './package.json'
-import { pluginAssetpack } from './scripts/assetpack-vite-plugin'
+import { pluginAssetpack } from './scripts/vite-plugin/assetpack-vite-plugin'
 import { logger } from './src/tools/logger'
 
 export default defineConfig(async ({ command, mode, isPreview }) => {
@@ -16,7 +16,6 @@ export default defineConfig(async ({ command, mode, isPreview }) => {
 
   const config: UserConfig = {
     plugins: [
-      pluginAssetpack(),
       pluginVersionMark({
         ifGlobal: true, // Creates a global variable (default: true)
         ifMeta: false, // Adds meta tag to HTML (default: true)
@@ -42,6 +41,7 @@ export default defineConfig(async ({ command, mode, isPreview }) => {
         // Output: "v1.0.0-main-abc1234"
         },
       }),
+      pluginAssetpack(),
     ],
 
     cacheDir: path.resolve(__dirname, './node_modules/.cache/.vite'),
