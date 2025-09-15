@@ -7,7 +7,7 @@ import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
 import { VolumeSlider } from '@/app/ui/VolumeSlider'
-import { userSettings } from '@/app/utils/user-settings'
+import { userSettings } from '@/app/utils/user.settings'
 import { engine } from '@/engine/engine.singleton'
 
 /** Popup for volume */

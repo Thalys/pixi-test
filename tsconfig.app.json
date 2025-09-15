@@ -4,8 +4,8 @@
 
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "module": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */

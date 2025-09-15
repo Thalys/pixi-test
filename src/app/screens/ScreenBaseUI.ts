@@ -4,8 +4,8 @@ import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
-import { PausePopup } from '@/app/popups/PausePopup'
-import { SettingsPopup } from '@/app/popups/SettingsPopup'
+import { PausePopup } from '@/app/popups/popup.pause'
+import { SettingsPopup } from '@/app/popups/popup.settings'
 import { engine } from '@/engine/engine.singleton'
 
 /** The screen that holds the app */

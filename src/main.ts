@@ -1,7 +1,6 @@
 import { initDevtools } from '@pixi/devtools'
-import { SettingsPopup } from '@/app/popups/SettingsPopup'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
-import { userSettings } from '@/app/utils/user-settings'
+import { userSettings } from '@/app/utils/user.settings'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
 import { Measure } from '@/engine/utils/stage-ruler'
@@ -33,5 +32,4 @@ import '@/app/extra-modules'
 
   await engine.navigation.showScreen(LoadScreen)
   await engine.navigation.showLastSessionScreen()
-  await engine.navigation.presentPopup(SettingsPopup)
 })()
