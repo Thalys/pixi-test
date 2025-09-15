@@ -1,10 +1,10 @@
 import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
 import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
+import { engine } from '@/engine/engine.singleton'
 
 /** Popup that shows up when gameplay is paused */
 export class PausePopup extends Container {

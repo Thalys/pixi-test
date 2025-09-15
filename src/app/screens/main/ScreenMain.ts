@@ -3,13 +3,13 @@ import type { AnimationPlaybackControls } from 'motion'
 import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
 import { Logo } from '@/app/screens/main/Logo'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
+import { engine } from '@/engine/engine.singleton'
 
 /** The screen that holds the app */
 export class ScreenMain extends ScreenBaseUI {

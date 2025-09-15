@@ -1,5 +1,5 @@
 import { Container, Graphics } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
+import { engine } from '@/engine/engine.singleton'
 
 export class Background extends Container {
   constructor () {

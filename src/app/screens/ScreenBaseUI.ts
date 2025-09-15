@@ -4,9 +4,9 @@ import type { AppScreens, IAppScreen } from '@/engine/navigation/navigation.type
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
 import { PausePopup } from '@/app/popups/PausePopup'
 import { SettingsPopup } from '@/app/popups/SettingsPopup'
+import { engine } from '@/engine/engine.singleton'
 
 /** The screen that holds the app */
 export class ScreenBaseUI extends Container implements IAppScreen {

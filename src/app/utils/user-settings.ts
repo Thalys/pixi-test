@@ -1,5 +1,5 @@
 import type { AppScreens } from '@/engine/navigation/navigation.types'
-import { engine } from '@/app/engine-singleton'
+import { engine } from '@/engine/engine.singleton'
 import { storage } from '@/engine/utils/storage'
 
 // Keys for saved items in storage

@@ -3,12 +3,12 @@ import type { AppScreens } from '@/engine/navigation/navigation.types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
-import { engine } from '@/app/engine-singleton'
 import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
 import { VolumeSlider } from '@/app/ui/VolumeSlider'
 import { userSettings } from '@/app/utils/user-settings'
+import { engine } from '@/engine/engine.singleton'
 
 /** Popup for volume */
 export class SettingsPopup extends Container {
