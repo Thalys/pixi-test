@@ -1,8 +1,7 @@
 import type { Application, ExtensionMetadata } from 'pixi.js'
 import { sound } from '@pixi/sound'
 import { ExtensionType } from 'pixi.js'
-
-import { BGM, SFX } from '../audio'
+import { BGM, SFX } from '@/engine/audio'
 
 /**
  * Middleware for Application's audio functionality.

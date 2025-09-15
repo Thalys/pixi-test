@@ -5,14 +5,11 @@ import type {
 } from 'pixi.js'
 import { sound } from '@pixi/sound'
 import { Application, Assets, extensions, ResizePlugin } from 'pixi.js'
-
+import { CreationAudioPlugin } from '@/engine/audio.plugin'
+import { CreationNavigationPlugin } from '@/engine/navigation.plugin'
+import { CreationResizePlugin } from '@/engine/resize.plugin'
+import { getResolution } from '@/engine/utils/getResolution'
 import manifest from '../manifest.json'
-
-import { CreationAudioPlugin } from './audio/audio.plugin'
-
-import { CreationNavigationPlugin } from './navigation.plugin'
-import { CreationResizePlugin } from './resize.plugin'
-import { getResolution } from './utils/getResolution'
 import 'pixi.js/app'
 
 extensions.remove(ResizePlugin)
