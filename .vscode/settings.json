@@ -74,7 +74,7 @@
   "explorerExclude.backup": {},
 
   "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.expand": true,
+  "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     ".env": "*.env, .env.*, .envrc, env.d.ts",
     ".gitignore": ".gitattributes, .gitmodules, *ignore, .ignore*",

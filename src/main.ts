@@ -13,7 +13,8 @@ import '@/app/extra-modules'
   const engine = new CreationEngine()
   setEngine(engine)
 
-  logger.table(JSON.parse(JSON.stringify(import.meta.dirname)))
+  logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+  logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
 
   // Initialize the creation engine instance
   await engine.init({

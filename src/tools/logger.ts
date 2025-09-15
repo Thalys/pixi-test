@@ -4,37 +4,33 @@ import type { BrowserConsole } from '@/types'
 
 const wrap = (str: string, open: string, close: string) => `${open}${str}${close}`
 
-const green = (str: string) => wrap(str, '\u001B[32m', '\u001B[39m')
-const yellow = (str: string) => wrap(str, '\u001B[33m', '\u001B[39m')
-const red = (str: string) => wrap(str, '\u001B[31m', '\u001B[39m')
-const bold = (str: string) => wrap(str, '\u001B[1m', '\u001B[22m')
-const cyan = (str: string) => wrap(str, '\u001B[36m', '\u001B[39m')
-const magenta = (str: string) => wrap(str, '\u001B[35m', '\u001B[39m')
+export const green = (str: string) => wrap(str, '\u001B[32m', '\u001B[39m')
+export const yellow = (str: string) => wrap(str, '\u001B[33m', '\u001B[39m')
+export const red = (str: string) => wrap(str, '\u001B[31m', '\u001B[39m')
+export const bold = (str: string) => wrap(str, '\u001B[1m', '\u001B[22m')
+export const cyan = (str: string) => wrap(str, '\u001B[36m', '\u001B[39m')
+export const magenta = (str: string) => wrap(str, '\u001B[35m', '\u001B[39m')
 
 export const logger = {
   log: (...rest: Parameters<BrowserConsole['log']>) => {
     console.log(...rest)
   },
   info: (...rest: Parameters<BrowserConsole['info']>) => {
-    const msg = `[${green('INFO')}]`
-    console.info(msg, ...rest)
+    console.info(`[${green('INFO')}]`, ...rest)
   },
   warn: (...rest: Parameters<BrowserConsole['warn']>) => {
-    const msg = `[${yellow('WARN')}]`
-    console.warn(msg, ...rest)
+    console.warn(`[${yellow('WARN')}]`, ...rest)
   },
   error: (...rest: Parameters<BrowserConsole['error']>) => {
-    const msg = `[${red('ERROR')}]`
-    console.error(msg, ...rest)
+    console.error(`[${red('ERROR')}]`, ...rest)
   },
   debug: (...rest: Parameters<BrowserConsole['debug']>) => {
-    const msg = `[${bold(cyan('DEBUG'))}]`
-    console.debug(msg, ...rest)
+    console.debug(`[${bold(cyan('DEBUG'))}]`, ...rest)
   },
-  custom: (...rest: Parameters<BrowserConsole['log']>) => {
-    const msg = `[${magenta('CUSTOM')}]`
-    console.log(msg, ...rest)
-  },
+  custom: (id: string = 'CUSTOM', color = magenta) =>
+    (...rest: Parameters<BrowserConsole['log']>) => {
+      console.log(`[${color(id)}]`, ...rest)
+    },
   table: (...rest: Parameters<BrowserConsole['table']>) => {
     console.table(...rest)
   },
