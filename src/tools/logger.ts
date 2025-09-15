@@ -35,3 +35,5 @@ export const logger = {
     console.table(...rest)
   },
 }
+
+/* eslint-enable no-console */

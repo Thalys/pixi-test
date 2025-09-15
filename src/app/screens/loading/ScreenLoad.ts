@@ -32,7 +32,6 @@ export class LoadScreen extends Container {
   }
 
   public onLoad (progress: number) {
-    console.log('progress', progress) // eslint-disable-line no-console
     this.progressBar.set(progress)
   }
 
