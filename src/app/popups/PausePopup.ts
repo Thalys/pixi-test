@@ -1,4 +1,4 @@
-import type { AppScreens } from '@/engine/navigation/navigation.types'
+import type { AppScreens } from '@/engine/navigation.types'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
 import { Button } from '@/app/ui/Button'

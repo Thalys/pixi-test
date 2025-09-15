@@ -10,8 +10,8 @@ import manifest from '../manifest.json'
 
 import { CreationAudioPlugin } from './audio/audio.plugin'
 
-import { CreationNavigationPlugin } from './navigation/navigation.plugin'
-import { CreationResizePlugin } from './resize/resize.plugin'
+import { CreationNavigationPlugin } from './navigation.plugin'
+import { CreationResizePlugin } from './resize.plugin'
 import { getResolution } from './utils/getResolution'
 import 'pixi.js/app'
 

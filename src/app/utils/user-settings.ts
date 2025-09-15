@@ -1,4 +1,4 @@
-import type { AppScreens } from '@/engine/navigation/navigation.types'
+import type { AppScreens } from '@/engine/navigation.types'
 import { engine } from '@/engine/engine.singleton'
 import { storage } from '@/engine/utils/storage'
 

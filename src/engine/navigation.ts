@@ -1,5 +1,5 @@
 import type { CreationEngine } from '@/engine/engine'
-import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation/navigation.types'
+import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation.types'
 import { Assets, BigPool, Container } from 'pixi.js'
 import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'

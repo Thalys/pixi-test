@@ -1,5 +1,5 @@
 import type { ObjectTarget } from 'motion/react'
-import type { AppScreens } from '@/engine/navigation/navigation.types'
+import type { AppScreens } from '@/engine/navigation.types'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
 import { Background } from '@/app/screens/loading/Background'

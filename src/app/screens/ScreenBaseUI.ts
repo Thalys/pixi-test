@@ -1,6 +1,6 @@
 import type { AnimationPlaybackControls } from 'motion'
 import type { Ticker } from 'pixi.js'
-import type { AppScreens, IAppScreen } from '@/engine/navigation/navigation.types'
+import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'

@@ -1,5 +1,5 @@
 import type { Ticker } from 'pixi.js'
-import type { AppScreens } from '@/engine/navigation/navigation.types'
+import type { AppScreens } from '@/engine/navigation.types'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 
 /**

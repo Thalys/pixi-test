@@ -1,5 +1,5 @@
 import type { Ticker } from 'pixi.js'
-import type { IAppScreen } from '@/engine/navigation/navigation.types'
+import type { IAppScreen } from '@/engine/navigation.types'
 import type { MeasureOptions } from '@/engine/utils/stage-ruler.types'
 import { Container, Graphics, Text, TextStyle } from 'pixi.js'
 
