@@ -1,46 +1,19 @@
 import type { Container } from 'pixi.js'
 import type { AnimateResultPlaybackControls, AnimationOptions } from '@/anime/anime.types'
 import { animate } from '@/anime/anime.motion'
+import { parseAnimationString } from '@/anime/anime.parse'
 import { ANIMATION_PRESETS } from '@/anime/anime.presets'
 
-// Parse animation string and modifiers
-function parseAnimationString (animString: string) {
-  const parts = animString.trim().split(/\s+/)
-  const baseAnimation = parts[0]
-  const modifiers: Record<string, string | number> = {}
+type Presets = keyof typeof ANIMATION_PRESETS & string
 
-  // Parse modifiers like "duration-500", "delay-100", "ease-bounce"
-  for (let i = 1; i < parts.length; i++) {
-    const part = parts[i]
-    const [key, value] = part.split('-')
-
-    switch (key) {
-      case 'duration':
-      case 'delay':
-      case 'stiffness':
-      case 'damping':
-      case 'repeat':
-        modifiers[key] = Number.parseFloat(value) / (key === 'duration' || key === 'delay' ? 1000 : 1)
-        break
-      case 'ease':
-        modifiers[key] = value
-        break
-      case 'spring':
-        modifiers.type = 'spring'
-        break
-      // case 'stagger':
-      //   modifiers.stagger = Number.parseFloat(value) / 1000
-      //   break
-    }
-  }
-
-  return { baseAnimation, modifiers }
+interface AnimeStringArray extends ReadonlyArray<string> {
+  readonly raw: readonly Presets[]
 }
 
 // Main tagged template function
 export function anime (
   strings: TemplateStringsArray,
-  ...values: any[]
+  ...values: Presets[]
 ): (target: Container | Container[], customOptions?: AnimationOptions) => AnimateResultPlaybackControls {
   // Combine template strings
   let animationString = ''
@@ -145,11 +118,11 @@ export const animations = {
 
 // Advanced usage with custom values
 export function createCustomAnimation (
-  from: Record<string, any>,
-  to: Record<string, any>,
+  from: { [key: string]: any },
+  to: { [key: string]: any },
   defaultOptions: AnimationOptions = {},
 ) {
-  return (target: Container | Container[], options: AnimationOptions = {}) => {
+  return <T extends Container | object>(target: T | T[], options: AnimationOptions = {}) => {
     const finalOptions = { ...defaultOptions, ...options }
 
     // Set initial state

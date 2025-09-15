@@ -1,16 +1,80 @@
-import { Application, Container, Graphics, Sprite, Text } from 'pixi.js'
+import { Assets, Container, Graphics, Sprite, Text } from 'pixi.js'
+import { CreationEngine } from '@/engine/engine'
+import { engine, setEngine } from '@/engine/engine.singleton'
+import { Measure } from '@/engine/utils/stage-ruler'
+import { waitFor } from '@/engine/utils/waitFor'
 import { logger } from '@/tools/logger'
 import { animations, anime, createCustomAnimation } from './anime'
 
-// Setup PixiJS application
-const app = new Application({
-  width: 800,
-  height: 600,
-  backgroundColor: 0x1A1A1A,
-})
+async function createApp () {
+  const engine = new CreationEngine()
+  setEngine(engine)
+
+  logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+  logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
+
+  // Initialize the creation engine instance
+  await engine.init({
+    background: '#1099bb',
+    resizeOptions: { minWidth: 600, minHeight: 600, letterbox: false },
+  })
+
+  if (import.meta.env.DEV) {
+    engine.navigation.setMeasureLayer(Measure)
+  }
+
+  return engine
+}
+
+async function createElements () {
+  const app = engine()
+  const container = new Container()
+  app.stage.addChild(container)
+  const texture = await Assets.load('https://pixijs.com/assets/bunny.png')
+
+  const bunnies: Sprite[] = []
+  // Create a 5x5 grid of bunnies in the container
+  for (let i = 0; i < 25; i++) {
+    const bunny = new Sprite(texture)
+    bunnies.push(bunny)
+
+    bunny.x = (i % 5) * 40
+    bunny.y = Math.floor(i / 5) * 40
+    container.addChild(bunny)
+  }
+
+  container.alpha = 0
+
+  // Move the container to the center
+  container.x = app.screen.width / 2
+  container.y = app.screen.height / 2
+
+  // Center the bunny sprites in local container coordinates
+  container.pivot.x = container.width / 2
+  container.pivot.y = container.height / 2
+
+  return { container, bunnies }
+}
+
+(async () => {
+
+  await createApp()
+
+  const { container, bunnies } = await createElements()
+
+  await waitFor(1)
+  await anime`fade-in duration-1000`(container).play()
+
+  await waitFor(1)
+  await anime`wobble`(container).play()
+
+  await waitFor(1)
+  await anime`spin duration-2000`(container).play()
+})()
 
 // Demo function showing various animation patterns
 async function runAnimationDemo () {
+  const app = engine()
   // Create some PixiJS objects to animate
   const container = new Container()
   app.stage.addChild(container)
@@ -97,22 +161,22 @@ async function runAnimationDemo () {
 
   // Demo 7: Complex sequenced animations
   logger.log('Demo 7: Complex sequence')
-  await anim`zoom-out`(rect).play()
-  await anim`spin duration-1000`(rect).play()
-  await anim`zoom-in`(rect).play()
+  await anime`zoom-out`(rect).play()
+  await anime`spin duration-1000`(rect).play()
+  await anime`zoom-in`(rect).play()
 
   // Demo 8: Parallel animations
   logger.log('Demo 8: Parallel animations')
   const parallelAnimations = [
-    anim`shake-x`(sprite).play(),
-    anim`scale-pulse`(circle).play(),
-    anim`wobble`(rect).play(),
+    anime`shake-x`(sprite).play(),
+    anime`scale-pulse`(circle).play(),
+    anime`wobble`(rect).play(),
   ]
   await Promise.all(parallelAnimations)
 
   // Demo 9: Animation with controls
   logger.log('Demo 9: Animation controls')
-  const spinAnimation = anim`spin-slow`(circle)
+  const spinAnimation = anime`spin-slow`(circle)
   spinAnimation.play()
 
   // Pause after 2 seconds
@@ -135,9 +199,9 @@ async function runAnimationDemo () {
 
   // Demo 10: Chained animations with different targets
   logger.log('Demo 10: Chained sequence across objects')
-  await anim`fade-out duration-500`(squares).play()
-  await anim`slide-in-right stagger-100`(squares).play()
-  await anim`bounce stagger-80`(squares).play()
+  await anime`fade-out duration-500`(squares).play()
+  await anime`slide-in-right stagger-100`(squares).play()
+  await anime`bounce stagger-80`(squares).play()
 
   logger.log('Animation demo complete!')
 }

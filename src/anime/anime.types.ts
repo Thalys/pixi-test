@@ -51,7 +51,8 @@ export type AnimPreset = {
 }
 
 export type AnimateResultPlaybackControls
-  = mAnimationPlaybackControls
+  = Omit<mAnimationPlaybackControls, 'play'>
     & {
+      play: () => Promise<void>
       reverse: () => void
     }

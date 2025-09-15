@@ -8,14 +8,12 @@ import { logger } from '@/tools/logger'
 import '@/app/extra-modules'
 
 (async () => {
-  // Create a new creation engine instance
   const engine = new CreationEngine()
   setEngine(engine)
 
   logger.table(JSON.parse(JSON.stringify(import.meta.env)))
   logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
 
-  // Initialize the creation engine instance
   await engine.init({
     background: '#1E1E1E',
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
