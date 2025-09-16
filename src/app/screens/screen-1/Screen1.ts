@@ -1,9 +1,9 @@
 import type { AppScreens } from '@/engine/navigation.types'
-import { animateCards } from '@/app/screens/screen-1/anim'
 import { Card } from '@/app/screens/screen-1/card'
 import { config } from '@/app/screens/screen-1/config'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { engine } from '@/engine/engine.singleton'
+import { waitFor } from '@/engine/utils/waitFor'
 
 export class Screen1 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen1'
@@ -12,7 +12,7 @@ export class Screen1 extends ScreenBaseUI {
   public static override assetBundles = ['main', 'ace_of_shadows']
 
   private cardStack: Card[] = []
-  private deckPositions: { x: number, y: number }[] = []
+  private deckPositions: { [key: string]: { x: number, y: number } } = {}
 
   constructor () {
     super()
@@ -30,29 +30,45 @@ export class Screen1 extends ScreenBaseUI {
 
     const { screen } = engine()
 
-    // Calculate deck positions at the bottom
-    const deckY = screen.height * 0.85
-    const deckSpacing = screen.width / 4
-    this.deckPositions = [
-      { x: deckSpacing, y: deckY },
-      { x: deckSpacing * 2, y: deckY },
-      { x: deckSpacing * 3, y: deckY },
-    ]
+    this.deckPositions = {
+      [config.cards.options[0]]: { x: 150, y: 150 },
+      [config.cards.options[1]]: { x: screen.width - 150, y: 150 },
+      [config.cards.options[2]]: { x: 150, y: screen.height - 150 },
+      [config.cards.options[3]]: { x: screen.width - 150, y: screen.height - 150 },
+    }
+
+    const borderOffsetPercentage = config.cards.borderOffsetPercentage
+    const sHeight = screen.height - borderOffsetPercentage * 2
 
     for (let i = 0; i < this.cardStack.length; i++) {
       const card = this.cardStack.at(i)
       if (!card) { continue }
 
-      const borderOffsetX = screen.width * config.cards.borderOffsetPercentage
+      const cHeight = card.visualHeight()
+
+      const borderOffsetX = screen.width * borderOffsetPercentage
       const availableWidth = screen.width - (borderOffsetX * 2 + card.visualWidth())
       const offsetX = availableWidth / config.cards.count
-      card.x = borderOffsetX + i * offsetX + card.visualWidth() / 2
-      card.y = screen.height * config.cards.borderOffsetPercentage + card.visualHeight() / 2
+      card.x = borderOffsetX + i * offsetX
+      card.y = borderOffsetPercentage + sHeight * 0.5
     }
   }
 
   /** Show screen with animations */
   public override async show (): Promise<void> {
-    await animateCards(this.cardStack, this.deckPositions)
+
+    let promises = this.cardStack.map(async (card, i) => {
+      card.alpha = 0
+      return card.animFadeInUp(i * 0.1).play()
+    })
+    await Promise.all(promises)
+
+    await waitFor(1)
+
+    promises = this.cardStack.toReversed().map(async (card, i) => {
+      const { x, y } = this.deckPositions[card.cardOption]
+      return card.animSlide(x, y, 2, i * 0.1).play()
+    })
+    await Promise.all(promises)
   }
 }
