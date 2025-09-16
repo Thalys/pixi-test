@@ -3,10 +3,10 @@
 import type { AnimPreset } from '@/anime/anime.types'
 
 // Fade animations
-const fadeIn: AnimPreset = { from: { alpha: 0 }, to: { alpha: 1 }, options: { duration: 0.3, ease: 'easeOut' } }
-const fadeOut: AnimPreset = { from: { alpha: 1 }, to: { alpha: 0 }, options: { duration: 0.3, ease: 'easeIn' } }
-const fadeInUp: AnimPreset = { from: { alpha: 0, y: 20 }, to: { alpha: 1, y: 0 }, options: { duration: 0.4, ease: 'easeOut' } }
-const fadeInDown: AnimPreset = { from: { alpha: 0, y: -20 }, to: { alpha: 1, y: 0 }, options: { duration: 0.4, ease: 'easeOut' } }
+const fadeIn: AnimPreset = { from: { alpha: 0 }, to: { alpha: 1 }, options: { duration: 0.5, ease: 'circIn' } }
+const fadeOut: AnimPreset = { from: { alpha: 1 }, to: { alpha: 0 }, options: { duration: 0.5, ease: 'circOut' } }
+const fadeInUp: AnimPreset = { from: { alpha: 0, y: 20 }, to: { alpha: 1, y: 0 }, options: { duration: 0.5, ease: 'circIn' } }
+const fadeInDown: AnimPreset = { from: { alpha: 0, y: -20 }, to: { alpha: 1, y: 0 }, options: { duration: 0.5, ease: 'circOut' } }
 
 // Scale animations
 const scaleIn: AnimPreset = { from: { scale: 0 }, to: { scale: 1 }, options: { duration: 0.3, ease: 'backOut' } }

@@ -15,7 +15,7 @@ export function parseAnimationString (animString: string) {
       case 'stiffness':
       case 'damping':
       case 'repeat':
-        modifiers[key] = Number.parseFloat(value) / (key === 'duration' || key === 'delay' ? 1000 : 1)
+        modifiers[key] = Number.parseFloat(value)
         break
       case 'ease':
         modifiers[key] = value

@@ -1,12 +1,8 @@
-import type { FancyButton } from '@pixi/ui'
-import type { AnimationPlaybackControls } from 'motion'
 import type { AppScreens } from '@/engine/navigation.types'
-import { animate } from 'motion'
 import { Container } from 'pixi.js'
+import { anime } from '@/anime/anime'
+import { config } from '@/app/screens/main/config'
 import { Logo } from '@/app/screens/main/Logo'
-import { Screen1 } from '@/app/screens/screen-1/Screen1'
-import { Screen2 } from '@/app/screens/screen-2/Screen2'
-import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 import { engine } from '@/engine/engine.singleton'
@@ -17,9 +13,7 @@ export class ScreenMain extends ScreenBaseUI {
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
   public mainContainer: Container
-  private btnOne: FancyButton
-  private btnTwo: FancyButton
-  private btnThree: FancyButton
+  private buttons: Button[]
   private logo: Logo
 
   constructor () {
@@ -28,17 +22,12 @@ export class ScreenMain extends ScreenBaseUI {
     this.mainContainer = new Container()
     this.addChild(this.mainContainer)
 
-    this.btnOne = new Button({ text: 'Ace of Shadows', width: 400, height: 130 })
-    this.btnOne.onPress.connect(() => { void engine().navigation.showScreen(Screen1) })
-    this.addChild(this.btnOne)
-
-    this.btnTwo = new Button({ text: 'Magic Words', width: 400, height: 130 })
-    this.btnTwo.onPress.connect(() => { void engine().navigation.showScreen(Screen2) })
-    this.addChild(this.btnTwo)
-
-    this.btnThree = new Button({ text: 'Phoenix Flame', width: 400, height: 130 })
-    this.btnThree.onPress.connect(() => { void engine().navigation.showScreen(Screen3) })
-    this.addChild(this.btnThree)
+    this.buttons = config.map(({ text, width, height, screen }) => {
+      const btn = new Button({ text, width, height })
+      btn.onPress.connect(() => { void engine().navigation.showScreen(screen) })
+      this.addChild(btn)
+      return btn
+    })
 
     this.logo = new Logo()
     this.addChild(this.logo)
@@ -64,12 +53,10 @@ export class ScreenMain extends ScreenBaseUI {
     this.mainContainer.x = mcx
     this.mainContainer.y = mcy
 
-    this.btnOne.x = width / 2
-    this.btnOne.y = 200
-    this.btnTwo.x = width / 2
-    this.btnTwo.y = 340
-    this.btnThree.x = width / 2
-    this.btnThree.y = 480
+    this.buttons.forEach((btn, i) => {
+      btn.x = width / 2
+      btn.y = config[i].y
+    })
 
     this.logo.x = width - this.logo.width / 2 - 20
     this.logo.y = height - this.logo.height / 2 - 20
@@ -77,28 +64,25 @@ export class ScreenMain extends ScreenBaseUI {
 
   /** Show screen with animations */
   public override async show (): Promise<void> {
-    // super.show() // intentional, re-implemented
+    // super.show() // intentionally commented, re-implemented
     engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
 
-    const elementsToAnimate = [
-      this.btnPause,
-      this.btnSettings,
-      this.btnOne,
-      this.btnTwo,
-      this.btnThree,
-      this.logo,
+    this.btnPause.alpha = 0
+    this.btnSettings.alpha = 0
+    this.logo.alpha = 0
+
+    const promises = [
+      anime`fade-in`(this.btnPause).play(),
+      anime`fade-in`(this.btnSettings).play(),
+
+      anime`fade-in`(this.logo).play(),
     ]
 
-    let finalPromise!: AnimationPlaybackControls
-    for (const element of elementsToAnimate) {
-      element.alpha = 0
-      finalPromise = animate(
-        element,
-        { alpha: 1 },
-        { duration: 0.3, delay: 0.75, ease: 'backOut' },
-      )
+    for (let i = 0; i < this.buttons.length; i++) {
+      const btn = this.buttons[i]
+      btn.animFadeInUp(0.1 * i).play()
     }
 
-    await finalPromise.finished
+    await Promise.all(promises)
   }
 }
