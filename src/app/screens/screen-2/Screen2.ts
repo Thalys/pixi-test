@@ -11,6 +11,7 @@ import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
  */
 export class Screen2 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen2'
+  public override label: string = 'Screen2'
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
 
