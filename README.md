@@ -30,5 +30,10 @@ Use it to render a dialogue between characters with the data taken from this
 
 endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
 
+## TASKS
+
+- [] git-lfs
+- [] exclude test assets from prod build
+
 > **["A man chooses, a slave obeys"](https://www.youtube.com/watch?v=oG25S51qJQQ)**\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— [_Andrew Ryan_](https://bioshock.fandom.com/wiki/Andrew_Ryan)
