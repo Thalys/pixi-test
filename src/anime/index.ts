@@ -1,7 +1,7 @@
+import { anime } from '@/anime/anime'
 import { createApp } from '@/anime/index.app'
 import { createBunniesContainer } from '@/anime/index.elements'
 import { waitFor } from '@/engine/utils/waitFor'
-import { anime } from './anime'
 
 (async () => {
 

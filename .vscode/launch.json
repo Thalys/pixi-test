@@ -74,7 +74,7 @@
       "request": "launch",
       "type": "chrome",
       "internalConsoleOptions": "openOnFirstSessionStart",
-      "url": "http://localhost:3489",
+      "url": "http://localhost:3489/index.grapheme.local.html",
       "port": 9222,
       "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",

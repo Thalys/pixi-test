@@ -1,4 +1,5 @@
-import { Assets, Container, Graphics, Sprite, Text, Texture } from 'pixi.js'
+import { Container, Graphics, Sprite, Text, Texture } from 'pixi.js'
+
 import { engine } from '@/engine/engine.singleton'
 
 const _createBunnies = (tBunny: Texture, container: Container, bunnies: Sprite[]) => {

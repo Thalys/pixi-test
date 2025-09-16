@@ -1,3 +1,4 @@
+import { initDevtools } from '@pixi/devtools'
 import { Assets } from 'pixi.js'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
@@ -10,7 +11,7 @@ export async function createApp () {
 
   // Initialize the creation engine instance
   await engine.init({
-    background: '#1099bb',
+    background: '#18181b',
     resizeOptions: { minWidth: 700, minHeight: 650, letterbox: false },
   })
 
@@ -21,6 +22,8 @@ export async function createApp () {
   }
 
   await Assets.loadBundle('test')
+
+  initDevtools({ app: engine })
 
   return engine
 }
