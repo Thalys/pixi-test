@@ -21,13 +21,15 @@
     /* Linting */
     "strict": true,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
     "erasableSyntaxOnly": true,
+    "useUnknownInCatchVariables": true,
+
+    "noImplicitOverride": true,
+    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": false,
     "noUncheckedSideEffectImports": true,
-    "useUnknownInCatchVariables": true,
-    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
 
     "sourceMap": true,
 

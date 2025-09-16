@@ -29,6 +29,7 @@ export function createMessage (message: string) {
   //   wordWrapWidth: 440,
   // }
   const tsOptions: TextStyleOptions = { fontSize: 18, fill: 0xFFFFFF }
+  const { screen } = engine()
   const style = new TextStyle(tsOptions)
   const child = new Text({ text, style })
   child.x = screen.width * 0.5

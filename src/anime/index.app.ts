@@ -1,4 +1,5 @@
 import { Assets } from 'pixi.js'
+import { getAppVersion } from '@/app/global'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
 import { Measure } from '@/engine/utils/stage-ruler'
@@ -16,7 +17,7 @@ export async function createApp () {
 
   if (import.meta.env.DEV) {
     logger.table(JSON.parse(JSON.stringify(import.meta.env)))
-    logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
+    logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
   }
 

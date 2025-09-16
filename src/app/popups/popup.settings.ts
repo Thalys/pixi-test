@@ -3,6 +3,7 @@ import type { AppScreens } from '@/engine/navigation.types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
+import { getAppVersion } from '@/app/global'
 import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
@@ -66,7 +67,7 @@ export class SettingsPopup extends Container {
     this.panel.addChild(this.doneButton)
 
     this.versionLabel = new Label({
-      text: `${window.__PIXI_TEST_VERSION__}`,
+      text: `${getAppVersion()}`,
       style: {
         fill: 0xEF6294,
         fontSize: 12,

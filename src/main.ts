@@ -1,4 +1,5 @@
 import { initDevtools } from '@pixi/devtools'
+import { getAppVersion } from '@/app/global'
 import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
 import { userSettings } from '@/app/utils/user.settings'
 import { CreationEngine } from '@/engine/engine'
@@ -18,7 +19,7 @@ import '@/app/extra-modules'
 
   if (import.meta.env.DEV) {
     logger.table(JSON.parse(JSON.stringify(import.meta.env)))
-    logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
+    logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
   }
 
