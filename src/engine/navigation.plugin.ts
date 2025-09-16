@@ -1,7 +1,7 @@
 import type { Application, ExtensionMetadata } from 'pixi.js'
 import type { CreationEngine } from '@/engine/engine'
 import { ExtensionType } from 'pixi.js'
-import { Navigation } from '@/engine/navigation/navigation'
+import { Navigation } from '@/engine/navigation'
 
 /**
  * Middleware for Application's navigation functionality.

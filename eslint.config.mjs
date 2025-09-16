@@ -7,20 +7,22 @@ export default antfu(
   {
     name: '===Base Config===',
     type: 'app',
+
     lessOpinionated: true,
 
     imports: true,
     jsonc: true, // Enable linting for JSON, JSONC, JSON5 files
     jsx: true,
     markdown: true, // Enable linting for Markdown files (e.g., code blocks)
-    nextjs: false, // Enable Next.js specific rules
-    react: false, // Explicitly disable if not a React project // requires @eslint-react/eslint-plugin eslint-plugin-react-hooks eslint-plugin-react-refresh
     regexp: true,
     toml: true,
     unicorn: true, // https://github.com/sindresorhus/eslint-plugin-unicorn
+    yaml: true, // Enable linting for YAML files
+
+    nextjs: false, // Enable Next.js specific rules
+    react: false, // Explicitly disable if not a React project // requires @eslint-react/eslint-plugin eslint-plugin-react-hooks eslint-plugin-react-refresh
     unocss: false, // requires @unocss/eslint-plugin
     vue: false, /* **Explicitly** disable if not a Vue project */
-    yaml: true, // Enable linting for YAML files
 
     stylistic: {
       jsx: false,
@@ -42,6 +44,7 @@ export default antfu(
         'style/semi': ['error', 'never'],
         'style/space-before-function-paren': ['error', 'always'],
         'style/space-in-parens': ['error', 'never'],
+        'style/no-trailing-spaces': ['error'],
       },
     },
     typescript: {
@@ -71,6 +74,7 @@ export default antfu(
       markdown: 'dprint',
     },
     ignores: [
+      '!src/*.local.{ts,tsx}',
       '.assetpack',
       '.cache',
       'build',
@@ -82,6 +86,7 @@ export default antfu(
   },
   {
     rules: {
+      'curly': ['error', 'multi-line', 'consistent'],
       'unicorn/prevent-abbreviations': ['off'],
       'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
       'unused-imports/no-unused-vars': ['off'],

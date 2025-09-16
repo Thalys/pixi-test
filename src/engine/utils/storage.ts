@@ -3,9 +3,10 @@
  * not only string as in plain localStorage.
  */
 class StorageWrapper {
+
   /** Get a string value from storage */
-  public getString (key: string) {
-    return localStorage.getItem(key) ?? undefined
+  public getString <T extends string>(key: string): T {
+    return localStorage.getItem(key) ?? undefined as any
   }
 
   /** Set a string value to storage */
@@ -39,7 +40,9 @@ class StorageWrapper {
   /** Get an object value from storage or undefined if value can't be parsed */
   public getObject (key: string) {
     const str = this.getString(key)
-    if (!str) { return undefined }
+
+    if (!str) return undefined
+
     try {
       return JSON.parse(str)
     } catch (e) {

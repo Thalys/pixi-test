@@ -1,31 +1,33 @@
-import { setEngine } from '@/app/getEngine'
-import { LoadScreen } from '@/app/screens/LoadScreen'
-import { MainScreen } from '@/app/screens/main/MainScreen'
-import { userSettings } from '@/app/utils/userSettings'
+import { initDevtools } from '@pixi/devtools'
+import { LoadScreen } from '@/app/screens/loading/ScreenLoad'
+import { userSettings } from '@/app/utils/user.settings'
 import { CreationEngine } from '@/engine/engine'
-
-/**
- * Importing these modules will automatically register there plugins with the engine.
- */
-import '@pixi/sound'
-// import "@esotericsoftware/spine-pixi-v8";
-
-// Create a new creation engine instance
-const engine = new CreationEngine()
-setEngine(engine);
+import { setEngine } from '@/engine/engine.singleton'
+import { Measure } from '@/engine/utils/stage-ruler'
+import { logger } from '@/tools/logger'
+import '@/app/extra-modules'
 
 (async () => {
-  // Initialize the creation engine instance
+  const engine = new CreationEngine()
+  setEngine(engine)
+
+  logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+  logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
+
   await engine.init({
     background: '#1E1E1E',
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   })
 
+  if (import.meta.env.DEV) {
+    engine.navigation.setMeasureLayer(Measure)
+  }
+
+  initDevtools({ app: engine })
+
   // Initialize the user settings
   userSettings.init()
 
-  // Show the load screen
   await engine.navigation.showScreen(LoadScreen)
-  // Show the main screen once the load screen is dismissed
-  await engine.navigation.showScreen(MainScreen)
+  await engine.navigation.showLastSessionScreen()
 })()

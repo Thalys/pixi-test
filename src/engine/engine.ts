@@ -5,14 +5,11 @@ import type {
 } from 'pixi.js'
 import { sound } from '@pixi/sound'
 import { Application, Assets, extensions, ResizePlugin } from 'pixi.js'
-
+import { CreationAudioPlugin } from '@/engine/audio.plugin'
+import { CreationNavigationPlugin } from '@/engine/navigation.plugin'
+import { CreationResizePlugin } from '@/engine/resize.plugin'
+import { getResolution } from '@/engine/utils/getResolution'
 import manifest from '../manifest.json'
-
-import { CreationAudioPlugin } from './audio/AudioPlugin'
-
-import { CreationNavigationPlugin } from './navigation/NavigationPlugin'
-import { CreationResizePlugin } from './resize/ResizePlugin'
-import { getResolution } from './utils/getResolution'
 import 'pixi.js/app'
 
 extensions.remove(ResizePlugin)
@@ -34,7 +31,7 @@ extensions.add(CreationNavigationPlugin)
  */
 export class CreationEngine extends Application {
   /** Initialize the application */
-  public async init (opts: Partial<ApplicationOptions>): Promise<void> {
+  public override async init (opts: Partial<ApplicationOptions>) {
     opts.resizeTo ??= window
     opts.resolution ??= getResolution()
 

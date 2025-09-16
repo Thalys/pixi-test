@@ -1,10 +1,13 @@
-import { engine } from '@/app/getEngine'
+import type { AppScreens } from '@/engine/navigation.types'
+import { engine } from '@/engine/engine.singleton'
 import { storage } from '@/engine/utils/storage'
 
 // Keys for saved items in storage
 const KEY_VOLUME_MASTER = 'volume-master'
 const KEY_VOLUME_BGM = 'volume-bgm'
 const KEY_VOLUME_SFX = 'volume-sfx'
+
+const KEY_LAST_SCREEN = 'last-screen'
 
 /**
  * Persistent user settings of volumes.
@@ -48,7 +51,18 @@ class UserSettings {
     engine().audio.sfx.setVolume(value)
     storage.setNumber(KEY_VOLUME_SFX, value)
   }
+
+  /** Get background music volume */
+  public getLastScreen (): AppScreens {
+    const value = storage.getString<AppScreens>(KEY_LAST_SCREEN) ?? 'Main'
+    return value
+  }
+
+  /** Set background music volume */
+  public setLastScreen (value: AppScreens) {
+    storage.setString(KEY_LAST_SCREEN, value)
+  }
 }
 
-/** SHared user settings instance */
+/** Shared user settings instance */
 export const userSettings = new UserSettings()

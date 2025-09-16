@@ -19,6 +19,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
@@ -29,4 +30,8 @@ public/assets
 src/manifest.json
 
 .claude
+*.local.*
+.env*
+!.env.example
 
+.github

@@ -1,4 +1,14 @@
 {
+  // [vite] resolves the source map locations for the temporary Vite config file
+  "debug.javascript.terminalOptions": {
+    "resolveSourceMapLocations": [
+      "${workspaceFolder}/**",
+      "!**/node_modules/**",
+      "**/node_modules/.vite-temp/**",
+      "**/node_modules/.cache/.vite/**"
+    ]
+  },
+
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
   "editor.formatOnSave": false,
@@ -60,5 +70,25 @@
     ".vscode": true,
     ".claude": true
   },
-  "explorerExclude.backup": {}
+
+  "explorerExclude.backup": {},
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    ".env": "*.env, .env.*, .envrc, env.d.ts",
+    ".gitignore": ".gitattributes, .gitmodules, *ignore, .ignore*",
+    "package.json": "bunfig.toml, bun.lock, pnpm-lock.yaml, pnpm-workspace.yaml, package-lock.json, .editorconfig, .huskyrc*, LICENSE, eslint.config.*, commitlint.config.*, README*, .gitignore, tasks.md, postcss.*, components.json, claude.md, GEMINI.md",
+    "tsconfig.json": "tsconfig.*.json",
+    "vite.config.ts": "index*.html",
+    "*.tsx": "$(capture).ts, $(capture).*.ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).css, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts, $(capture).html, $(capture)*.md,",
+    "*.ts": "$(capture)*.mjs,$(capture)*.js, $(capture).d.ts.map, $(capture).*.ts, $(capture).*.tsx, $(capture)_*.js, $(capture)_*.ts, $(capture)*.md,",
+    "*.mts": "$(capture).mts.map, $(capture).*.mts, $(capture)_*.mts",
+    "*.jsx": "$(capture).js, $(capture).*.jsx, $(capture)_*.js, $(capture)_*.jsx, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts",
+    "*.mjs": "$(capture).mjs.map, $(capture).*.mjs, $(capture)_*.mjs",
+    "*.js": "$(capture).js.map, $(capture).*.js, $(capture)_*.js, $(capture).d.ts, $(capture).js.flow",
+    "*.cjs": "$(capture).cjs.map, $(capture).*.cjs, $(capture)_*.cjs",
+    "*.webp": "$(capture)*.png, $(capture)*.json",
+    "*.ogg": "$(capture)*.mp3, $(capture)*.wav"
+  }
 }

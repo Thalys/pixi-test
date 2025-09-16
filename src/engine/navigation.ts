@@ -1,39 +1,12 @@
-import type { Ticker } from 'pixi.js'
 import type { CreationEngine } from '@/engine/engine'
+import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation.types'
 import { Assets, BigPool, Container } from 'pixi.js'
-
-/** Interface for app screens */
-interface AppScreen extends Container {
-  /** Show the screen */
-  show?: () => Promise<void>
-  /** Hide the screen */
-  hide?: () => Promise<void>
-  /** Pause the screen */
-  pause?: () => Promise<void>
-  /** Resume the screen */
-  resume?: () => Promise<void>
-  /** Prepare screen, before showing */
-  prepare?: () => void
-  /** Reset screen, after hidden */
-  reset?: () => void
-  /** Update the screen, passing delta time/step */
-  update?: (time: Ticker) => void
-  /** Resize the screen */
-  resize?: (width: number, height: number) => void
-  /** Blur the screen */
-  blur?: () => void
-  /** Focus the screen */
-  focus?: () => void
-  /** Method to react on assets loading progress */
-  onLoad?: (progress: number) => void
-}
-
-/** Interface for app screens constructors */
-interface AppScreenConstructor {
-  new (): AppScreen
-  /** List of assets bundles required by the screen */
-  assetBundles?: string[]
-}
+import { ScreenMain } from '@/app/screens/main/ScreenMain'
+import { Screen1 } from '@/app/screens/screen-1/Screen1'
+import { Screen2 } from '@/app/screens/screen-2/Screen2'
+import { Screen3 } from '@/app/screens/screen-3/Screen3'
+import { userSettings } from '@/app/utils/user.settings'
+import { Measure } from '@/engine/utils/stage-ruler'
 
 export class Navigation {
   /** Reference to the main application */
@@ -49,26 +22,46 @@ export class Navigation {
   public height = 0
 
   /** Constant background view for all screens */
-  public background?: AppScreen
+  public background?: IAppScreen
+
+  /** Measurement overlay for development */
+  public measureLayer?: IAppScreen
 
   /** Current screen being displayed */
-  public currentScreen?: AppScreen
+  public currentScreen?: IAppScreen
 
   /** Current popup being displayed */
-  public currentPopup?: AppScreen
+  public currentPopup?: IAppScreen
+
+  destroy () {
+    window.removeEventListener('keydown', this._onKeyDown)
+    window.removeEventListener('popstate', this._onPopState)
+  }
+
+  constructor () {
+    window.addEventListener('keydown', this._onKeyDown)
+    window.addEventListener('popstate', this._onPopState)
+  }
 
   public init (app: CreationEngine) {
     this.app = app
+    this.container.label = 'navigation'
   }
 
-  /** Set the  default load screen */
-  public setBackground (ctor: AppScreenConstructor) {
+  /** Set the default background screen */
+  public setBackground (ctor: IAppScreenConstructor) {
     this.background = new ctor() // eslint-disable-line new-cap
     this.addAndShowScreen(this.background)
   }
 
+  /** Set the measurement overlay layer */
+  public setMeasureLayer (ctor: IAppScreenConstructor) {
+    this.measureLayer = new ctor() // eslint-disable-line new-cap
+    this.addAndShowScreen(this.measureLayer)
+  }
+
   /** Add screen to the stage, link update & resize functions */
-  private async addAndShowScreen (screen: AppScreen) {
+  private async addAndShowScreen (screen: IAppScreen) {
     // Add navigation container to stage if it does not have a parent yet
     if (!this.container.parent) {
       this.app.stage.addChild(this.container)
@@ -102,7 +95,7 @@ export class Navigation {
   }
 
   /** Remove screen from the stage, unlink update & resize functions */
-  private async hideAndRemoveScreen (screen: AppScreen) {
+  private async hideAndRemoveScreen (screen: IAppScreen) {
     // Prevent interaction in the screen
     screen.interactiveChildren = false
 
@@ -131,7 +124,7 @@ export class Navigation {
    * Hide current screen (if there is one) and present a new screen.
    * Any class that matches AppScreen interface can be used here.
    */
-  public async showScreen (ctor: AppScreenConstructor) {
+  public async showScreen (ctor: IAppScreenConstructor) {
     // Block interactivity in current screen
     if (this.currentScreen) {
       this.currentScreen.interactiveChildren = false
@@ -159,6 +152,13 @@ export class Navigation {
     // Create the new screen and add that to the stage
     this.currentScreen = BigPool.get(ctor)
     await this.addAndShowScreen(this.currentScreen)
+
+    const ref = this.crossReference(this.currentScreen.definition)
+    if (ref === null) {
+      return
+    }
+    userSettings.setLastScreen(ref)
+    this.stackScreenState(ref)
   }
 
   /**
@@ -172,12 +172,13 @@ export class Navigation {
     this.currentScreen?.resize?.(width, height)
     this.currentPopup?.resize?.(width, height)
     this.background?.resize?.(width, height)
+    this.measureLayer?.resize?.(width, height)
   }
 
   /**
    * Show up a popup over current screen
    */
-  public async presentPopup (ctor: AppScreenConstructor) {
+  public async presentPopup (ctor: IAppScreenConstructor) {
     if (this.currentScreen) {
       this.currentScreen.interactiveChildren = false
       await this.currentScreen.pause?.()
@@ -195,7 +196,7 @@ export class Navigation {
    * Dismiss current popup, if there is one
    */
   public async dismissPopup () {
-    if (!this.currentPopup) { return }
+    if (!this.currentPopup) return
     const popup = this.currentPopup
     this.currentPopup = undefined
     await this.hideAndRemoveScreen(popup)
@@ -212,6 +213,7 @@ export class Navigation {
     this.currentScreen?.blur?.()
     this.currentPopup?.blur?.()
     this.background?.blur?.()
+    this.measureLayer?.blur?.()
   }
 
   /**
@@ -221,5 +223,91 @@ export class Navigation {
     this.currentScreen?.focus?.()
     this.currentPopup?.focus?.()
     this.background?.focus?.()
+    this.measureLayer?.focus?.()
+  }
+
+  stackScreenState (value: AppScreens) {
+    history.pushState({ page: value }, value)
+  }
+
+  private _onKeyDown = (e: KeyboardEvent) => {
+    // console.log(`key pressed: [ ${e.key} ]`)
+    if (e.key === 'Escape') {
+      // console.log('Emitting "goBack" signal.')
+      this._onPopState()
+    }
+  }
+
+  private _onPopState = (e?: PopStateEvent) => {
+    e?.preventDefault()
+    // This fires when the user hits the browser/Android back button.
+    // console.log('Back button pressed. Emitting "goBack" signal.')
+    this.showScreen(ScreenMain)
+  }
+
+  private crossReference = (screen: AppScreens): AppScreens | null => {
+    switch (screen) {
+      case 'Screen1':
+        return 'Screen1'
+      case 'Screen2':
+        return 'Screen2'
+      case 'Screen3':
+        return 'Screen3'
+      case 'Measure':
+      case 'LoadScreen':
+        return null // don't save for loading screen
+      case 'PausePopup':
+      case 'SettingsPopup':
+      case 'ScreenMain':
+      default:
+        return 'ScreenMain'
+    }
+  }
+
+  private matchRefScreen = (screen: AppScreens): IAppScreenConstructor | null => {
+    switch (screen) {
+      case 'Screen1':
+        return Screen1
+      case 'Screen2':
+        return Screen2
+      case 'Screen3':
+        return Screen3
+      case 'Measure':
+      case 'LoadScreen':
+        return null // don't save for loading screen
+      case 'PausePopup':
+      case 'SettingsPopup':
+      case 'ScreenMain':
+      default:
+        return ScreenMain
+    }
+  }
+
+  public showLastSessionScreen = async () => {
+    const lastScreen: AppScreens = userSettings.getLastScreen()
+    const ref = this.crossReference(lastScreen)
+    if (!ref) {
+      await this.showScreen(ScreenMain)
+      return
+    }
+    await this.showScreen(this.matchRefScreen(ref) || ScreenMain)
+  }
+
+  /**
+   * Toggle the measurement overlay visibility
+   */
+  public toggleMeasureLayer () {
+    if (this.measureLayer && 'toggle' in this.measureLayer) {
+      ;(this.measureLayer as Measure).toggle()
+    }
+  }
+
+  /**
+   * Initialize the measurement layer for development
+   */
+  public initMeasureLayer () {
+    if (!this.measureLayer) {
+      this.setMeasureLayer(Measure as unknown as IAppScreenConstructor)
+    }
   }
 }

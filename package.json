@@ -1,21 +1,22 @@
 {
-  "name": "softgames-thalys-test",
+  "name": "pixi-test",
   "type": "module",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
     "build": "bun check && bunx --bun vite build",
-    "dev": "vite",
+    "clean": "rm -rf dist node_modules public/assets src/manifest.json bun.lock",
+    "dev": "bunx --bun vite",
     "check": "bun run typecheck && bun run lint",
     "fix": "bun run typecheck; bun run lint:fix",
     "lint": "bunx --bun eslint",
     "lint:fix": "bunx --bun eslint --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
-    "typecheck": "bunx --bun tsc --noEmit -p ./tsconfig.json"
+    "typecheck": "bunx --bun tsc --noEmit",
+    "preview": "bunx --bun vite preview"
   },
   "dependencies": {
-    "@esotericsoftware/spine-pixi-v8": "^4.2.74",
     "@pixi/sound": "^6.0.1",
     "@pixi/ui": "^2.2.2",
     "motion": "^12.4.7",
@@ -24,11 +25,15 @@
   "devDependencies": {
     "@antfu/eslint-config": "^5.3.0",
     "@assetpack/core": "^1.4.0",
+    "@pixi/devtools": "^2.0.1",
     "@total-typescript/ts-reset": "^0.6.1",
+    "@types/bun": "^1.2.21",
+    "@types/node": "^24.3.2",
     "eslint": "^9.21.0",
     "eslint-plugin-command": "^3.3.1",
     "eslint-plugin-format": "^1.0.1",
     "typescript": "~5.9.2",
-    "vite": "^6.2.0"
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-version-mark": "^0.2.2"
   }
 }

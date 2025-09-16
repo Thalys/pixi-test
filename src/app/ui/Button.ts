@@ -1,6 +1,7 @@
 import { FancyButton } from '@pixi/ui'
-import { engine } from '@/app/getEngine'
+import { createCustomAnimation } from '@/anime/anime'
 import { Label } from '@/app/ui/Label'
+import { engine } from '@/engine/engine.singleton'
 
 const defaultButtonOptions = {
   text: '',
@@ -56,6 +57,15 @@ export class Button extends FancyButton {
 
     this.onDown.connect(this.handleDown.bind(this))
     this.onHover.connect(this.handleHover.bind(this))
+  }
+
+  public animFadeInUp (delay: number = 0) {
+    const fadeInUp = createCustomAnimation(
+      { alpha: 0, y: this.y + 20 },
+      { alpha: 1, y: this.y },
+      { delay, duration: 0.5, ease: 'circIn' },
+    )
+    return fadeInUp(this)
   }
 
   private handleHover () {
