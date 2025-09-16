@@ -1,6 +1,6 @@
 // https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
 
-export const exampleResponse = {
+export const responseExample = {
   dialogue:
     [
       { name: 'Sheldon', text: 'I admit {satisfied} the design of Cookie Crush is quite elegant in its simplicity.' },
