@@ -44,8 +44,6 @@ export class Screen1 extends ScreenBaseUI {
       const card = this.cardStack.at(i)
       if (!card) { continue }
 
-      const cHeight = card.visualHeight()
-
       const borderOffsetX = screen.width * borderOffsetPercentage
       const availableWidth = screen.width - (borderOffsetX * 2 + card.visualWidth())
       const offsetX = availableWidth / config.cards.count

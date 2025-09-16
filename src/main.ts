@@ -11,15 +11,14 @@ import '@/app/extra-modules'
   const engine = new CreationEngine()
   setEngine(engine)
 
-  logger.table(JSON.parse(JSON.stringify(import.meta.env)))
-  logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
-
   await engine.init({
     background: '#1E1E1E',
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   })
 
   if (import.meta.env.DEV) {
+    logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+    logger.info(JSON.parse(JSON.stringify(`App version: \n${window.__PIXI_TEST_VERSION__}`)))
     engine.navigation.setMeasureLayer(Measure)
   }
 
