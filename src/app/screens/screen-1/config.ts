@@ -9,6 +9,16 @@
 
 export const config = {
   cards: {
+    options: [
+      'charlie.png',
+      'luana.png',
+      'mano-brown.png',
+      'safira.png',
+    ],
+    properties: {
+      width: 672,
+      height: 960,
+    },
     count: 144,
     borderOffsetPercentage: 0.08,
     animation: {

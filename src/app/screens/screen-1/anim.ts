@@ -1,8 +1,8 @@
-import type { CardBack } from '@/app/screens/screen-1/card-back'
+import type { Card } from '@/app/screens/screen-1/card'
 import { animate } from 'motion'
 import { config } from '@/app/screens/screen-1/config'
 
-async function moveToTargets (cardStack: CardBack[], targets: { x: number, y: number }[]) {
+async function moveToTargets (cardStack: Card[], targets: { x: number, y: number }[]) {
   const { durationInSeconds: duration } = config.cards.animation
   const cards = cardStack.slice()
   while (cards.length > 0) {
@@ -13,7 +13,7 @@ async function moveToTargets (cardStack: CardBack[], targets: { x: number, y: nu
 }
 
 export const animateCards = async (
-  cards: CardBack[],
+  cards: Card[],
   targets: { x: number, y: number }[],
 ) => {
   await moveToTargets(cards, targets)

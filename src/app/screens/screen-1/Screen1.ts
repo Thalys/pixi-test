@@ -1,6 +1,6 @@
 import type { AppScreens } from '@/engine/navigation.types'
 import { animateCards } from '@/app/screens/screen-1/anim'
-import { CardBack } from '@/app/screens/screen-1/card-back'
+import { Card } from '@/app/screens/screen-1/card'
 import { config } from '@/app/screens/screen-1/config'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { engine } from '@/engine/engine.singleton'
@@ -11,14 +11,14 @@ export class Screen1 extends ScreenBaseUI {
   /** Assets bundles required by this screen */
   public static override assetBundles = ['main', 'ace_of_shadows']
 
-  private cardStack: CardBack[] = []
+  private cardStack: Card[] = []
   private deckPositions: { x: number, y: number }[] = []
 
   constructor () {
     super()
 
     for (let i = 0; i < config.cards.count; i++) {
-      const card = new CardBack()
+      const card = new Card()
       this.cardStack.push(card)
       this.addChild(card)
     }
