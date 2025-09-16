@@ -3,7 +3,11 @@ import type { AppScreens } from '@/engine/navigation.types'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 
 /**
- * Screen with the first assignment
+ * Magic Words
+ *
+ * Create a system that allows you to combine text and images like custom emojis
+ * Use it to render a dialogue between characters with the data taken from this
+ * endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
  */
 export class Screen2 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen2'
