@@ -32,7 +32,7 @@ endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwor
 
 ## TASKS
 
-- [] git-lfs
+- [] git-lfs .gitattributes
 - [] exclude test assets from prod build
 - [] improve appScreens definition
 

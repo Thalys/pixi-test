@@ -1,7 +1,7 @@
 import { createMessage } from '@/chat/chat'
+import { responseExample } from '@/chat/data'
+import { createApp } from '@/chat/index.app'
 import { engine } from '@/engine/engine.singleton'
-import { responseExample } from '@/grapheme/data'
-import { createApp } from '@/grapheme/index.app'
 
 /**
  * Magic Words

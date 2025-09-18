@@ -1,13 +1,13 @@
 import type { Sprite } from 'pixi.js'
 import { SplitText, Text, TextStyle } from 'pixi.js'
-import { zinc } from '@/app/utils/colors'
+import { ZINC } from '@/app/utils/colors'
 import { fetchEmoji } from '@/chat/chat.image'
 import { textSplitWithEmojiReplacer } from '@/engine/utils/canvasTextSplit'
 import { logger } from '@/tools/logger'
 
 const style = new TextStyle({
   fontSize: 18,
-  fill: zinc[400],
+  fill: ZINC[400],
 })
 
 export async function createText (message: string) {

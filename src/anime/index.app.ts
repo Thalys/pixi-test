@@ -1,5 +1,6 @@
 import { Assets } from 'pixi.js'
 import { getAppVersion } from '@/app/global'
+import { ZINC } from '@/app/utils/colors'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
 import { Measure } from '@/engine/utils/stage-ruler'
@@ -11,8 +12,8 @@ export async function createApp () {
 
   // Initialize the creation engine instance
   await engine.init({
-    background: '#1099bb',
-    resizeOptions: { minWidth: 700, minHeight: 650, letterbox: false },
+    background: ZINC[900],
+    resizeOptions: { minWidth: 800, minHeight: 600, letterbox: false },
   })
 
   if (import.meta.env.DEV) {

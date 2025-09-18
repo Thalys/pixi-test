@@ -13,7 +13,7 @@
     "lint": "bunx --bun eslint",
     "lint:fix": "bunx --bun eslint --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
-    "typecheck": "bunx --bun tsc --noEmit",
+    "typecheck": "bunx --bun tsc --noEmit -p ./tsconfig.app.json",
     "preview": "bunx --bun vite preview"
   },
   "dependencies": {
