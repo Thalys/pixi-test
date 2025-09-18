@@ -1,4 +1,3 @@
-import { Assets } from 'pixi.js'
 import { engine } from '@/engine/engine.singleton'
 import { responseExample } from '@/grapheme/data'
 import { createMessage } from '@/grapheme/grapheme'
@@ -15,7 +14,7 @@ import { createApp } from '@/grapheme/index.app'
 (async () => {
 
   await createApp()
-  const { stage, screen } = engine()
+  const { stage } = engine()
 
   for (let i = 0; i < responseExample.dialogue.length; i++) {
     const element = responseExample.dialogue[i]

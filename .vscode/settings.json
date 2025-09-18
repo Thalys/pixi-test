@@ -68,7 +68,7 @@
     "**/Thumbs.db": true,
     ".idea": true,
     ".vscode": true,
-    ".claude": false,
+    ".claude": true,
     ".github": true,
     "node_modules": true
   },
