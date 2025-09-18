@@ -1,68 +1,31 @@
-import type { TextString, TextStyleOptions } from 'pixi.js'
-import { Assets, Container, Sprite, Text, TextStyle } from 'pixi.js'
+import { Assets } from 'pixi.js'
 import { engine } from '@/engine/engine.singleton'
 import { responseExample } from '@/grapheme/data'
+import { createMessage } from '@/grapheme/grapheme'
 import { createApp } from '@/grapheme/index.app'
+
+/**
+ * Magic Words
+ *
+ * Create a system that allows you to combine text and images like custom emojis
+ * Use it to render a dialogue between characters with the data taken from this
+ * endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
+ */
 
 (async () => {
 
   await createApp()
-  const { stage } = engine()
-  const message = createMessage(responseExample.dialogue[0].text)
+  const { stage, screen } = engine()
+
+  const message = await createMessage(responseExample.dialogue[0])
+  message.label = `dialogue-${0}`
   stage.addChild(message)
+  message.x = 100
+  message.y = 100
+
+  const message2 = await createMessage(responseExample.dialogue[0])
+  message2.label = `dialogue-${1}`
+  stage.addChild(message2)
+  message2.x = 100
+  message2.y = 300
 })()
-
-export function createMessage (message: string) {
-
-  const text: TextString = message
-  // {
-  //   fill: '#FFFFFF',
-  //   fontSize: 24,
-  //   stroke: { color: '#4a1850', width: 5, join: 'round' },
-  //   dropShadow: {
-  //     color: '#000000',
-  //     blur: 4,
-  //     angle: Math.PI / 6,
-  //     distance: 6,
-  //   },
-  //   wordWrap: true,
-  //   wordWrapWidth: 440,
-  // }
-  const tsOptions: TextStyleOptions = { fontSize: 18, fill: 0xFFFFFF }
-  const { screen } = engine()
-  const style = new TextStyle(tsOptions)
-  const child = new Text({ text, style })
-  child.x = screen.width * 0.5
-  child.y = 75
-  child.anchor = 0.5
-  return child
-}
-
-export async function parse () {
-  const container = new Container()
-  let x = 0
-
-  const segments = [
-    { type: 'text', content: 'Hello ' },
-    { type: 'emoji', key: 'smile' },
-    { type: 'text', content: ' world!' },
-  ]
-
-  for (const seg of segments) {
-    if (seg.type === 'text') {
-      const textObj = new Text(seg.content, {/* style */})
-      textObj.x = x
-      container.addChild(textObj)
-      x += textObj.width
-    } else if (seg.type === 'emoji') {
-      const texture = await Assets.load(`emojis/${seg.key}.png`)
-      const sprite = new Sprite(texture)
-      sprite.x = x
-      // sprite.y = someBaselineAdjustment // Align with text baseline
-      sprite.y = 0 // Align with text baseline
-      sprite.width = sprite.height = 20 // match text size
-      container.addChild(sprite)
-      x += sprite.width
-    }
-  }
-}

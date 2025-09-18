@@ -14,6 +14,10 @@ export async function createApp () {
   await engine.init({
     background: '#18181b',
     resizeOptions: { minWidth: 700, minHeight: 650, letterbox: false },
+    antialias: true,
+    hello: true,
+    powerPreference: 'high-performance',
+    resolution: globalThis.window.devicePixelRatio,
   })
 
   if (import.meta.env.DEV) {
