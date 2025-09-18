@@ -1,8 +1,8 @@
 import type { Sprite } from 'pixi.js'
 import { SplitText, Text, TextStyle } from 'pixi.js'
 import { zinc } from '@/app/utils/colors'
+import { fetchEmoji } from '@/chat/chat.image'
 import { textSplitWithEmojiReplacer } from '@/engine/utils/canvasTextSplit'
-import { fetchEmoji } from '@/grapheme/grapheme.image'
 import { logger } from '@/tools/logger'
 
 const style = new TextStyle({

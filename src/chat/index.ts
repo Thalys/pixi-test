@@ -1,6 +1,6 @@
+import { createMessage } from '@/chat/chat'
 import { engine } from '@/engine/engine.singleton'
 import { responseExample } from '@/grapheme/data'
-import { createMessage } from '@/grapheme/grapheme'
 import { createApp } from '@/grapheme/index.app'
 
 /**

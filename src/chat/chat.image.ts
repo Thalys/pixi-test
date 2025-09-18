@@ -1,6 +1,6 @@
-import type { Avatar, Emoji } from '@/grapheme/grapheme.types'
+import type { Avatar, Emoji } from '@/chat/chat.types'
 import { Assets, Sprite } from 'pixi.js'
-import { responseExample } from '@/grapheme/data'
+import { responseExample } from '@/chat/data'
 
 export async function fetchEmoji (id: string) {
 

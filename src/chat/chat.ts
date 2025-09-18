@@ -1,9 +1,9 @@
-import type { Dialogue } from '@/grapheme/grapheme.types'
+import type { Dialogue } from '@/chat/chat.types'
 import { Container } from 'pixi.js'
+import { getAvatar } from '@/chat/chat.image'
+import { parse } from '@/chat/chat.text'
 import { engine } from '@/engine/engine.singleton'
 import { distributeEvenly } from '@/engine/layout'
-import { getAvatar } from '@/grapheme/grapheme.image'
-import { parse } from '@/grapheme/grapheme.text'
 import { logger } from '@/tools/logger'
 
 export async function createMessage ({ name, text }: Dialogue) {
