@@ -1,24 +1,75 @@
-import type { TextStyleOptions } from 'pixi.js'
-import { Text, TextStyle } from 'pixi.js'
+import type { Sprite } from 'pixi.js'
+import { SplitText, Text, TextStyle } from 'pixi.js'
 import { zinc } from '@/app/utils/colors'
+import { textSplitWithEmojiReplacer } from '@/engine/utils/canvasTextSplit'
+import { fetchEmoji } from '@/grapheme/grapheme.image'
+import { logger } from '@/tools/logger'
+
+const style = new TextStyle({
+  fontSize: 18,
+  fill: zinc[400],
+})
 
 export async function createText (message: string) {
+  const text = new Text({ text: message, style })
+  return text
+}
 
-  const options: TextStyleOptions = {
-    fontSize: 18,
-    fill: zinc[400],
-    // stroke: { color: '#db48ebff', width: 5, join: 'round' },
-    // dropShadow: {
-    //   color: zinc[700],
-    //   blur: 2,
-    //   angle: 45 * DEG_TO_RAD,
-    //   distance: 2,
-    // },
-    // wordWrap: true,
-    // wordWrapWidth: 440,
+export class EmojiSplitText extends SplitText {
+
+  override chars: (Text | Sprite)[] = []
+
+  constructor (config: ConstructorParameters<typeof SplitText>[0]) {
+    super(config)
   }
 
-  const style = new TextStyle(options)
-  const text = new Text({ text: message, style })
+  override split (): void {
+    const res = textSplitWithEmojiReplacer({
+      text: this._originalText,
+      style: this._style,
+      chars: this._canReuseChars ? this.chars : [],
+    })
+
+    this.chars = res.chars
+    this.words = res.words
+    this.lines = res.lines
+
+    logger.debug(this.words)
+
+    this.addChild(...this.lines)
+
+    // force origin to be set
+    this.charAnchor = this._charAnchor
+    this.wordAnchor = this._wordAnchor
+    this.lineAnchor = this._lineAnchor
+
+    this._dirty = false
+    this._canReuseChars = true
+  }
+}
+
+export async function parse (message: string) {
+  // const container = new Container()
+  // let x = 0
+
+  const emojis = message.split(/\s/).map(
+    (word) => {
+      if (word[0] === '{' && word.at(-1) === '}') {
+        return word.slice(1, -1)
+      }
+      return false
+    },
+  ).filter(Boolean)
+
+  for (const emoji of emojis) {
+    await fetchEmoji(emoji)
+  }
+
+  const text = new EmojiSplitText({
+    text: message,
+    style,
+    autoSplit: true,
+  })
+
   return text
 }

@@ -17,15 +17,13 @@ import { createApp } from '@/grapheme/index.app'
   await createApp()
   const { stage, screen } = engine()
 
-  const message = await createMessage(responseExample.dialogue[0])
-  message.label = `dialogue-${0}`
-  stage.addChild(message)
-  message.x = 100
-  message.y = 100
+  for (let i = 0; i < responseExample.dialogue.length; i++) {
+    const element = responseExample.dialogue[i]
+    const message = await createMessage(element)
+    message.label = `dialogue-${i}`
+    stage.addChild(message)
+    message.x = 100
+    message.y = 100 * (i + 1)
+  }
 
-  const message2 = await createMessage(responseExample.dialogue[0])
-  message2.label = `dialogue-${1}`
-  stage.addChild(message2)
-  message2.x = 100
-  message2.y = 300
 })()
