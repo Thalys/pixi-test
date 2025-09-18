@@ -1,8 +1,12 @@
-# Tagged Template Animation API for PixiJS + Motion
+# Anime
+
+A Declarative Animation API inspired by [Bun $ Shell] and [Tailwind CSS] for [PixiJS] using [Motion]
 
 ## Overview
 
-This POC creates a TailwindCSS-inspired animation API using JavaScript tagged templates, combining the power of PixiJS and Motion into a more declarative and manageable system.
+Declarative Animation API using Tagged Templates to wrap Motion for a declarative and manageable system
+
+TailwindCSS-inspired animation API using Tagged Templates to wrap Motion for a declarative and manageable system
 
 ## Design Principles (Following TailwindCSS Philosophy)
 
@@ -223,3 +227,10 @@ const progressAnim = createCustomAnimation(
 ```
 
 This approach provides the benefits of TailwindCSS (utility-first, composable, discoverable) while maintaining the power and flexibility needed for game animations.
+
+## References
+
+[Bun $ Shell]: https://bun.com/docs/runtime/shell
+[Tailwind CSS]: https://tailwindcss.com/
+[PixiJS]: https://pixijs.com/
+[Motion]: https://motion.dev/
