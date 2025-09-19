@@ -3,16 +3,13 @@ import ky from 'ky'
 import { Container, Sprite } from 'pixi.js'
 import { API_URL, AvatarUnknown } from '@/app/features/chat/index.config'
 import { loadExternalTextures } from '@/app/features/chat/index.utils'
-import { engine } from '@/engine/engine.singleton'
 import { flex } from '@/engine/layout'
 import { TextEmoji } from '@/engine/scene/text'
 import { toMap } from '@/engine/utils/array'
 
-let mapAvatars: Map<string, TAvatar>
-
 export async function createDialog (dialogueData: TDialogue) {
   const { text } = dialogueData
-  const { name, position } = mapAvatars.get(dialogueData.name) ?? AvatarUnknown
+  const { name, position } = _mapAvatars.get(dialogueData.name) ?? AvatarUnknown
 
   const container = new Container()
 
@@ -37,25 +34,29 @@ export async function createDialog (dialogueData: TDialogue) {
   return container
 }
 
-export async function fetchData () {
-  const response = await ky.get<TChatResponse>(API_URL).json()
-  const { dialogue, emojies, avatars } = response
-  await Promise.allSettled([
-    loadExternalTextures(emojies),
-    loadExternalTextures(avatars),
-  ])
-  mapAvatars = toMap(avatars, res => res.name)
-  mapAvatars.set(AvatarUnknown.name, AvatarUnknown)
+let _fetchDataPromise: Promise<TChatResponse> | null = null
+let _mapAvatars: Map<string, TAvatar>
+export async function fetchData (): Promise<TChatResponse> {
+  if (_fetchDataPromise) return _fetchDataPromise
 
-  return { dialogue, emojies, avatars }
+  _fetchDataPromise = (async () => {
+    const response = await ky.get<TChatResponse>(API_URL).json()
+    const { emojies, avatars } = response
+    await Promise.allSettled([
+      loadExternalTextures(emojies),
+      loadExternalTextures(avatars),
+    ])
+    _mapAvatars = toMap(avatars, res => res.name)
+    _mapAvatars.set(AvatarUnknown.name, AvatarUnknown)
+
+    return response
+  })()
+
+  return _fetchDataPromise
 }
 
 export async function layoutScreen ({ dialogue }: { dialogue: TDialogue[] }) {
-  const { stage } = engine()
-
   const container = new Container()
-  container.x = 75
-  container.y = 75
 
   const messages = await Promise.all(dialogue.map(async (dialog, i) => {
     const msg = await createDialog(dialog)
@@ -70,5 +71,5 @@ export async function layoutScreen ({ dialogue }: { dialogue: TDialogue[] }) {
     gap: 5,
   })
 
-  stage.addChild(container)
+  return container
 }
