@@ -24,12 +24,13 @@ const API_URL = 'https://private-624120-softgamesassignment.apiary-mock.com/v2/m
 let mapEmojies: Map<string, TEmoji>
 let mapAvatars: Map<string, TAvatar>
 
-const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 'left' }
+const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 'right' }
 TextEmoji.defaultOptions.autoSplit = true
-TextEmoji.defaultOptions.style = new TextStyle({
-  fontSize: 18,
-  fill: ZINC[400],
-})
+TextEmoji.defaultOptions.charAnchor = 0
+TextEmoji.defaultOptions.lineAnchor = 0
+TextEmoji.defaultOptions.style = new TextStyle({ fontSize: 18, fill: ZINC[300] })
+TextEmoji.defaultOptions.text = ''
+TextEmoji.defaultOptions.wordAnchor = 0
 
 export async function createDialog (dialogueData: TDialogue) {
 
@@ -88,7 +89,7 @@ export async function init () {
     const child = await createDialog(dialog)
     child.label = `dialogue-${i}`
     stage.addChild(child)
-    child.x = 100
-    child.y = 100 * (i + 1)
+    child.x = 75
+    child.y = 50 * (i + 1)
   })
 }

@@ -23,6 +23,8 @@ export abstract class AbstractSplitText<T extends TSplitedInto> extends Containe
   protected _wordAnchor: number | PointData
   protected _charAnchor: number | PointData
   protected _autoSplit: boolean
+
+  // @ts-expect-error assigned on constructor through the setter
   protected _style: TextStyle
 
   protected _dirty: boolean = false
@@ -51,7 +53,7 @@ export abstract class AbstractSplitText<T extends TSplitedInto> extends Containe
     this._charAnchor = charAnchor ?? 0
 
     // setting the style will segment the text if autoSplit is true
-    this._style = new TextStyle(style)
+    this.style = style
   }
 
   protected abstract splitFn (): IFunctionSplitResult<T>

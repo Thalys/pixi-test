@@ -78,40 +78,6 @@ export function distributeEvenly (
   })
 }
 
-/**
- * Creates a grid layout of children
- * @param container - The parent container
- * @param columns - Number of columns in the grid
- * @param spacing - Spacing between grid items
- */
-export function distributeGrid (
-  container: Container,
-  columns: number,
-  spacing: number = 10,
-): void {
-  const children = container.children.filter(child => child.visible)
-
-  if (children.length === 0) return
-
-  // Calculate max dimensions for uniform sizing
-  let maxWidth = 0
-  let maxHeight = 0
-
-  children.forEach((child) => {
-    maxWidth = Math.max(maxWidth, child.width || 0)
-    maxHeight = Math.max(maxHeight, child.height || 0)
-  })
-
-  // Position children in grid
-  children.forEach((child, index) => {
-    const col = index % columns
-    const row = Math.floor(index / columns)
-
-    child.x = col * (maxWidth + spacing)
-    child.y = row * (maxHeight + spacing)
-  })
-}
-
 type ResultGetMaxDimensions = { children: ContainerChild[], childrenSize: { width: number, height: number } }
 function getMaxDimensions (
   children: ContainerChild[],

@@ -16,7 +16,7 @@ export class TextEmoji extends AbstractSplitText<Text | Sprite> {
    */
   public static defaultOptions: ITextEmojiOptions = {
     text: '',
-    style: {},
+    style: new TextStyle(),
     autoSplit: true, // Auto-update on text/style changes
     lineAnchor: 0, // Top-left alignment
     wordAnchor: 0, // Top-left alignment
