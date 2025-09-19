@@ -21,10 +21,11 @@ export async function createApp () {
     powerPreference: 'high-performance',
     resolution: globalThis.window.devicePixelRatio,
   })
+  initDevtools({ app: engine })
 
   if (import.meta.env.DEV) {
-    logger.table(JSON.parse(JSON.stringify(import.meta.env)))
-    logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
+    // logger.table(JSON.parse(JSON.stringify(import.meta.env)))
+    // logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
 
     const { renderer } = engine
@@ -36,8 +37,6 @@ export async function createApp () {
     })
     log('\n', `${width}x${height} devicePixelRatio: ${pixelRatio}`)
   }
-
-  initDevtools({ app: engine })
 
   return engine
 }

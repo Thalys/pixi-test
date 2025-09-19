@@ -6,9 +6,9 @@ import { ANIMATION_PRESETS } from '@/anime/anime.presets'
 
 type Presets = keyof typeof ANIMATION_PRESETS & string
 
-interface AnimeStringArray extends ReadonlyArray<string> {
-  readonly raw: readonly Presets[]
-}
+// interface AnimeStringArray extends ReadonlyArray<string> {
+//   readonly raw: readonly Presets[]
+// }
 
 // Main tagged template function
 export function anime (
@@ -62,6 +62,7 @@ export function anime (
 
     let controller: any
 
+    // @ts-expect-error FIXME - type error
     const result: AnimateResultPlaybackControls = {
       play () {
         controller = animate(target, preset.to, finalOptions)
