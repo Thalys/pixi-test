@@ -1,87 +1,176 @@
 import type { Container, ContainerChild } from 'pixi.js'
 
-interface DistributionOptions {
-  direction?: 'horizontal' | 'vertical'
-  alignCenter?: boolean
-  padding?: {
-    x?: number
-    y?: number
-    width?: number
-    height?: number
-  }
+interface IBaseOptions {
+  minSize?: number
+  gap?: number
+}
+
+interface IDistributionOptions extends IBaseOptions {
+  direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse'
 }
 
 /**
- * Distributes children evenly within a parent container
+ * Distributes children
  * @param container - The parent container whose children will be distributed
  * @param options - Optional configuration for distribution
  */
-export function distributeEvenly (
+export function flex (
   container: Container,
-  options: DistributionOptions = {},
+  options: IDistributionOptions = {},
 ): void {
-  const {
-    direction = 'horizontal',
-    alignCenter = false,
-    padding = { x: 0, y: 0, width: 0, height: 0 },
-  } = options
+  const { direction = 'row', ...rest } = options
 
-  const _padding = {
-    x: padding.x ?? 0,
-    y: padding.y ?? 0,
-    width: padding.width ?? 0,
-    height: padding.height ?? 0,
+  switch (direction) {
+    case 'row':
+      flexRow(container, rest)
+      return
+    case 'row-reverse':
+      flexRowReverse(container, rest)
+      return
+    case 'column':
+      flexColumn(container, rest)
+      return
+    case 'column-reverse':
+      flexColumnReverse(container, rest)
+      return
+    default:
+      flexRow(container, rest)
   }
+}
+
+export function flexRow (
+  container: Container,
+  options: IBaseOptions,
+): void {
 
   const {
     children,
-
     // accumulated size of all children
     childrenSize,
   } = getMaxDimensions(container.children)
 
   const N = children.length
-
   if (N === 0) return
 
-  // Calculate available width or height based on direction
-  const isHorizontal = direction === 'horizontal'
-  const dimension = isHorizontal ? 'width' : 'height'
-  const position = isHorizontal ? 'x' : 'y'
-  const crossPosition = isHorizontal ? 'y' : 'x'
+  const dimension = 'width'
+  const position = 'x'
 
-  // Get container dimensions
-  const totalSpace = childrenSize[dimension] + _padding[position] + _padding[dimension]
+  // Get container dimensions and calculate gap between elements
+  const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
+  const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
+  const gap = options?.gap ?? leftOverSpace
 
-  // Calculate gap between elements
-  const gap = (totalSpace - childrenSize[dimension]) / (N + 1)
-
-  // Position each child
-  let currentPosition = _padding[position] + gap
-
+  // Position children
+  let posX = 0
   children.forEach((child) => {
-    const childSize = child[dimension] || 0
-
     // Set main axis position
-    child[position] = currentPosition
-
-    // Center on cross axis if requested
-    if (alignCenter) {
-      const crossDimension = isHorizontal ? 'height' : 'width'
-      const containerCrossSize = container.getSize()[crossDimension]
-      const childCrossSize = child[crossDimension] || 0
-      child[crossPosition] = (containerCrossSize - childCrossSize) / 2
-    }
-
+    child[position] = posX
     // Update position for next child
-    currentPosition += childSize + gap
+    posX += child[dimension] + gap
+  })
+}
+
+export function flexRowReverse (
+  container: Container,
+  options: IBaseOptions,
+): void {
+
+  const {
+    children,
+    // accumulated size of all children
+    childrenSize,
+  } = getMaxDimensions(container.children)
+
+  const N = children.length
+  if (N === 0) return
+
+  const dimension = 'width'
+  const position = 'x'
+
+  // Get container dimensions and calculate gap between elements
+  const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
+  const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
+  const gap = options?.gap ?? leftOverSpace
+
+  children.reverse()
+  // Position children
+  let posX = totalSpace
+  children.forEach((child) => {
+    // Set main axis position
+    child[position] = posX - child[dimension]
+    // Update position for next child
+    posX -= child[dimension] + gap
+  })
+}
+
+export function flexColumn (
+  container: Container,
+  options: IBaseOptions,
+): void {
+
+  const {
+    children,
+    // accumulated size of all children
+    childrenSize,
+  } = getMaxDimensions(container.children)
+
+  const N = children.length
+  if (N === 0) return
+
+  const dimension = 'height'
+  const position = 'y'
+
+  // Get container dimensions and calculate gap between elements
+  const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
+  const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
+  const gap = options?.gap ?? leftOverSpace
+
+  // Position children
+  let pos = 0
+  children.forEach((child) => {
+    // Set main axis position
+    child[position] = pos
+    // Update position for next child
+    pos += child[dimension] + gap
+  })
+}
+
+export function flexColumnReverse (
+  container: Container,
+  options: IBaseOptions,
+): void {
+
+  const {
+    children,
+    // accumulated size of all children
+    childrenSize,
+  } = getMaxDimensions(container.children)
+
+  const N = children.length
+  if (N === 0) return
+
+  const dimension = 'height'
+  const position = 'y'
+
+  // Get container dimensions and calculate gap between elements
+  const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
+  const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
+  const gap = options?.gap ?? leftOverSpace
+
+  children.reverse()
+  // Position children
+  let posX = totalSpace
+  children.forEach((child) => {
+    // Set main axis position
+    child[position] = posX - child[dimension]
+    // Update position for next child
+    posX -= child[dimension] + gap
   })
 }
 
 type ResultGetMaxDimensions = { children: ContainerChild[], childrenSize: { width: number, height: number } }
-function getMaxDimensions (
-  children: ContainerChild[],
-): ResultGetMaxDimensions {
+function getMaxDimensions (children: ContainerChild[]): ResultGetMaxDimensions {
+
   return children
     .filter(child => child.visible)
     .reduce((acc, child) => {

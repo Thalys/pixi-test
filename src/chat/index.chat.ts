@@ -1,12 +1,12 @@
+import type { Texture } from 'pixi.js'
 import type { TAvatar, TChatResponse, TDialogue, TEmoji, TNamedResourceLink } from '@/chat/types'
 import ky from 'ky'
-import { Assets, Container, Sprite, TextStyle, Texture } from 'pixi.js'
+import { Assets, Container, Sprite, TextStyle } from 'pixi.js'
 import { ZINC } from '@/app/utils/colors'
 import { engine } from '@/engine/engine.singleton'
-import { distributeEvenly } from '@/engine/layout'
+import { flex } from '@/engine/layout'
 import { TextEmoji } from '@/engine/scene/text'
 import { toMap } from '@/engine/utils/array'
-import { logger } from '@/tools/logger'
 
 /**
  * Magic Words
@@ -15,9 +15,6 @@ import { logger } from '@/tools/logger'
  * Use it to render a dialogue between characters with the data taken from this
  * endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
  */
-
-const _log = logger.custom('src/chat/chat.ts')
-const log = (...args: Parameters<typeof _log>) => _log('\n   ', ...args)
 
 const API_URL = 'https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords'
 
@@ -28,31 +25,33 @@ const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 
 TextEmoji.defaultOptions.autoSplit = true
 TextEmoji.defaultOptions.charAnchor = 0
 TextEmoji.defaultOptions.lineAnchor = 0
-TextEmoji.defaultOptions.style = new TextStyle({ fontSize: 18, fill: ZINC[300] })
+TextEmoji.defaultOptions.style = new TextStyle({ fontSize: 16, fill: ZINC[300] })
 TextEmoji.defaultOptions.text = ''
 TextEmoji.defaultOptions.wordAnchor = 0
 
 export async function createDialog (dialogueData: TDialogue) {
+  const { text } = dialogueData
+  const { name, position } = mapAvatars.get(dialogueData.name) ?? AvatarUnknown
 
   const container = new Container()
-  const { name, text } = dialogueData
 
-  const avatar = Sprite.from(AvatarUnknown.name)
-  if (Assets.cache.has(name)) avatar.texture = Texture.from(name)
-  avatar.setSize(30)
-  avatar.y -= 10
+  const avatar = Sprite.from(name)
+  avatar.setSize(40)
+  avatar.y -= 15
 
   const message = new TextEmoji({ text })
 
-  const avatarData = mapAvatars.get(dialogueData.name)
-  const position = avatarData?.position ?? 'left'
   const positionalChildren
     = position === 'right'
       ? [message, avatar]
       : [avatar, message]
   container.addChild(...positionalChildren)
 
-  distributeEvenly(container)
+  flex(container, {
+    direction: position === 'left' ? 'row' : 'row-reverse',
+    minSize: 700,
+    gap: 20,
+  })
 
   return container
 }
@@ -90,6 +89,6 @@ export async function init () {
     child.label = `dialogue-${i}`
     stage.addChild(child)
     child.x = 75
-    child.y = 50 * (i + 1)
+    child.y = 20 + 40 * (i + 1)
   })
 }
