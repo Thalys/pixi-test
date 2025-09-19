@@ -1,11 +1,12 @@
 import { initDevtools } from '@pixi/devtools'
-import { Assets } from 'pixi.js'
 import { getAppVersion } from '@/app/global'
 import { ZINC } from '@/app/utils/colors'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
 import { Measure } from '@/engine/utils/stage-ruler'
 import { logger } from '@/tools/logger'
+
+const log = logger.custom('src/chat/index.app.ts')
 
 export async function createApp () {
   const engine = new CreationEngine()
@@ -25,9 +26,16 @@ export async function createApp () {
     logger.table(JSON.parse(JSON.stringify(import.meta.env)))
     logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
-  }
 
-  await Assets.loadBundle('test')
+    const { renderer } = engine
+    const width = renderer.width
+    const height = renderer.height
+    const pixelRatio = globalThis.window.devicePixelRatio
+    renderer.on('resize', () => {
+      log('\n', `${width}x${height} devicePixelRatio: ${pixelRatio}`)
+    })
+    log('\n', `${width}x${height} devicePixelRatio: ${pixelRatio}`)
+  }
 
   initDevtools({ app: engine })
 

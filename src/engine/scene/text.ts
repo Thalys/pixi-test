@@ -4,19 +4,25 @@ import { TextStyle } from 'pixi.js'
 import { AbstractSplitText } from '@/engine/scene/text.abstract'
 import { textSplitWithEmojiReplacer } from '@/engine/scene/text.fn'
 
+export interface TextEmojiParams extends Omit<ITextEmojiOptions, 'style'> {
+  style?: ITextEmojiOptions['style']
+}
+
 class TextEmoji extends AbstractSplitText<Text | Sprite> {
 
   /**
    * Default configuration options for TextEmoji instances.
    */
-  public static defaultOptions: Partial<ITextEmojiOptions> = {
+  public static defaultOptions: ITextEmojiOptions = {
+    text: '',
+    style: {},
     autoSplit: true, // Auto-update on text/style changes
     lineAnchor: 0, // Top-left alignment
     wordAnchor: 0, // Top-left alignment
     charAnchor: 0, // Top-left alignment
-  } as Partial<ITextEmojiOptions>
+  }
 
-  constructor (config: ITextEmojiOptions) {
+  constructor (config: TextEmojiParams) {
     const completeOptions: ITextEmojiOptions = {
       ...TextEmoji.defaultOptions,
       ...config,

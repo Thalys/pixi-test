@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
-import type { BrowserConsole } from '@/types'
+import type { Container } from 'pixi.js'
+import type { TConsole } from '@/tools/types'
 
 const wrap = (str: string, open: string, close: string) => `${open}${str}${close}`
 
@@ -12,28 +13,35 @@ export const cyan = (str: string) => wrap(str, '\u001B[36m', '\u001B[39m')
 export const magenta = (str: string) => wrap(str, '\u001B[35m', '\u001B[39m')
 
 export const logger = {
-  log: (...rest: Parameters<BrowserConsole['log']>) => {
+  log: (...rest: Parameters<TConsole['log']>) => {
     console.log(...rest)
   },
-  info: (...rest: Parameters<BrowserConsole['info']>) => {
+  info: (...rest: Parameters<TConsole['info']>) => {
     console.info(`[${green('INFO')}]`, ...rest)
   },
-  warn: (...rest: Parameters<BrowserConsole['warn']>) => {
+  warn: (...rest: Parameters<TConsole['warn']>) => {
     console.warn(`[${yellow('WARN')}]`, ...rest)
   },
-  error: (...rest: Parameters<BrowserConsole['error']>) => {
+  error: (...rest: Parameters<TConsole['error']>) => {
     console.error(`[${red('ERROR')}]`, ...rest)
   },
-  debug: (...rest: Parameters<BrowserConsole['debug']>) => {
+  debug: (...rest: Parameters<TConsole['debug']>) => {
     console.debug(`[${bold(cyan('DEBUG'))}]`, ...rest)
   },
   custom: (id: string = 'CUSTOM', color = magenta) =>
-    (...rest: Parameters<BrowserConsole['log']>) => {
+    (...rest: Parameters<TConsole['log']>) => {
       console.log(`[${color(id)}]`, ...rest)
     },
-  table: (...rest: Parameters<BrowserConsole['table']>) => {
+  table: (...rest: Parameters<TConsole['table']>) => {
     console.table(...rest)
   },
 }
 
 /* eslint-enable no-console */
+
+export function logSize (visual: Container, label?: string) {
+  const _label = label ?? visual.label ?? ''
+  logger.debug(`${_label} getSize                : ${visual.getSize().width}x${visual.getSize().height}`)
+  logger.debug(`${_label} getBounds              : ${visual.getBounds().width}x${visual.getBounds().height}`)
+  logger.debug(`${_label} getLocalBounds         : ${visual.getLocalBounds().width}x${visual.getLocalBounds().height}`)
+}

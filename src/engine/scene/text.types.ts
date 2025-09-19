@@ -11,9 +11,7 @@ export interface IFunctionSplitResult<T extends TSplitedInto> {
   lines: Container[]
 }
 
-export interface ITextEmojiOptions extends AbstractSplitOptions {
-
-}
+export interface ITextEmojiOptions extends AbstractSplitOptions {}
 
 export interface Segment
 {
