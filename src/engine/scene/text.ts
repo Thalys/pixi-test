@@ -3,7 +3,6 @@ import type { IFunctionSplitResult, ITextEmojiOptions } from '@/engine/scene/tex
 import { TextStyle } from 'pixi.js'
 import { AbstractSplitText } from '@/engine/scene/text.abstract'
 import { textSplitWithEmojiReplacer } from '@/engine/scene/text.fn'
-import { logger } from '@/tools/logger'
 
 export interface TextEmojiParams extends Omit<ITextEmojiOptions, 'style'> {
   style?: ITextEmojiOptions['style']
@@ -58,7 +57,6 @@ export class TextEmoji extends AbstractSplitText<Text | Sprite> {
       style: this._style,
       chars: this._canReuseChars ? this.chars : [],
     })
-    logger.log(result)
     return result
   }
 }

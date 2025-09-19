@@ -57,7 +57,6 @@ export async function createDialog (dialogueData: TDialogue) {
 }
 
 export async function loadExternalTextures (data: TNamedResourceLink[]) {
-
   const promises = data.map(
     async ({ name, url }): Promise<Texture> => {
       const assetData = { alias: name, src: url, parser: 'texture' }
@@ -68,27 +67,44 @@ export async function loadExternalTextures (data: TNamedResourceLink[]) {
   await Promise.allSettled(promises)
 }
 
-export async function init () {
-  const { stage } = engine()
-
+export async function fetchData () {
   const response = await ky.get<TChatResponse>(API_URL).json()
-
   const { dialogue, emojies, avatars } = response
-
   await Promise.allSettled([
     loadExternalTextures(emojies),
     loadExternalTextures(avatars),
   ])
-
   mapEmojies = toMap(emojies, res => res.name)
   mapAvatars = toMap(avatars, res => res.name)
   mapAvatars.set(AvatarUnknown.name, AvatarUnknown)
 
-  dialogue.map(async (dialog, i) => {
-    const child = await createDialog(dialog)
-    child.label = `dialogue-${i}`
-    stage.addChild(child)
-    child.x = 75
-    child.y = 20 + 40 * (i + 1)
+  return { dialogue, emojies, avatars }
+}
+
+export async function layoutScreen ({ dialogue }: { dialogue: TDialogue[] }) {
+  const { stage } = engine()
+
+  const container = new Container()
+  container.x = 75
+  container.y = 75
+
+  const messages = await Promise.all(dialogue.map(async (dialog, i) => {
+    const msg = await createDialog(dialog)
+    msg.label = `msg-${i}`
+    return msg
+  }))
+
+  container.addChild(...messages)
+
+  flex(container, {
+    direction: 'column',
+    gap: 5,
   })
+
+  stage.addChild(container)
+}
+
+export async function init () {
+  const data = await fetchData()
+  layoutScreen(data)
 }

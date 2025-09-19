@@ -1,7 +1,6 @@
 import type { ConvertedStrokeStyle, SplitOptions, TextStyle } from 'pixi.js'
 import type { GroupedSegment, IFunctionSplitResult, Segment, TSplitedInto } from '@/engine/scene/text.types'
 import { CanvasTextMetrics, Container, Matrix, Sprite, Text } from 'pixi.js'
-import { logger } from '@/tools/logger'
 
 function getAlignmentOffset (alignment: string, lineWidth: number, largestLine: number): number {
   switch (alignment) {
@@ -101,8 +100,6 @@ export function textSplitWithEmojiReplacer (
       return word
     },
   ).join(' ')
-
-  logger.debug(_text)
 
   // measure the entire text to get the layout
   const measuredText = CanvasTextMetrics.measureText(_text, textStyle)

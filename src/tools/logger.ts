@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-import type { Container } from 'pixi.js'
 import type { TConsole } from '@/tools/types'
 
 const wrap = (str: string, open: string, close: string) => `${open}${str}${close}`
@@ -38,10 +37,3 @@ export const logger = {
 }
 
 /* eslint-enable no-console */
-
-export function logSize (visual: Container, label?: string) {
-  const _label = label ?? visual.label ?? ''
-  logger.debug(`${_label} getSize                : ${visual.getSize().width}x${visual.getSize().height}`)
-  logger.debug(`${_label} getBounds              : ${visual.getBounds().width}x${visual.getBounds().height}`)
-  logger.debug(`${_label} getLocalBounds         : ${visual.getLocalBounds().width}x${visual.getLocalBounds().height}`)
-}

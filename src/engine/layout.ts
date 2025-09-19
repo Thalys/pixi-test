@@ -45,7 +45,6 @@ export function flexRow (
 
   const {
     children,
-    // accumulated size of all children
     childrenSize,
   } = getMaxDimensions(container.children)
 
@@ -55,17 +54,13 @@ export function flexRow (
   const dimension = 'width'
   const position = 'x'
 
-  // Get container dimensions and calculate gap between elements
   const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
   const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
   const gap = options?.gap ?? leftOverSpace
 
-  // Position children
   let posX = 0
   children.forEach((child) => {
-    // Set main axis position
     child[position] = posX
-    // Update position for next child
     posX += child[dimension] + gap
   })
 }
@@ -77,7 +72,6 @@ export function flexRowReverse (
 
   const {
     children,
-    // accumulated size of all children
     childrenSize,
   } = getMaxDimensions(container.children)
 
@@ -87,18 +81,14 @@ export function flexRowReverse (
   const dimension = 'width'
   const position = 'x'
 
-  // Get container dimensions and calculate gap between elements
   const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
   const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
   const gap = options?.gap ?? leftOverSpace
 
   children.reverse()
-  // Position children
   let posX = totalSpace
   children.forEach((child) => {
-    // Set main axis position
     child[position] = posX - child[dimension]
-    // Update position for next child
     posX -= child[dimension] + gap
   })
 }
@@ -110,27 +100,22 @@ export function flexColumn (
 
   const {
     children,
-    // accumulated size of all children
     childrenSize,
   } = getMaxDimensions(container.children)
 
   const N = children.length
   if (N === 0) return
 
-  const dimension = 'height'
   const position = 'y'
+  const dimension = 'height'
 
-  // Get container dimensions and calculate gap between elements
   const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
   const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
   const gap = options?.gap ?? leftOverSpace
 
-  // Position children
   let pos = 0
   children.forEach((child) => {
-    // Set main axis position
     child[position] = pos
-    // Update position for next child
     pos += child[dimension] + gap
   })
 }
@@ -142,7 +127,6 @@ export function flexColumnReverse (
 
   const {
     children,
-    // accumulated size of all children
     childrenSize,
   } = getMaxDimensions(container.children)
 
@@ -152,18 +136,14 @@ export function flexColumnReverse (
   const dimension = 'height'
   const position = 'y'
 
-  // Get container dimensions and calculate gap between elements
   const totalSpace = Math.max(options?.minSize || 0, childrenSize[dimension])
   const leftOverSpace = (totalSpace - childrenSize[dimension]) / (N + 1)
   const gap = options?.gap ?? leftOverSpace
 
   children.reverse()
-  // Position children
   let posX = totalSpace
   children.forEach((child) => {
-    // Set main axis position
     child[position] = posX - child[dimension]
-    // Update position for next child
     posX -= child[dimension] + gap
   })
 }
