@@ -65,7 +65,6 @@ export class ScreenMain extends ScreenBaseUI {
   /** Show screen with animations */
   public override async show (): Promise<void> {
     // super.show() // intentionally commented, re-implemented
-    engine().audio.bgm.play('main/sounds/bgm-main.mp3', { volume: 0.5 })
 
     this.btnPause.alpha = 0
     this.btnSettings.alpha = 0
