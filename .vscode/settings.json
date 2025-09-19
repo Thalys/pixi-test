@@ -1,4 +1,6 @@
 {
+  "typescript.tsdk": "./node_modules/typescript/lib",
+
   // [vite] resolves the source map locations for the temporary Vite config file
   "debug.javascript.terminalOptions": {
     "resolveSourceMapLocations": [
@@ -58,7 +60,11 @@
     "postcss"
   ],
   "cSpell.words": [
-    "softgames"
+    "emojies",
+    "softgames",
+    "splitable",
+    "Splitable",
+    "Splited"
   ],
   "files.exclude": {
     "**/.git": true,
@@ -68,7 +74,9 @@
     "**/Thumbs.db": true,
     ".idea": true,
     ".vscode": true,
-    ".claude": true
+    ".claude": true,
+    ".github": true,
+    "node_modules": true
   },
 
   "explorerExclude.backup": {},
@@ -76,9 +84,9 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    ".env": "*.env, .env.*, .envrc, env.d.ts",
-    ".gitignore": ".gitattributes, .gitmodules, *ignore, .ignore*",
-    "package.json": "bunfig.toml, bun.lock, pnpm-lock.yaml, pnpm-workspace.yaml, package-lock.json, .editorconfig, .huskyrc*, LICENSE, eslint.config.*, commitlint.config.*, README*, .gitignore, tasks.md, postcss.*, components.json, claude.md, GEMINI.md",
+    ".env": "*.env, .env.*, .envrc",
+    ".gitignore": ".gitattributes, .gitmodules, *ignore, .ignore*, .editorconfig",
+    "package.json": "eslint.config.*, .gitignore, .gitattributes, bunfig.toml, bun.lock, pnpm-lock.yaml, pnpm-workspace.yaml, package-lock.json, .editorconfig, CLAUDE.md, GEMINI.md, TASKS.md, LICENSE*, README*",
     "tsconfig.json": "tsconfig.*.json",
     "vite.config.ts": "index*.html",
     "*.tsx": "$(capture).ts, $(capture).*.ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).css, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts, $(capture).html, $(capture)*.md,",

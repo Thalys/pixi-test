@@ -19,7 +19,3 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
-
-interface Window {
-  __PIXI_TEST_VERSION__: string
-}

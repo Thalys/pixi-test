@@ -34,13 +34,13 @@ export class Navigation {
   public currentPopup?: IAppScreen
 
   destroy () {
-    window.removeEventListener('keydown', this._onKeyDown)
-    window.removeEventListener('popstate', this._onPopState)
+    globalThis.window.removeEventListener('keydown', this._onKeyDown)
+    globalThis.window.removeEventListener('popstate', this._onPopState)
   }
 
   constructor () {
-    window.addEventListener('keydown', this._onKeyDown)
-    window.addEventListener('popstate', this._onPopState)
+    globalThis.window.addEventListener('keydown', this._onKeyDown)
+    globalThis.window.addEventListener('popstate', this._onPopState)
   }
 
   public init (app: CreationEngine) {
@@ -256,8 +256,8 @@ export class Navigation {
       case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
-      case 'PausePopup':
-      case 'SettingsPopup':
+      case 'PopupPause':
+      case 'PopupSettings':
       case 'ScreenMain':
       default:
         return 'ScreenMain'
@@ -275,8 +275,8 @@ export class Navigation {
       case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
-      case 'PausePopup':
-      case 'SettingsPopup':
+      case 'PopupPause':
+      case 'PopupSettings':
       case 'ScreenMain':
       default:
         return ScreenMain

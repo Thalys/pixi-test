@@ -13,12 +13,13 @@
     "lint": "bunx --bun eslint",
     "lint:fix": "bunx --bun eslint --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
-    "typecheck": "bunx --bun tsc --noEmit",
+    "typecheck": "bunx --bun tsc --noEmit -p ./tsconfig.app.json",
     "preview": "bunx --bun vite preview"
   },
   "dependencies": {
     "@pixi/sound": "^6.0.1",
     "@pixi/ui": "^2.2.2",
+    "ky": "^1.10.0",
     "motion": "^12.4.7",
     "pixi.js": "^8.8.1"
   },

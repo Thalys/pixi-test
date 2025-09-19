@@ -85,11 +85,30 @@ export default antfu(
     ],
   },
   {
+    // NOTE - Global miscellaneous rules
     rules: {
       'curly': ['error', 'multi-line', 'consistent'],
       'unicorn/prevent-abbreviations': ['off'],
       'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
       'unused-imports/no-unused-vars': ['off'],
+    },
+  },
+  {
+    // NOTE - Rules to help avoid easy mistakes on `pixi.js` projects
+    rules: {
+      'unicorn/prefer-global-this': ['error'], // e.g. use `globalThis` instead of `window`
+      'no-implicit-globals': ['error'],
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'screen',
+          message: '\nUse `screen` from PixiJS',
+        },
+        {
+          name: 'Text',
+          message: '\nUse `Text` from PixiJS',
+        },
+      ],
     },
   },
   command(),

@@ -3,6 +3,7 @@ import type { AppScreens } from '@/engine/navigation.types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
 import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
+import { getAppVersion } from '@/app/global'
 import { Button } from '@/app/ui/Button'
 import { Label } from '@/app/ui/Label'
 import { RoundedBox } from '@/app/ui/RoundedBox'
@@ -11,8 +12,8 @@ import { userSettings } from '@/app/utils/user.settings'
 import { engine } from '@/engine/engine.singleton'
 
 /** Popup for volume */
-export class SettingsPopup extends Container {
-  public definition: AppScreens = 'SettingsPopup'
+export class PopupSettings extends Container {
+  public definition: AppScreens = 'PopupSettings'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
   /** Container for the popup UI components */
@@ -66,7 +67,7 @@ export class SettingsPopup extends Container {
     this.panel.addChild(this.doneButton)
 
     this.versionLabel = new Label({
-      text: `${window.__PIXI_TEST_VERSION__}`,
+      text: `${getAppVersion()}`,
       style: {
         fill: 0xEF6294,
         fontSize: 12,

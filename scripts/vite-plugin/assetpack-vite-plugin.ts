@@ -15,6 +15,9 @@ export function pluginAssetpack () {
         cacheBust: false,
         manifest: {
           output: './src/manifest.json',
+          createShortcuts: true,
+          nameStyle: 'short',
+          trimExtensions: true,
         },
       }),
     ],

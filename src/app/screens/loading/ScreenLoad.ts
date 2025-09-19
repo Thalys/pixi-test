@@ -39,7 +39,6 @@ export class LoadScreen extends Container {
   public resize (width: number, height: number) {
     this.logo.resize(width, height)
     this.progressBar.resize(width, height)
-    this.background.resize(width, height)
   }
 
   /** Show screen with animations */

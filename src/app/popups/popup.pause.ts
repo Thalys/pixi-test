@@ -7,8 +7,8 @@ import { RoundedBox } from '@/app/ui/RoundedBox'
 import { engine } from '@/engine/engine.singleton'
 
 /** Popup that shows up when gameplay is paused */
-export class PausePopup extends Container {
-  public definition: AppScreens = 'PausePopup'
+export class PopupPause extends Container {
+  public definition: AppScreens = 'PopupPause'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
   /** Container for the popup UI components */

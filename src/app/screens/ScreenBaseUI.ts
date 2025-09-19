@@ -4,8 +4,8 @@ import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { FancyButton } from '@pixi/ui'
 import { animate } from 'motion'
 import { Container } from 'pixi.js'
-import { PausePopup } from '@/app/popups/popup.pause'
-import { SettingsPopup } from '@/app/popups/popup.settings'
+import { PopupPause } from '@/app/popups/popup.pause'
+import { PopupSettings } from '@/app/popups/popup.settings'
 import { engine } from '@/engine/engine.singleton'
 
 /** The screen that holds the app */
@@ -32,7 +32,7 @@ export class ScreenBaseUI extends Container implements IAppScreen {
       },
     }
 
-    const goToPausePopup = () => { void engine().navigation.presentPopup(PausePopup) }
+    const goToPausePopup = () => { void engine().navigation.presentPopup(PopupPause) }
     this.btnPause = new FancyButton({
       defaultView: 'icon-pause.png',
       anchor: 0.5,
@@ -42,7 +42,7 @@ export class ScreenBaseUI extends Container implements IAppScreen {
     this.btnPause.onPress.connect(goToPausePopup)
     this.addChild(this.btnPause)
 
-    const goToSettings = () => { void engine().navigation.presentPopup(SettingsPopup) }
+    const goToSettings = () => { void engine().navigation.presentPopup(PopupSettings) }
     this.btnSettings = new FancyButton({
       defaultView: 'icon-settings.png',
       anchor: 0.5,
@@ -106,7 +106,7 @@ export class ScreenBaseUI extends Container implements IAppScreen {
   /** Auto pause the app when window go out of focus */
   public blur () {
     if (!engine().navigation.currentPopup) {
-      engine().navigation.presentPopup(PausePopup)
+      engine().navigation.presentPopup(PopupPause)
     }
   }
 }

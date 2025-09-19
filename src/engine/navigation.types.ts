@@ -8,8 +8,8 @@ export const appScreens = [
   'Screen2',
   'Screen3',
 
-  'SettingsPopup',
-  'PausePopup',
+  'PopupSettings',
+  'PopupPause',
 
   'Measure',
 ] as const
