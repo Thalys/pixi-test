@@ -1,32 +1,14 @@
-import type { Texture } from 'pixi.js'
-import type { TAvatar, TChatResponse, TDialogue, TNamedResourceLink } from '@/app/features/chat/index.types'
+import type { TAvatar, TChatResponse, TDialogue } from '@/app/features/chat/index.types'
 import ky from 'ky'
-import { Assets, Container, Sprite, TextStyle } from 'pixi.js'
-import { ZINC } from '@/app/utils/colors'
+import { Container, Sprite } from 'pixi.js'
+import { API_URL, AvatarUnknown } from '@/app/features/chat/index.config'
+import { loadExternalTextures } from '@/app/features/chat/index.utils'
 import { engine } from '@/engine/engine.singleton'
 import { flex } from '@/engine/layout'
 import { TextEmoji } from '@/engine/scene/text'
 import { toMap } from '@/engine/utils/array'
 
-/**
- * Magic Words
- *
- * Create a system that allows you to combine text and images like custom emojis
- * Use it to render a dialogue between characters with the data taken from this
- * endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
- */
-
-const API_URL = 'https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords'
-
 let mapAvatars: Map<string, TAvatar>
-
-const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 'right' }
-TextEmoji.defaultOptions.autoSplit = true
-TextEmoji.defaultOptions.charAnchor = 0
-TextEmoji.defaultOptions.lineAnchor = 0
-TextEmoji.defaultOptions.style = new TextStyle({ fontSize: 16, fill: ZINC[300] })
-TextEmoji.defaultOptions.text = ''
-TextEmoji.defaultOptions.wordAnchor = 0
 
 export async function createDialog (dialogueData: TDialogue) {
   const { text } = dialogueData
@@ -53,17 +35,6 @@ export async function createDialog (dialogueData: TDialogue) {
   })
 
   return container
-}
-
-export async function loadExternalTextures (data: TNamedResourceLink[]) {
-  const promises = data.map(
-    async ({ name, url }): Promise<Texture> => {
-      const assetData = { alias: name, src: url, parser: 'texture' }
-      return Assets.load<Texture>(assetData)
-    },
-  )
-
-  await Promise.allSettled(promises)
 }
 
 export async function fetchData () {
@@ -100,9 +71,4 @@ export async function layoutScreen ({ dialogue }: { dialogue: TDialogue[] }) {
   })
 
   stage.addChild(container)
-}
-
-export async function init () {
-  const data = await fetchData()
-  layoutScreen(data)
 }
