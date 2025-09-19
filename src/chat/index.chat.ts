@@ -1,5 +1,5 @@
 import type { Texture } from 'pixi.js'
-import type { TAvatar, TChatResponse, TDialogue, TEmoji, TNamedResourceLink } from '@/chat/types'
+import type { TAvatar, TChatResponse, TDialogue, TNamedResourceLink } from '@/chat/types'
 import ky from 'ky'
 import { Assets, Container, Sprite, TextStyle } from 'pixi.js'
 import { ZINC } from '@/app/utils/colors'
@@ -18,7 +18,6 @@ import { toMap } from '@/engine/utils/array'
 
 const API_URL = 'https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords'
 
-let mapEmojies: Map<string, TEmoji>
 let mapAvatars: Map<string, TAvatar>
 
 const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 'right' }
@@ -74,7 +73,6 @@ export async function fetchData () {
     loadExternalTextures(emojies),
     loadExternalTextures(avatars),
   ])
-  mapEmojies = toMap(emojies, res => res.name)
   mapAvatars = toMap(avatars, res => res.name)
   mapAvatars.set(AvatarUnknown.name, AvatarUnknown)
 
