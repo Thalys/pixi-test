@@ -1,31 +1,7 @@
-import type { BitmapText, ConvertedStrokeStyle, SplitOptions, TextStyle } from 'pixi.js'
+import type { ConvertedStrokeStyle, SplitOptions, TextStyle } from 'pixi.js'
+import type { GroupedSegment, IFunctionSplitResult, Segment, TSplitedInto } from '@/engine/scene/text.types'
 import { CanvasTextMetrics, Container, Matrix, Sprite, Text } from 'pixi.js'
 import { logger } from '@/tools/logger'
-
-export type SplitableTextObject = Text | BitmapText | Sprite
-
-export interface TextSplitOutput<T extends SplitableTextObject>
-{
-  /** Array of individual character Text objects */
-  chars: T[]
-  /** Array of word containers, each containing character objects */
-  words: Container[]
-  /** Array of line containers, each containing word containers */
-  lines: Container[]
-}
-
-interface Segment
-{
-  char: string
-  metric: CanvasTextMetrics
-}
-
-interface GroupedSegment
-{
-  line: string
-  chars: Segment[]
-  width: number
-}
 
 function getAlignmentOffset (alignment: string, lineWidth: number, largestLine: number): number {
   switch (alignment) {
@@ -108,9 +84,11 @@ function groupTextSegments (
  * @internal
  */
 export function textSplitWithEmojiReplacer (
-  options: Pick<SplitOptions, 'text' | 'style'> & { chars: (Text | Sprite)[] },
-): TextSplitOutput<Text | Sprite> {
-  const { text, style, chars: existingChars } = options
+  options: Pick<SplitOptions, 'text' | 'style'> & { chars: TSplitedInto[] },
+): IFunctionSplitResult<Text | Sprite> {
+  const { text, style } = options
+
+  const existingChars: Text[] = options.chars.filter(child => child instanceof Text)
   const textStyle = style as TextStyle
 
   const _emoji: string[] = []
