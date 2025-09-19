@@ -70,11 +70,11 @@
       ]
     },
     {
-      "name": "grapheme",
+      "name": "chat",
       "request": "launch",
       "type": "chrome",
       "internalConsoleOptions": "openOnFirstSessionStart",
-      "url": "http://localhost:3489/index.grapheme.html",
+      "url": "http://localhost:3489/index.chat.html",
       "port": 9222,
       "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",

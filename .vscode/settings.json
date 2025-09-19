@@ -60,7 +60,11 @@
     "postcss"
   ],
   "cSpell.words": [
-    "softgames"
+    "emojies",
+    "softgames",
+    "splitable",
+    "Splitable",
+    "Splited"
   ],
   "files.exclude": {
     "**/.git": true,
