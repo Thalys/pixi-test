@@ -3,12 +3,13 @@ import type { IFunctionSplitResult, ITextEmojiOptions } from '@/engine/scene/tex
 import { TextStyle } from 'pixi.js'
 import { AbstractSplitText } from '@/engine/scene/text.abstract'
 import { textSplitWithEmojiReplacer } from '@/engine/scene/text.fn'
+import { logger } from '@/tools/logger'
 
 export interface TextEmojiParams extends Omit<ITextEmojiOptions, 'style'> {
   style?: ITextEmojiOptions['style']
 }
 
-class TextEmoji extends AbstractSplitText<Text | Sprite> {
+export class TextEmoji extends AbstractSplitText<Text | Sprite> {
 
   /**
    * Default configuration options for TextEmoji instances.
@@ -23,12 +24,11 @@ class TextEmoji extends AbstractSplitText<Text | Sprite> {
   }
 
   constructor (config: TextEmojiParams) {
-    const completeOptions: ITextEmojiOptions = {
+    const options: ITextEmojiOptions = {
       ...TextEmoji.defaultOptions,
       ...config,
     }
-
-    super(completeOptions)
+    super(options)
   }
 
   /**
@@ -53,14 +53,12 @@ class TextEmoji extends AbstractSplitText<Text | Sprite> {
   }
 
   protected splitFn (): IFunctionSplitResult<Text | Sprite> {
-    return textSplitWithEmojiReplacer({
+    const result = textSplitWithEmojiReplacer({
       text: this._originalText,
       style: this._style,
       chars: this._canReuseChars ? this.chars : [],
     })
+    logger.log(result)
+    return result
   }
-}
-
-export {
-  TextEmoji,
 }

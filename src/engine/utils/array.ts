@@ -42,3 +42,12 @@ export function pick<T> (array: T[], min: number = 0, max: number = array.length
   const randomIndex = Math.floor(Math.random() * (max - min + 1)) + min
   return array[randomIndex]
 }
+
+// Generic toMap function that converts an array to a Map
+// Uses a key selector function to determine the map keys
+export function toMap<T, K> (
+  array: readonly T[],
+  keySelector: (item: T) => K,
+): Map<K, T> {
+  return new Map(array.map(item => [keySelector(item), item] as const))
+}
