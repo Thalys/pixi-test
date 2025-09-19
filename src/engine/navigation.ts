@@ -256,8 +256,8 @@ export class Navigation {
       case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
-      case 'PausePopup':
-      case 'SettingsPopup':
+      case 'PopupPause':
+      case 'PopupSettings':
       case 'ScreenMain':
       default:
         return 'ScreenMain'
@@ -275,8 +275,8 @@ export class Navigation {
       case 'Measure':
       case 'LoadScreen':
         return null // don't save for loading screen
-      case 'PausePopup':
-      case 'SettingsPopup':
+      case 'PopupPause':
+      case 'PopupSettings':
       case 'ScreenMain':
       default:
         return ScreenMain

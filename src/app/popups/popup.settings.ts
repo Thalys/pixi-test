@@ -12,8 +12,8 @@ import { userSettings } from '@/app/utils/user.settings'
 import { engine } from '@/engine/engine.singleton'
 
 /** Popup for volume */
-export class SettingsPopup extends Container {
-  public definition: AppScreens = 'SettingsPopup'
+export class PopupSettings extends Container {
+  public definition: AppScreens = 'PopupSettings'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
   /** Container for the popup UI components */
