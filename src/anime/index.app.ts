@@ -1,9 +1,10 @@
+import { Stats } from 'pixi-stats'
 import { Assets } from 'pixi.js'
 import { getAppVersion } from '@/app/global'
 import { ZINC } from '@/app/utils/colors'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
-import { Measure } from '@/engine/utils/stage-ruler'
+import { Measure } from '@/engine/scene/stage-ruler'
 import { logger } from '@/tools/logger'
 
 export async function createApp () {
@@ -20,6 +21,8 @@ export async function createApp () {
     logger.table(JSON.parse(JSON.stringify(import.meta.env)))
     logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
+    const stats = new Stats(engine.renderer)
+    document.body.appendChild(stats.domElement)
   }
 
   await Assets.loadBundle('test')

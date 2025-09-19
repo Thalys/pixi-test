@@ -6,10 +6,6 @@ import { ANIMATION_PRESETS } from '@/anime/anime.presets'
 
 type Presets = keyof typeof ANIMATION_PRESETS & string
 
-// interface AnimeStringArray extends ReadonlyArray<string> {
-//   readonly raw: readonly Presets[]
-// }
-
 // Main tagged template function
 export function anime (
   strings: TemplateStringsArray,

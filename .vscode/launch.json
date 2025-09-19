@@ -9,6 +9,7 @@
   // "--no-first-run", // Skips the initial Chrome welcome page.
   // "--auto-open-devtools-for-tabs", // Opens DevTools automatically for each new tab, providing instant access to debugging tools.
   // "--user-data-dir=FOLDER", // Starts Chrome with a custom user data directory, ensuring an isolated browsing experience for each session.
+  // "--enable-precise-memory-info", // Enables pixi-stat to show memory allocated
 
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
@@ -25,8 +26,7 @@
       "webRoot": "${workspaceFolder}",
       "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
       "runtimeArgs": [
-        "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems",
-        "--auto-open-devtools-for-tabs"
+        "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"
       ]
     },
     {
@@ -84,11 +84,28 @@
       ]
     },
     {
+      "name": "fire",
+      "request": "launch",
+      "type": "chrome",
+      "internalConsoleOptions": "openOnFirstSessionStart",
+      "url": "http://localhost:3489/index.fire.html",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}",
+      "userDataDir": "${userHome}/dev/.chrome-for-vscode/Default",
+      "runtimeArgs": [
+        "--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems",
+        // "--auto-open-devtools-for-tabs",
+        "--enable-precise-memory-info"
+
+      ]
+    },
+    {
       "name": "clean",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:3489",
-      "webRoot": "${workspaceFolder}"
+      "url": "http://localhost:3489/index.fire.html",
+      "webRoot": "${workspaceFolder}",
+      "runtimeArgs": ["--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"]
     }
   ]
 }

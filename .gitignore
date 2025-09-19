@@ -35,3 +35,4 @@ src/manifest.json
 !.env.example
 
 .github
+.vite

@@ -5,12 +5,13 @@ import { engine } from '@/engine/engine.singleton'
 import { createApplication } from '@/main.create'
 
 (async () => {
+
   await createApplication()
 
   // Initialize the user settings
   userSettings.init()
 
-  // Start the data fetching
+  // Pre-fetching data
   fetchData()
 
   const { navigation } = engine()

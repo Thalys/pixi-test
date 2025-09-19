@@ -1,34 +1,85 @@
-import type { Ticker } from 'pixi.js'
 import type { AppScreens } from '@/engine/navigation.types'
+import { Container, Rectangle } from 'pixi.js'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
+import { CometSystem } from './comets'
 
 /**
- * Screen with the first assignment
+ * "Phoenix Flame"
+ *
+ * Make a particle-effect demo showing a great fire effect. Keep the number of
+ * images at max 10 sprites on the screen at the same time.
  */
 export class Screen3 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen3'
   public override label: string = 'Screen3'
-  /** Assets bundles required by this screen */
-  public static override assetBundles = ['main']
+  public static override assetBundles = ['main', 'fire']
 
-  constructor () { super() }
+  private cometSystem: CometSystem
+  private mContainer: Container
 
-  /** Prepare the screen just before showing */
-  public override prepare () {}
-
-  /** Update the screen */
-  public override update (time: Ticker) {}
-
-  /** Fully reset */
-  public override reset () {}
-
-  /** Resize the screen, fired whenever window size changes */
-  public override resize (width: number, height: number) {
-    super.resize(width, height)
+  constructor () {
+    super()
+    this.setupGameplay()
   }
 
-  /** Show screen with animations */
-  public override async show (): Promise<void> {}
+  private setupGameplay (): void {
+    this.mContainer = new Container()
+    this.mContainer.label = 'GameplayContainer'
+    this.addChild(this.mContainer)
 
-  public override async hide () {}
+    this.cometSystem = new CometSystem({
+      animationSpeed: 0.25,
+      movementSpeed: 1.2,
+    })
+
+    this.mContainer.addChild(this.cometSystem)
+  }
+
+  public override prepare (): void {
+    this.cometSystem.initialize()
+  }
+
+  public override reset (): void {
+    this.cometSystem.stop()
+    this.cometSystem.clear()
+  }
+
+  public override resize (width: number, height: number): void {
+    super.resize(width, height)
+
+    const padding = 60
+    const bounds = new Rectangle(
+      padding,
+      padding,
+      width - padding * 2,
+      height - padding * 2,
+    )
+
+    this.cometSystem.updateBounds(bounds)
+
+    this.mContainer.x = 0
+    this.mContainer.y = 0
+  }
+
+  public override async show (): Promise<void> {
+    await super.show()
+    this.cometSystem.start()
+  }
+
+  public override async hide (): Promise<void> {
+    this.cometSystem.stop()
+    await super.hide()
+  }
+
+  public override async pause (): Promise<void> {
+    await super.pause()
+    this.cometSystem.stop()
+  }
+
+  public override async resume (): Promise<void> {
+    await super.resume()
+    if (!this.paused) {
+      this.cometSystem.start()
+    }
+  }
 }

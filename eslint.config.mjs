@@ -45,6 +45,7 @@ export default antfu(
         'style/space-before-function-paren': ['error', 'always'],
         'style/space-in-parens': ['error', 'never'],
         'style/no-trailing-spaces': ['error'],
+        'style/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0, maxEOF: 1 }],
       },
     },
     typescript: {
@@ -66,6 +67,7 @@ export default antfu(
         'ts/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
         'ts/require-await': 'off',
         'ts/no-misused-promises': ['error', { checksVoidReturn: { attributes: false } }],
+        'ts/ban-ts-comment': 'off',
       },
     },
     formatters: { // requires eslint-plugin-format
@@ -112,4 +114,4 @@ export default antfu(
     },
   },
   command(),
-).remove('antfu/sort/tsconfig-json')
+)

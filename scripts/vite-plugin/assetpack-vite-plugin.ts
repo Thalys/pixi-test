@@ -1,5 +1,3 @@
-// @ts-check
-
 import type { AssetPackConfig } from '@assetpack/core'
 import type { Plugin, ResolvedConfig } from 'vite'
 import process from 'node:process'
@@ -9,7 +7,7 @@ import { pixiPipes } from '@assetpack/core/pixi'
 export function pluginAssetpack () {
   const apConfig = {
     entry: './raw-assets',
-    cacheLocation: './node_modules/.cache/.assetpack',
+    cacheLocation: './.vite/.assetpack',
     pipes: [
       ...pixiPipes({
         cacheBust: false,
@@ -18,6 +16,13 @@ export function pluginAssetpack () {
           createShortcuts: true,
           nameStyle: 'short',
           trimExtensions: true,
+        },
+        texturePacker: {
+          addFrameNames: true,
+          texturePacker: {
+            nameStyle: 'short',
+            removeFileExtension: true,
+          },
         },
       }),
     ],

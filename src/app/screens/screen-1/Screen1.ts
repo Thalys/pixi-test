@@ -3,7 +3,7 @@ import { Card } from '@/app/screens/screen-1/card'
 import { config } from '@/app/screens/screen-1/config'
 import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { engine } from '@/engine/engine.singleton'
-import { waitFor } from '@/engine/utils/waitFor'
+import { waitFor } from '@/lib/promise'
 
 export class Screen1 extends ScreenBaseUI {
   public override definition: AppScreens = 'Screen1'

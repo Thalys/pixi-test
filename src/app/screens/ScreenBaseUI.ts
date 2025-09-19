@@ -1,18 +1,15 @@
-import type { AnimationPlaybackControls } from 'motion'
 import type { Ticker } from 'pixi.js'
 import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { FancyButton } from '@pixi/ui'
-import { animate } from 'motion'
 import { Container } from 'pixi.js'
+import { anime } from '@/anime/anime'
 import { PopupPause } from '@/app/popups/popup.pause'
 import { PopupSettings } from '@/app/popups/popup.settings'
 import { engine } from '@/engine/engine.singleton'
 
-/** The screen that holds the app */
 export class ScreenBaseUI extends Container implements IAppScreen {
   public definition: AppScreens = 'ScreenMain'
   public override label: string = '☠️ ScreenBaseUI'
-  /** Assets bundles required by this screen */
   public static assetBundles = ['main']
   protected btnPause: FancyButton
   protected btnSettings: FancyButton
@@ -53,26 +50,20 @@ export class ScreenBaseUI extends Container implements IAppScreen {
     this.addChild(this.btnSettings)
   }
 
-  /** Prepare the screen just before showing */
   public prepare () {}
 
-  /** Update the screen */
   public update (time: Ticker) {}
 
-  /** Pause gameplay - automatically fired when a popup is presented */
   public async pause () {
     this.paused = true
   }
 
-  /** Resume gameplay */
   public async resume () {
     this.paused = false
   }
 
-  /** Fully reset */
   public reset () {}
 
-  /** Resize the screen, fired whenever window size changes */
   public resize (width: number, height: number) {
     this.btnPause.x = 30
     this.btnPause.y = 30
@@ -80,30 +71,18 @@ export class ScreenBaseUI extends Container implements IAppScreen {
     this.btnSettings.y = 30
   }
 
-  /** Show screen with animations */
   public async show (): Promise<void> {
-    const elementsToAnimate = [
-      this.btnPause,
-      this.btnSettings,
+    this.btnPause.alpha = 0
+    this.btnSettings.alpha = 0
+    const promises = [
+      anime`fade-in`(this.btnPause).play(),
+      anime`fade-in`(this.btnSettings).play(),
     ]
-
-    let finalPromise!: AnimationPlaybackControls
-    for (const element of elementsToAnimate) {
-      element.alpha = 0
-      finalPromise = animate(
-        element,
-        { alpha: 1 },
-        { duration: 0.3, delay: 0.75, ease: 'backOut' },
-      )
-    }
-
-    await finalPromise.finished
+    await Promise.all(promises)
   }
 
-  /** Hide screen with animations */
   public async hide () {}
 
-  /** Auto pause the app when window go out of focus */
   public blur () {
     if (!engine().navigation.currentPopup) {
       engine().navigation.presentPopup(PopupPause)

@@ -24,7 +24,6 @@ export abstract class AbstractSplitText<T extends TSplitedInto> extends Containe
   protected _charAnchor: number | PointData
   protected _autoSplit: boolean
 
-  // @ts-expect-error assigned on constructor through the setter
   protected _style: TextStyle
 
   protected _dirty: boolean = false

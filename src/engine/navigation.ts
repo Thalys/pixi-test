@@ -6,7 +6,7 @@ import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { userSettings } from '@/app/utils/user.settings'
-import { Measure } from '@/engine/utils/stage-ruler'
+import { Measure } from '@/engine/scene/stage-ruler'
 
 export class Navigation {
   /** Reference to the main application */

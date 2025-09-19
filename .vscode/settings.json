@@ -1,6 +1,9 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
 
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
   // [vite] resolves the source map locations for the temporary Vite config file
   "debug.javascript.terminalOptions": {
     "resolveSourceMapLocations": [
@@ -60,7 +63,9 @@
     "postcss"
   ],
   "cSpell.words": [
+    "doomf",
     "emojies",
+    "Fuego",
     "softgames",
     "splitable",
     "Splitable",
@@ -76,11 +81,13 @@
     ".vscode": true,
     ".claude": true,
     ".github": true,
-    "node_modules": true
+    "node_modules": true,
+    ".vite": true
   },
 
   "explorerExclude.backup": {},
 
+  "workbench.tree.indent": 20,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {

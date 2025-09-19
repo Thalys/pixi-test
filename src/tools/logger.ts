@@ -36,4 +36,34 @@ export const logger = {
   },
 }
 
+export function withLogging<T extends (...args: any[]) => any> (fn: T): T {
+  return new Proxy(fn, {
+    apply (target, thisArg, args) {
+      const fnName = target.name || 'anonymous'
+      logger.log(`Executing: ${fnName}`)
+      logger.log('Args:', args.length > 0 ? args : 'none')
+
+      const result = target.apply(thisArg, args)
+
+      if (result instanceof Promise) {
+        return result
+          .then((value) => {
+            logger.log(`✅ Completed async: ${fnName}`)
+            logger.log('   Result:', value)
+            return value
+          })
+          .catch((error) => {
+            logger.log(`❌ Failed async: ${fnName}`)
+            logger.log('   Error:', error)
+            throw error
+          })
+      }
+
+      logger.log(`✅ Completed: ${fnName}`)
+      logger.log('   Result:', result)
+      return result
+    },
+  })
+}
+
 /* eslint-enable no-console */

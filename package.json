@@ -6,14 +6,17 @@
   "license": "MIT",
   "scripts": {
     "build": "bun check && bunx --bun vite build",
-    "clean": "rm -rf dist node_modules public/assets src/manifest.json bun.lock",
+    "clean": "rm -rf dist node_modules public/assets src/manifest.json",
     "dev": "bunx --bun vite",
+    "watch": "bun ./scripts/bun/tsc-watch.ts",
     "check": "bun run typecheck && bun run lint",
     "fix": "bun run typecheck; bun run lint:fix",
     "lint": "bunx --bun eslint",
     "lint:fix": "bunx --bun eslint --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
-    "typecheck": "bunx --bun tsc --noEmit -p ./tsconfig.app.json",
+    "typecheck": "bun ./scripts/bun/tsc.ts",
+    "typecheck:app": "bunx --bun tsc --noEmit -p ./tsconfig.app.json",
+    "typecheck:vite": "bunx --bun tsc --noEmit -p ./tsconfig.node.json",
     "preview": "bunx --bun vite preview"
   },
   "dependencies": {
@@ -33,6 +36,7 @@
     "eslint": "^9.21.0",
     "eslint-plugin-command": "^3.3.1",
     "eslint-plugin-format": "^1.0.1",
+    "pixi-stats": "^4.2.0",
     "typescript": "~5.9.2",
     "vite": "npm:rolldown-vite@latest",
     "vite-plugin-version-mark": "^0.2.2"

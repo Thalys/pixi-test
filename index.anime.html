@@ -4,7 +4,32 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #18181b;
+        overflow: hidden;
+      }
+
+      #app {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #stats {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+      #stats canvas {
+        width: max(100px, 10vw, 10vh);
+        height: max(60px, 6vh, 6vw);
+      }
+    </style>
     <title>anime %MODE%</title>
   </head>
 

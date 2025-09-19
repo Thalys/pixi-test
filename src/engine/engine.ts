@@ -8,7 +8,7 @@ import { Application, Assets, extensions, ResizePlugin } from 'pixi.js'
 import { CreationAudioPlugin } from '@/engine/audio.plugin'
 import { CreationNavigationPlugin } from '@/engine/navigation.plugin'
 import { CreationResizePlugin } from '@/engine/resize.plugin'
-import { getResolution } from '@/engine/utils/getResolution'
+import { getResolution } from '@/lib/screen'
 import manifest from '../manifest.json'
 import 'pixi.js/app'
 

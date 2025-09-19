@@ -1,6 +1,6 @@
 import type { AppScreens } from '@/engine/navigation.types'
 import { engine } from '@/engine/engine.singleton'
-import { storage } from '@/engine/utils/storage'
+import { storage } from '@/engine/storage'
 
 // Keys for saved items in storage
 const KEY_VOLUME_MASTER = 'volume-master'

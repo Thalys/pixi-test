@@ -5,7 +5,7 @@ import { API_URL, AvatarUnknown } from '@/app/features/chat/index.config'
 import { loadExternalTextures } from '@/app/features/chat/index.utils'
 import { flex } from '@/engine/layout'
 import { TextEmoji } from '@/engine/scene/text'
-import { toMap } from '@/engine/utils/array'
+import { toMap } from '@/lib/array'
 
 export async function createDialog (dialogueData: TDialogue) {
   const { text } = dialogueData

@@ -1,13 +1,10 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "files": [],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["./tsconfig.path-mappings.json", "./tsconfig.decorators.json", "./tsconfig.strict.json"],
+  "compilerOptions": {},
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "files": []
 }

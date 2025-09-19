@@ -7,10 +7,8 @@ import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { Button } from '@/app/ui/Button'
 import { engine } from '@/engine/engine.singleton'
 
-/** The screen that holds the app */
 export class ScreenMain extends ScreenBaseUI {
   public override definition: AppScreens = 'ScreenMain'
-  /** Assets bundles required by this screen */
   public static override assetBundles = ['main']
   public mainContainer: Container
   private buttons: Button[]
@@ -43,7 +41,6 @@ export class ScreenMain extends ScreenBaseUI {
     this.mainContainer.interactiveChildren = true
   }
 
-  /** Resize the screen, fired whenever window size changes */
   public override resize (width: number, height: number) {
     super.resize(width, height)
 
@@ -62,7 +59,6 @@ export class ScreenMain extends ScreenBaseUI {
     this.logo.y = height - this.logo.height / 2 - 20
   }
 
-  /** Show screen with animations */
   public override async show (): Promise<void> {
     // super.show() // intentionally commented, re-implemented
 
