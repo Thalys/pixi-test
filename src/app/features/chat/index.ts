@@ -1,5 +1,5 @@
 import type { Texture } from 'pixi.js'
-import type { TAvatar, TChatResponse, TDialogue, TNamedResourceLink } from '@/chat/types'
+import type { TAvatar, TChatResponse, TDialogue, TNamedResourceLink } from '@/app/features/chat/index.types'
 import ky from 'ky'
 import { Assets, Container, Sprite, TextStyle } from 'pixi.js'
 import { ZINC } from '@/app/utils/colors'

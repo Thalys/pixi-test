@@ -1,5 +1,5 @@
+import { init } from '@/app/features/chat'
 import { createApp } from '@/chat/index.app'
-import { init } from '@/chat/index.chat'
 
 (async () => {
 
