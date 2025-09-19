@@ -4,13 +4,13 @@ import { ExtensionType } from 'pixi.js'
 import { Navigation } from '@/engine/navigation'
 
 /**
- * Middleware for Application's navigation functionality.
+ * Middleware for Application's navigation functionality
  *
  * Adds the following methods to Application:
  * Application#navigation
  */
 export class CreationNavigationPlugin {
-  /** @ignore */
+
   public static extension: ExtensionMetadata = ExtensionType.Application
 
   private static _onResize: (() => void) | null
@@ -23,8 +23,7 @@ export class CreationNavigationPlugin {
 
     app.navigation = new Navigation()
     app.navigation.init(app)
-    this._onResize = () =>
-      app.navigation.resize(app.renderer.width, app.renderer.height)
+    this._onResize = () => app.navigation.resize(app.renderer.width, app.renderer.height)
     app.renderer.on('resize', this._onResize)
     app.resize()
   }
