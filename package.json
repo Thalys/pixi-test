@@ -38,7 +38,7 @@
     "eslint-plugin-format": "^1.0.1",
     "pixi-stats": "^4.2.0",
     "typescript": "~5.9.2",
-    "vite": "npm:rolldown-vite@latest",
+    "vite": "^7.1.6",
     "vite-plugin-version-mark": "^0.2.2"
   }
 }

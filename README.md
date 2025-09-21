@@ -1,5 +1,38 @@
 # Softgames GameDev Test
 
+A PixiJS-based game development project implementing three game demos for a SoftGames technical test.
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (JavaScript runtime and package manager)
+
+### Installation
+
+```bash
+# (*At the location where you placed the repository*)
+# Install dependencies
+bun install
+```
+
+### Development
+
+```bash
+# Start development server
+bun run dev
+```
+
+This will start a local development server. The application will automatically reload when you make changes.
+
+## Project Structure
+
+- `/src/engine/` - Core engine functionality and utilities
+- `/src/app/screens/` - Individual game screens (Screen 1-3)
+- `/src/app/features/` - Shared game features (e.g., chat system)
+- `/src/fire/` - Fire effect implementation
+- `/src/anime/` - Animation utilities and presets
+
 ## Requirements
 
 - Write your code in TypeScript and use pixi.js (v7) for rendering.
@@ -45,10 +78,6 @@ images at max 10 sprites on the screen at the same time.
 - [] improve appScreens definition
 
 ## Tasks
-
-- [] completions for anime, maybe using types, maybe with an editor extension, maybe a language extension
-- [] remove stub music
-- []
 
 > **["A man chooses, a slave obeys"](https://www.youtube.com/watch?v=oG25S51qJQQ)**\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— [_Andrew Ryan_](https://bioshock.fandom.com/wiki/Andrew_Ryan)
