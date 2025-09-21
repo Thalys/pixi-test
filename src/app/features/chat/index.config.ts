@@ -5,7 +5,7 @@ import { TextEmoji } from '@/engine/scene/text'
 
 export const API_URL = 'https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords' as const
 
-export const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown.png', position: 'right' } as const
+export const AvatarUnknown: TAvatar = { name: 'unknown', url: 'unknown', position: 'right' } as const
 
 TextEmoji.defaultOptions.autoSplit = true
 TextEmoji.defaultOptions.charAnchor = 0

@@ -9,12 +9,7 @@
 
 export const config = {
   cards: {
-    options: [
-      'charlie.png',
-      'luana.png',
-      'mano-brown.png',
-      'safira.png',
-    ],
+    options: ['charlie', 'luana', 'mano-brown', 'safira'],
     properties: {
       width: 672,
       height: 960,

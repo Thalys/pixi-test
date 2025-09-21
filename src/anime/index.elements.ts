@@ -23,7 +23,7 @@ export async function createBunniesContainer () {
   stage.addChild(container)
 
   // bunny texture
-  const tBunny = Texture.from('bunny.png')
+  const tBunny = Texture.from('charlie')
 
   // Create a 5x5 grid of bunnies in the container
   const bunnies: Sprite[] = []

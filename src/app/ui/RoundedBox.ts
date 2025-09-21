@@ -24,7 +24,7 @@ export class RoundedBox extends Container {
     super()
     const opts = { ...defaultRoundedBoxOptions, ...options }
     this.image = new NineSliceSprite({
-      texture: Texture.from('rounded-rectangle.png'),
+      texture: Texture.from('rounded-rectangle'),
       leftWidth: 34,
       topHeight: 34,
       rightWidth: 34,
@@ -39,7 +39,7 @@ export class RoundedBox extends Container {
 
     if (opts.shadow) {
       this.shadow = new NineSliceSprite({
-        texture: Texture.from('rounded-rectangle.png'),
+        texture: Texture.from('rounded-rectangle'),
         leftWidth: 34,
         topHeight: 34,
         rightWidth: 34,

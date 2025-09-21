@@ -54,7 +54,6 @@ export class CometSystem extends Container {
     comet.y = padding + Math.random() * (this.options.bounds.height - padding * 2)
 
     comet.anchor.set(0.5)
-    comet.rotation = 180 * DEG_TO_RAD
     comet.animationSpeed = this.options.animationSpeed
     comet.play()
 
@@ -113,7 +112,7 @@ export class CometSystem extends Container {
       comet.y += Math.cos(comet.direction) * speedModifier
 
       // Update rotation to face movement direction
-      comet.rotation = -comet.direction + Math.PI
+      comet.rotation = comet.direction + Math.PI
 
       // Wrap around screen bounds
       if (comet.x < bounds.x) {
