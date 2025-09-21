@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "bun check && bunx --bun vite build",
-    "clean": "rm -rf dist node_modules public/assets src/manifest.json",
+    "clean": "rm -rf .vite dist node_modules public/assets src/manifest.json",
     "dev": "bunx --bun vite",
     "watch": "bun ./scripts/bun/tsc-watch.ts",
     "check": "bun run typecheck && bun run lint",

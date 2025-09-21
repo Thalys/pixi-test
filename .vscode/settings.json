@@ -9,8 +9,7 @@
     "resolveSourceMapLocations": [
       "${workspaceFolder}/**",
       "!**/node_modules/**",
-      "**/node_modules/.vite-temp/**",
-      "**/node_modules/.cache/.vite/**"
+      "**/node_modules/.vite-temp/**"
     ]
   },
 
