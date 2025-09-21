@@ -31,7 +31,7 @@ export class ScreenBaseUI extends Container implements IAppScreen {
 
     const goToPausePopup = () => { void engine().navigation.presentPopup(PopupPause) }
     this.btnPause = new FancyButton({
-      defaultView: 'icon-pause.png',
+      defaultView: 'icon-pause',
       anchor: 0.5,
       animations: buttonAnimations,
     })
@@ -41,7 +41,7 @@ export class ScreenBaseUI extends Container implements IAppScreen {
 
     const goToSettings = () => { void engine().navigation.presentPopup(PopupSettings) }
     this.btnSettings = new FancyButton({
-      defaultView: 'icon-settings.png',
+      defaultView: 'icon-settings',
       anchor: 0.5,
       animations: buttonAnimations,
     })

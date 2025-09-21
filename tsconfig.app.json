@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["./tsconfig.path-mappings.json", "./tsconfig.decorators.json", "./tsconfig.strict.json"],
+  "extends": ["./tsconfig.project.json", "./tsconfig.decorators.json", "./tsconfig.strict.json", "./tsconfig.path-mappings.json"],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2023",

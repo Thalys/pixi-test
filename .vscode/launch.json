@@ -103,7 +103,7 @@
       "name": "clean",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:3489/index.fire.html",
+      "url": "http://localhost:3489",
       "webRoot": "${workspaceFolder}",
       "runtimeArgs": ["--enable-features=DevToolsWellKnown,DevToolsAutomaticFileSystems"]
     }
