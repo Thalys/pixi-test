@@ -3,6 +3,7 @@ import type { AnimateResultPlaybackControls, AnimationOptions } from '@/anime/an
 import { animate } from '@/anime/anime.motion'
 import { parseAnimationString } from '@/anime/anime.parse'
 import { ANIMATION_PRESETS } from '@/anime/anime.presets'
+import { keysOf } from '@/lib/object'
 
 type Presets = keyof typeof ANIMATION_PRESETS & string
 
@@ -26,7 +27,7 @@ export function anime (
     const preset = ANIMATION_PRESETS[baseAnimation as keyof typeof ANIMATION_PRESETS]
 
     if (!preset) {
-      throw new Error(`Unknown animation: ${baseAnimation}. Available: ${Object.keys(ANIMATION_PRESETS).join(', ')}`)
+      throw new Error(`Unknown animation: ${baseAnimation}. Available: ${keysOf(ANIMATION_PRESETS).join(', ')}`)
     }
 
     // Merge options: preset < modifiers < customOptions
@@ -45,9 +46,10 @@ export function anime (
     const targets = Array.isArray(target) ? target : [target]
     const initialStates = targets.map((t) => {
       const state: any = {}
-      Object.keys(preset.from).forEach((key) => {
-        state[key] = (t as any)[key]
-      })
+      keysOf(preset.from)
+        .forEach((key) => {
+          state[key] = (t as any)[key]
+        })
       return state
     })
 
