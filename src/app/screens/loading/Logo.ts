@@ -1,9 +1,10 @@
-import { Sprite, Texture } from 'pixi.js'
+import { Sprite } from 'pixi.js'
+import textures from '@/app/textures'
 
 export class Logo extends Sprite {
   constructor () {
     super({
-      texture: Texture.from('logo.svg'),
+      texture: textures.logoPixi.normal,
       anchor: 0.5,
       scale: 0.2,
     })

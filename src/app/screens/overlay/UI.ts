@@ -1,82 +1,69 @@
+import type { FancyButton } from '@pixi/ui'
 import type { Ticker } from 'pixi.js'
-import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
-import { FancyButton } from '@pixi/ui'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
 import { Container } from 'pixi.js'
 import { anime } from '@/anime/anime'
+import buttons from '@/app/buttons'
 import { PopupPause } from '@/app/popups/popup.pause'
-import { PopupSettings } from '@/app/popups/popup.settings'
 import { engine } from '@/engine/engine.singleton'
 
 export class OverlayUI extends Container implements IAppScreen {
   public definition: AppScreens = 'OverlayUI'
   public override label: string = 'OverlayUI'
-  public static assetBundles = ['preload']
+  public static assetBundles: TAssetBundleId[] = ['preload'] as TAssetBundleId[]
   protected btnPause: FancyButton
+  protected btnHome: FancyButton
   protected btnSettings: FancyButton
+  protected btnFullScreen: FancyButton
   protected paused = false
 
   constructor () {
     super()
 
-    const buttonAnimations = {
-      hover: {
-        props: { scale: { x: 1.1, y: 1.1 } },
-        duration: 100,
-      },
-      pressed: {
-        props: { scale: { x: 0.9, y: 0.9 } },
-        duration: 100,
-      },
-    }
-
-    const goToPausePopup = () => { void engine().navigation.presentPopup(PopupPause) }
-    this.btnPause = new FancyButton({
-      defaultView: 'icon-pause',
-      anchor: 0.5,
-      animations: buttonAnimations,
-    })
-    this.btnPause.label = 'btnPause'
-    this.btnPause.onPress.connect(goToPausePopup)
+    this.btnPause = buttons.createBtnPause
     this.addChild(this.btnPause)
 
-    const goToSettings = () => { void engine().navigation.presentPopup(PopupSettings) }
-    this.btnSettings = new FancyButton({
-      defaultView: 'icon-settings',
-      anchor: 0.5,
-      animations: buttonAnimations,
-    })
-    this.btnSettings.label = 'btnSettings'
-    this.btnSettings.onPress.connect(goToSettings)
+    this.btnHome = buttons.createBtnHome
+    this.addChild(this.btnHome)
+
+    this.btnSettings = buttons.createBtnSettings
     this.addChild(this.btnSettings)
+
+    this.btnFullScreen = buttons.createBtnFullScreen
+    this.addChild(this.btnFullScreen)
   }
 
   public prepare () {}
 
   public update (time: Ticker) {}
 
-  public async pause () {
-    this.paused = true
-  }
+  public async pause () { this.paused = true }
 
-  public async resume () {
-    this.paused = false
-  }
+  public async resume () { this.paused = false }
 
   public reset () {}
 
   public resize (width: number, height: number) {
     this.btnPause.x = 30
     this.btnPause.y = 30
+    this.btnHome.x = this.btnPause.getBounds().right + 20
+    this.btnHome.y = 30
+
     this.btnSettings.x = width - 30
     this.btnSettings.y = 30
+    this.btnFullScreen.x = this.btnSettings.getBounds().left - 20
+    this.btnFullScreen.y = 30
   }
 
   public async show (): Promise<void> {
     this.btnPause.alpha = 0
     this.btnSettings.alpha = 0
+    this.btnHome.alpha = 0
+
     const promises = [
       anime`fade-in`(this.btnPause).play(),
       anime`fade-in`(this.btnSettings).play(),
+      anime`fade-in`(this.btnHome).play(),
     ]
     await Promise.all(promises)
   }

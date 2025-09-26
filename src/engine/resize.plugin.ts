@@ -2,30 +2,11 @@ import type {
   Application,
   ApplicationOptions,
   ExtensionMetadata,
-  ResizePluginOptions,
 } from 'pixi.js'
 import { ExtensionType } from 'pixi.js'
 import { resize } from '@/engine/resize'
 
-// Custom utility type:
-export type DeepRequired<T> = Required<{
-  [K in keyof T]: DeepRequired<T[K]>;
-}>
-
-/**
- * Application options for the CreationResizePlugin.
- */
-export interface CreationResizePluginOptions extends ResizePluginOptions {
-  /** Options for controlling the resizing of the application */
-  resizeOptions?: {
-    /** Minimum width of the application */
-    minWidth?: number
-    /** Minimum height of the application */
-    minHeight?: number
-    /** Whether to letterbox the application when resizing */
-    letterbox?: boolean
-  }
-}
+const EVENTS = ['resize', 'orientationchange', 'fullscreenchange', 'visualViewport']
 
 /**
  * Middleware for Application's resize functionality.
@@ -61,12 +42,15 @@ export class CreationResizePlugin {
        */
       {
         set (dom: Window | HTMLElement) {
-          globalThis.removeEventListener('resize', app.queueResize)
-          this._resizeTo = dom
-          if (dom) {
-            globalThis.addEventListener('resize', app.queueResize)
-            app.resize()
-          }
+          EVENTS.forEach((event) => {
+            globalThis.window.removeEventListener(event, app.queueResize)
+            this._resizeTo = dom
+            if (dom) {
+              globalThis.window.addEventListener(event, app.queueResize)
+            }
+          })
+
+          app.resize()
         },
         get () {
           return this._resizeTo

@@ -1,4 +1,4 @@
-import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
 import { Container } from 'pixi.js'
 import { fetchData, layoutScreen } from '@/app/features/chat'
 import { engine } from '@/engine/engine.singleton'
@@ -14,8 +14,7 @@ export class Screen2 extends Container implements IAppScreen {
   public definition: AppScreens = 'Screen2'
   public override label: string = 'Screen2'
   public _chatContainer: Container | null = null
-  /** Assets bundles required by this screen */
-  public static assetBundles = ['main']
+  public static assetBundles = ['main'] as TAssetBundleId[]
 
   constructor () {
     super()

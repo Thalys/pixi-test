@@ -1,12 +1,12 @@
 import { Slider } from '@pixi/ui'
 import { Graphics } from 'pixi.js'
 import { Label } from '@/app/ui/Label'
+import { SKY, ZINC } from '@/app/utils/colors'
 
 /**
  * A volume slider component to be used in the Settings popup.
  */
 export class VolumeSlider extends Slider {
-  /** Message displayed for the slider */
   public messageLabel: Label
 
   constructor (label: string, min = -0.1, max = 100, value = 100) {
@@ -16,10 +16,11 @@ export class VolumeSlider extends Slider {
     const border = 4
     const handleRadius = 14
     const handleBorder = 4
-    const meshColor = 0xEC1561
-    const fillColor = 0xEF6294
-    const borderColor = 0xEC1561
-    const backgroundColor = 0xFFFFFF
+
+    const meshColor = SKY[900]
+    const fillColor = SKY[300]
+    const borderColor = SKY[900]
+    const backgroundColor = '#FFFFFF'
 
     const bg = new Graphics()
       .roundRect(0, 0, width, height, radius)
@@ -63,8 +64,8 @@ export class VolumeSlider extends Slider {
       text: label,
       style: {
         align: 'left',
-        fill: 0x4A4A4A,
-        fontSize: 18,
+        fill: ZINC[600],
+        fontSize: 20,
       },
     })
     this.messageLabel.anchor.x = 0

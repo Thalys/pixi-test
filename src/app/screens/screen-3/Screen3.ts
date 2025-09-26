@@ -1,4 +1,4 @@
-import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
 import { Container, Rectangle } from 'pixi.js'
 import { PopupPause } from '@/app/popups/popup.pause'
 import { engine } from '@/engine/engine.singleton'
@@ -13,7 +13,7 @@ import { CometSystem } from './comets'
 export class Screen3 extends Container implements IAppScreen {
   public definition: AppScreens = 'Screen3'
   public override label: string = 'Screen3'
-  public static assetBundles = ['main', 'fire']
+  public static assetBundles = ['main', 'fire'] as TAssetBundleId[]
 
   private cometSystem: CometSystem
   private mContainer: Container

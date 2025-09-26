@@ -11,7 +11,7 @@ const fadeInDown: AnimPreset = { from: { alpha: 0, y: -20 }, to: { alpha: 1, y: 
 // Scale animations
 const scaleIn: AnimPreset = { from: { scale: 0 }, to: { scale: 1 }, options: { duration: 0.3, ease: 'backOut' } }
 const scaleOut: AnimPreset = { from: { scale: 1 }, to: { scale: 0 }, options: { duration: 0.3, ease: 'backIn' } }
-const scaleBounce: AnimPreset = { from: { scale: 0 }, to: { scale: 1 }, options: { type: 'spring', stiffness: 400, damping: 10 } }
+const scaleBounce: AnimPreset = { from: { scale: 0 }, to: { scale: 1 }, options: { type: 'spring' } }
 const scalePulse: AnimPreset = { from: { scale: 1 }, to: { scale: 1.05 }, options: { duration: 0.6, direction: 'alternate', repeat: Infinity, ease: 'easeInOut' } }
 
 // Slide animations
@@ -21,8 +21,7 @@ const slideUp: AnimPreset = { from: { y: 50 }, to: { y: 0 }, options: { duration
 const slideDown: AnimPreset = { from: { y: -50 }, to: { y: 0 }, options: { duration: 0.4, ease: 'easeOut' } }
 
 // Rotation animations
-const spin: AnimPreset = { from: { rotation: 0 }, to: { rotation: Math.PI * 2 }, options: { duration: 1, ease: 'linear', repeat: Infinity } }
-const spinSlow: AnimPreset = { from: { rotation: 0 }, to: { rotation: Math.PI * 2 }, options: { duration: 3, ease: 'linear', repeat: Infinity } }
+const spin: AnimPreset = { from: { rotation: 0 }, to: { rotation: Math.PI * 2 }, options: { duration: 1, ease: 'circInOut' } }
 const wobble: AnimPreset = { from: { rotation: 0 }, to: { rotation: [-0.1, 0.1, -0.1, 0] }, options: { duration: 0.8, ease: 'easeInOut' } }
 
 // Bounce animations
@@ -36,6 +35,8 @@ const shakeY: AnimPreset = { from: { y: 0 }, to: { y: [-5, 5, -5, 5, 0] }, optio
 // Complex combined animations
 const zoomIn: AnimPreset = { from: { scale: 0, alpha: 0 }, to: { scale: 1, alpha: 1 }, options: { duration: 0.4, ease: 'backOut' } }
 const zoomOut: AnimPreset = { from: { scale: 1, alpha: 1 }, to: { scale: 0, alpha: 0 }, options: { duration: 0.4, ease: 'backIn' } }
+
+const popupBg: AnimPreset = { from: { alpha: 0 }, to: { alpha: 0.7 }, options: { duration: 0.3 } }
 
 export const ANIMATION_PRESETS = {
   // Fade animations
@@ -58,7 +59,6 @@ export const ANIMATION_PRESETS = {
 
   // Rotation animations
   'spin': spin,
-  'spin-slow': spinSlow,
   'wobble': wobble,
 
   // Bounce animations
@@ -72,4 +72,7 @@ export const ANIMATION_PRESETS = {
   // Complex combined animations
   'zoom-in': zoomIn,
   'zoom-out': zoomOut,
+
+  // Custom
+  'popup-bg-in': popupBg,
 } as const

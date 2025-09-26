@@ -40,6 +40,21 @@ export async function createBunniesContainer () {
   return { container, bunnies }
 }
 
+export async function createCardCharlie () {
+  const { stage, screen } = engine()
+
+  // bunny texture
+  const card = Sprite.from(Texture.from('charlie'))
+  stage.addChild(card)
+
+  // Move the container to the center
+  card.x = screen.width * 0.5
+  card.y = screen.height * 0.5
+  card.anchor = 0.5
+
+  return card
+}
+
 export function createCircle () {
   const app = engine()
   const circle = new Graphics()

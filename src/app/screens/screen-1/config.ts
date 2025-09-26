@@ -9,7 +9,6 @@
 
 export const config = {
   cards: {
-    options: ['charlie', 'luana', 'mano-brown', 'safira'],
     properties: {
       width: 672,
       height: 960,

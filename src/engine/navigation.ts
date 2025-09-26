@@ -1,6 +1,6 @@
 import type { CreationEngine } from '@/engine/engine'
 import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation.types'
-import type { Measure } from '@/engine/scene/stage-ruler'
+import type { Ruler } from '@/engine/scene/stage-ruler'
 import { Assets, BigPool, Container } from 'pixi.js'
 import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
@@ -12,8 +12,14 @@ export class Navigation {
   /** Reference to the main application */
   public app!: CreationEngine
 
-  /** Container for screens */
-  public container = new Container()
+  public cLayers = new Container()
+  /** Containers as layers */
+  public cBackground = new Container()
+  public cRuler = new Container()
+  public cScreen = new Container()
+  public cScreenOverlay = new Container()
+  public cPopups = new Container()
+  public cLoading = new Container()
 
   /** Application width */
   public width = 0
@@ -48,34 +54,46 @@ export class Navigation {
 
   public init (app: CreationEngine) {
     this.app = app
-    this.container.label = 'navigation'
+    this.cLayers.label = 'cLayer'
+    this.cBackground.label = 'cBackground'
+    this.cRuler.label = 'cRuler'
+    this.cScreen.label = 'cScreen'
+    this.cScreenOverlay.label = 'cScreenOverlay'
+    this.cPopups.label = 'cPopups'
+    this.cLoading.label = 'cLoading'
+
+    // define layers
+    app.stage.addChild(this.cLayers)
+    this.cLayers.addChild(this.cBackground)
+    this.cLayers.addChild(this.cRuler)
+    this.cLayers.addChild(this.cScreen)
+    this.cLayers.addChild(this.cScreenOverlay)
+    this.cLayers.addChild(this.cPopups)
+    this.cLayers.addChild(this.cLoading)
   }
 
   /** Set the default background screen */
   public setBackground (ctor: IAppScreenConstructor) {
     this.background = new ctor() // eslint-disable-line new-cap
-    this.addAndShowScreen(this.background)
+    this.addAndShowScreen(this.background, this.cBackground)
   }
 
   /** Set the overlay layer */
   public setOverlay (ctor: IAppScreenConstructor) {
     this.overlay = new ctor() // eslint-disable-line new-cap
-    this.addAndShowScreen(this.overlay)
+    this.addAndShowScreen(this.overlay, this.cScreenOverlay)
   }
 
   /** Set the measurement overlay layer */
-  public setMeasureLayer (ctor: IAppScreenConstructor) {
+  public setRulerLayer (ctor: IAppScreenConstructor) {
     this.measureLayer = new ctor() // eslint-disable-line new-cap
-    this.addAndShowScreen(this.measureLayer)
+    this.addAndShowScreen(this.measureLayer, this.cRuler)
   }
 
   /** Add screen to the stage, link update & resize functions */
-  private async addAndShowScreen (screen: IAppScreen) {
-    // Add navigation container to stage if it does not have a parent yet
-    if (!this.container.parent) this.app.stage.addChild(this.container)
-
+  private async addAndShowScreen (screen: IAppScreen, container: Container) {
     // Add screen to stage
-    this.container.addChild(screen)
+    container.addChild(screen)
 
     // Setup things and pre-organize screen before showing
     if (screen.prepare) screen.prepare()
@@ -131,7 +149,7 @@ export class Navigation {
 
     // Create the new screen and add that to the stage
     this.currentScreen = BigPool.get(ctor)
-    await this.addAndShowScreen(this.currentScreen)
+    await this.addAndShowScreen(this.currentScreen, this.cScreen)
 
     const ref = this.crossReference(this.currentScreen.definition)
     if (ref === null) return
@@ -167,7 +185,7 @@ export class Navigation {
     if (this.currentPopup) await this.hideAndRemoveScreen(this.currentPopup)
 
     this.currentPopup = new ctor() // eslint-disable-line new-cap
-    await this.addAndShowScreen(this.currentPopup)
+    await this.addAndShowScreen(this.currentPopup, this.cPopups)
   }
 
   /**
@@ -280,7 +298,7 @@ export class Navigation {
    */
   public toggleMeasureLayer () {
     if (this.measureLayer && 'toggle' in this.measureLayer) {
-      (this.measureLayer as Measure).toggle()
+      (this.measureLayer as Ruler).toggle()
     }
   }
 }

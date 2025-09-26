@@ -40,6 +40,21 @@ export function allowContinueAt (target: number) {
   }
 }
 
+export function throttle<T extends (...args: any[]) => any> (
+  fn: T,
+  delay = 100,
+): (...args: Parameters<T>) => void {
+  let lastTime = 0
+
+  return (...args: Parameters<T>) => {
+    const now = performance.now()
+    if (now - lastTime >= delay) {
+      fn(...args)
+      lastTime = now
+    }
+  }
+}
+
 // export function withTicker =
 
 // const p = new Proxy(myObj, {

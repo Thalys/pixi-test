@@ -20,7 +20,7 @@ export function pluginAssetpack () {
         texturePacker: {
           addFrameNames: true,
           texturePacker: {
-            nameStyle: 'short',
+            nameStyle: 'relative',
             removeFileExtension: true,
           },
         },

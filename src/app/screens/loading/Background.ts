@@ -1,26 +1,27 @@
-import { Container, Graphics } from 'pixi.js'
+import { Color, Container, Sprite, Texture } from 'pixi.js'
+import { ZINC } from '@/app/utils/colors'
 import { engine } from '@/engine/engine.singleton'
 
 export class Background extends Container {
+
+  private bg: Sprite
   constructor () {
     super()
 
-    this.config()
-    this.drawSquare()
-  }
+    const color = new Color(ZINC[900]).toNumber()
 
-  private config () {
-    this.pivot.set(0.5)
-  }
-
-  private drawSquare () {
     const { screen } = engine()
     const { width, height } = screen
-    const color = '#1E1E1E'
 
-    const draw = new Graphics()
-    draw.rect(0, 0, width, height)
-    draw.fill(color)
-    this.addChild(draw)
+    this.bg = new Sprite(Texture.WHITE)
+    this.addChild(this.bg)
+    this.bg.tint = color
+    this.bg.position.set(0)
+    this.bg.setSize(width, height)
+  }
+
+  public resize (width: number, height: number) {
+    this.bg.position.set(0)
+    this.bg.setSize(width, height)
   }
 }

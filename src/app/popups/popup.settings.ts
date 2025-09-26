@@ -1,15 +1,18 @@
+import type { FancyButton } from '@pixi/ui'
 import type { Text } from 'pixi.js'
 import type { AppScreens } from '@/engine/navigation.types'
 import { List } from '@pixi/ui'
 import { animate } from 'motion'
-import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
+import { BlurFilter, Container, NineSliceSprite, Sprite, Texture } from 'pixi.js'
+import buttons from '@/app/buttons'
 import { getAppVersion } from '@/app/global'
-import { Button } from '@/app/ui/Button'
+import textures from '@/app/textures'
 import { Label } from '@/app/ui/Label'
-import { RoundedBox } from '@/app/ui/RoundedBox'
 import { VolumeSlider } from '@/app/ui/VolumeSlider'
+import { ZINC } from '@/app/utils/colors'
 import { userSettings } from '@/app/utils/user.settings'
 import { engine } from '@/engine/engine.singleton'
+import { throttle } from '@/lib/fn'
 
 /** Popup for volume */
 export class PopupSettings extends Container {
@@ -21,12 +24,10 @@ export class PopupSettings extends Container {
   /** The popup title label */
   private title: Text
   /** Button that closes the popup */
-  private doneButton: Button
-  /** The panel background */
-  private panelBase: RoundedBox
+  private doneButton: FancyButton
   /** The build version label */
   private versionLabel: Text
-  /** Layout that organises the UI components */
+  /** Layout that organizes the UI components */
   private layout: List
   /** Slider that changes the master volume */
   private masterSlider: VolumeSlider
@@ -46,35 +47,38 @@ export class PopupSettings extends Container {
     this.panel = new Container()
     this.addChild(this.panel)
 
-    this.panelBase = new RoundedBox({ height: 425 })
-    this.panel.addChild(this.panelBase)
+    const panelBg = new NineSliceSprite({
+      texture: textures.popupBg,
+      leftWidth: 42,
+      topHeight: 42,
+      rightWidth: 42,
+      bottomHeight: 42,
+      width: 420,
+      height: 480,
+    })
+    panelBg.anchor.set(0.5)
+    this.panel.addChild(panelBg)
 
     this.title = new Label({
-      text: 'Settings',
-      style: {
-        fill: 0xEC1561,
-        fontSize: 50,
-      },
+      text: 'SETTINGS',
+      style: { fill: ZINC[800], fontSize: 42 },
     })
-    this.title.y = -this.panelBase.boxHeight * 0.5 + 60
     this.panel.addChild(this.title)
+    this.title.y = -170
 
-    this.doneButton = new Button({ text: 'OK' })
-    this.doneButton.y = this.panelBase.boxHeight * 0.5 - 78
-    this.doneButton.onPress.connect(() => {
-      void engine().navigation.dismissPopup()
-    })
+    this.doneButton = buttons.createBtnPopupDone('OK', 60)
+    this.doneButton.y = 170
     this.panel.addChild(this.doneButton)
 
     this.versionLabel = new Label({
       text: `${getAppVersion()}`,
       style: {
-        fill: 0xEF6294,
+        fill: ZINC[700],
         fontSize: 12,
       },
     })
     this.versionLabel.alpha = 0.5
-    this.versionLabel.y = this.panelBase.boxHeight * 0.5 - 15
+    this.versionLabel.y = 210
     this.panel.addChild(this.versionLabel)
 
     this.layout = new List({ type: 'vertical', elementsMargin: 4 })
@@ -85,24 +89,28 @@ export class PopupSettings extends Container {
     this.masterSlider = new VolumeSlider('Master Volume')
     this.masterSlider.onUpdate.connect((v) => {
       userSettings.setMasterVolume(v / 100)
+      this.soundScrolling()
     })
     this.layout.addChild(this.masterSlider)
 
     this.bgmSlider = new VolumeSlider('BGM Volume')
     this.bgmSlider.onUpdate.connect((v) => {
       userSettings.setBgmVolume(v / 100)
+      this.soundScrolling()
     })
     this.layout.addChild(this.bgmSlider)
 
     this.sfxSlider = new VolumeSlider('SFX Volume')
     this.sfxSlider.onUpdate.connect((v) => {
       userSettings.setSfxVolume(v / 100)
+      this.soundScrolling()
     })
     this.layout.addChild(this.sfxSlider)
   }
 
   /** Resize the popup, fired whenever window size changes */
   public resize (width: number, height: number) {
+    this.bg.position.set(0)
     this.bg.width = width
     this.bg.height = height
     this.panel.x = width * 0.5
@@ -151,4 +159,8 @@ export class PopupSettings extends Container {
       },
     )
   }
+
+  public soundScrolling = throttle(() => {
+    engine().audio.sfx.play('main/sounds/sfx-scrolling.wav')
+  }, 30)
 }

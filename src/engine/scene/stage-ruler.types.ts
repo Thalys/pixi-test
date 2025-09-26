@@ -1,10 +1,12 @@
-export interface MeasureOptions {
+export interface RulerOptions {
   majorTick: number
   minorTick: number
   microTick: number
-  showLabels: boolean
+  showLabels: { major: boolean, normal: boolean, minor: boolean }
   showCrosshair: boolean
-  rulerColor: number
-  labelColor: number
-  backgroundColor: number
+  showHorizontal: boolean
+  showVertical: boolean
+  rulerColor: string
+  labelColor: string
+  backgroundColor: string
 }
