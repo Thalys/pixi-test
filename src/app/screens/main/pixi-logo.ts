@@ -1,43 +1,28 @@
 import type { FederatedPointerEvent } from 'pixi.js'
-import { animate } from 'motion'
 import { Container, Sprite, Texture } from 'pixi.js'
-
-const fadeIn = async (element: Container) => {
-  await animate(
-    element,
-    { alpha: 1 },
-    { duration: 0.5, ease: 'circOut' },
-  )
-}
-const fadeOut = async (element: Container) => {
-  animate(
-    element,
-    { alpha: 0 },
-    { duration: 0.5, ease: 'backOut' },
-  )
-}
+import { anime } from '@/anime/anime'
 
 const goToPixiWebsite = () => {
   window.open('https://pixijs.com', '_blank')
 }
 
-export class Logo extends Container {
+export class PixiLogo extends Container {
 
   private bg: Sprite
   private fg: Sprite
 
   onPointerOver = (event: FederatedPointerEvent) => {
-    fadeIn(this.fg)
+    anime`fade-in duration-0.3`(this.fg).play()
   }
 
   onPointerOut = (event: FederatedPointerEvent) => {
-    fadeOut(this.fg)
+    anime`fade-out`(this.fg).play()
   }
 
   constructor () {
     super()
 
-    this.interactive = true
+    // this.interactive = true
     this.cursor = 'pointer'
 
     this.bg = Sprite.from(Texture.from('logo.svg'))

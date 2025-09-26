@@ -71,13 +71,7 @@ Make a particle-effect demo showing a great fire effect. Keep the number of
 
 images at max 10 sprites on the screen at the same time.
 
-## TASKS
-
-- [] git-lfs .gitattributes
-- [] exclude test assets from prod build
-- [] improve appScreens definition
-
-## Tasks
+## Misc
 
 > **["A man chooses, a slave obeys"](https://www.youtube.com/watch?v=oG25S51qJQQ)**\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— [_Andrew Ryan_](https://bioshock.fandom.com/wiki/Andrew_Ryan)

@@ -8,6 +8,8 @@ export const appScreens = [
   'Screen2',
   'Screen3',
 
+  'OverlayUI',
+
   'PopupSettings',
   'PopupPause',
 

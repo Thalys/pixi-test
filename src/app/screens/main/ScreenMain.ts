@@ -1,18 +1,17 @@
-import type { AppScreens } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { Container } from 'pixi.js'
 import { anime } from '@/anime/anime'
 import { config } from '@/app/screens/main/config'
-import { Logo } from '@/app/screens/main/Logo'
-import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
+import { PixiLogo } from '@/app/screens/main/pixi-logo'
 import { Button } from '@/app/ui/Button'
 import { engine } from '@/engine/engine.singleton'
 
-export class ScreenMain extends ScreenBaseUI {
-  public override definition: AppScreens = 'ScreenMain'
-  public static override assetBundles = ['main']
+export class ScreenMain extends Container implements IAppScreen {
+  public definition: AppScreens = 'ScreenMain'
+  public static assetBundles = ['main']
   public mainContainer: Container
   private buttons: Button[]
-  private logo: Logo
+  private logo: PixiLogo
 
   constructor () {
     super()
@@ -27,22 +26,19 @@ export class ScreenMain extends ScreenBaseUI {
       return btn
     })
 
-    this.logo = new Logo()
+    this.logo = new PixiLogo()
     this.addChild(this.logo)
   }
 
-  public override async pause (): Promise<void> {
-    super.pause()
+  public async pause (): Promise<void> {
     this.mainContainer.interactiveChildren = false
   }
 
-  public override async resume (): Promise<void> {
-    super.resume()
+  public async resume (): Promise<void> {
     this.mainContainer.interactiveChildren = true
   }
 
-  public override resize (width: number, height: number) {
-    super.resize(width, height)
+  public resize (width: number, height: number) {
 
     const mcx = width * 0.5
     const mcy = height * 0.5
@@ -59,23 +55,16 @@ export class ScreenMain extends ScreenBaseUI {
     this.logo.y = height - this.logo.height / 2 - 20
   }
 
-  public override async show (): Promise<void> {
-    // super.show() // intentionally commented, re-implemented
-
-    this.btnPause.alpha = 0
-    this.btnSettings.alpha = 0
+  public async show (): Promise<void> {
     this.logo.alpha = 0
 
     const promises = [
-      anime`fade-in`(this.btnPause).play(),
-      anime`fade-in`(this.btnSettings).play(),
-
       anime`fade-in`(this.logo).play(),
     ]
 
     for (let i = 0; i < this.buttons.length; i++) {
       const btn = this.buttons[i]
-      btn.animFadeInUp(0.1 * i).play()
+      promises.push(btn.animFadeInUp(0.1 * i).play())
     }
 
     await Promise.all(promises)
