@@ -7,10 +7,10 @@ import { PopupPause } from '@/app/popups/popup.pause'
 import { PopupSettings } from '@/app/popups/popup.settings'
 import { engine } from '@/engine/engine.singleton'
 
-export class ScreenBaseUI extends Container implements IAppScreen {
-  public definition: AppScreens = 'ScreenMain'
-  public override label: string = '☠️ ScreenBaseUI'
-  public static assetBundles = ['main']
+export class OverlayUI extends Container implements IAppScreen {
+  public definition: AppScreens = 'OverlayUI'
+  public override label: string = 'OverlayUI'
+  public static assetBundles = ['preload']
   protected btnPause: FancyButton
   protected btnSettings: FancyButton
   protected paused = false

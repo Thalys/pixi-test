@@ -1,6 +1,7 @@
 import { initDevtools } from '@pixi/devtools'
 import { Stats } from 'pixi-stats'
 import { getAppVersion, isDev } from '@/app/global'
+import { OverlayUI } from '@/app/screens/overlay/UI'
 import { ZINC } from '@/app/utils/colors'
 import { CreationEngine } from '@/engine/engine'
 import { setEngine } from '@/engine/engine.singleton'
@@ -28,4 +29,6 @@ export async function createApplication () {
     logger.info(JSON.parse(JSON.stringify(`App version: \n${getAppVersion()}`)))
     engine.navigation.setMeasureLayer(Measure)
   }
+
+  engine.navigation.setOverlay(OverlayUI)
 }

@@ -1,6 +1,7 @@
-import type { AppScreens } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { Container, Rectangle } from 'pixi.js'
-import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
+import { PopupPause } from '@/app/popups/popup.pause'
+import { engine } from '@/engine/engine.singleton'
 import { CometSystem } from './comets'
 
 /**
@@ -9,13 +10,14 @@ import { CometSystem } from './comets'
  * Make a particle-effect demo showing a great fire effect. Keep the number of
  * images at max 10 sprites on the screen at the same time.
  */
-export class Screen3 extends ScreenBaseUI {
-  public override definition: AppScreens = 'Screen3'
+export class Screen3 extends Container implements IAppScreen {
+  public definition: AppScreens = 'Screen3'
   public override label: string = 'Screen3'
-  public static override assetBundles = ['main', 'fire']
+  public static assetBundles = ['main', 'fire']
 
   private cometSystem: CometSystem
   private mContainer: Container
+  private paused = false
 
   constructor () {
     super()
@@ -35,17 +37,16 @@ export class Screen3 extends ScreenBaseUI {
     this.mContainer.addChild(this.cometSystem)
   }
 
-  public override prepare (): void {
+  public prepare (): void {
     this.cometSystem.initialize()
   }
 
-  public override reset (): void {
+  public reset (): void {
     this.cometSystem.stop()
     this.cometSystem.clear()
   }
 
-  public override resize (width: number, height: number): void {
-    super.resize(width, height)
+  public resize (width: number, height: number): void {
 
     const padding = 60
     const bounds = new Rectangle(
@@ -61,25 +62,27 @@ export class Screen3 extends ScreenBaseUI {
     this.mContainer.y = 0
   }
 
-  public override async show (): Promise<void> {
-    await super.show()
+  public async show (): Promise<void> {
     this.cometSystem.start()
   }
 
-  public override async hide (): Promise<void> {
-    this.cometSystem.stop()
-    await super.hide()
-  }
-
-  public override async pause (): Promise<void> {
-    await super.pause()
+  public async hide (): Promise<void> {
     this.cometSystem.stop()
   }
 
-  public override async resume (): Promise<void> {
-    await super.resume()
+  public async pause (): Promise<void> {
+    this.cometSystem.stop()
+  }
+
+  public async resume (): Promise<void> {
     if (!this.paused) {
       this.cometSystem.start()
+    }
+  }
+
+  public blur () {
+    if (!engine().navigation.currentPopup) {
+      engine().navigation.presentPopup(PopupPause)
     }
   }
 }

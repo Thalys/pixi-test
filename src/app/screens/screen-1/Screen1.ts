@@ -1,15 +1,15 @@
-import type { AppScreens } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
+import { Container } from 'pixi.js'
 import { Card } from '@/app/screens/screen-1/card'
 import { config } from '@/app/screens/screen-1/config'
-import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { engine } from '@/engine/engine.singleton'
 import { waitFor } from '@/lib/promise'
 
-export class Screen1 extends ScreenBaseUI {
-  public override definition: AppScreens = 'Screen1'
+export class Screen1 extends Container implements IAppScreen {
+  public definition: AppScreens = 'Screen1'
   public override label: string = 'Screen1'
   /** Assets bundles required by this screen */
-  public static override assetBundles = ['main', 'ace_of_shadows']
+  public static assetBundles = ['main', 'ace_of_shadows']
 
   private cardStack: Card[] = []
   private deckPositions: { [key: string]: { x: number, y: number } } = {}
@@ -25,9 +25,7 @@ export class Screen1 extends ScreenBaseUI {
   }
 
   /** Resize the screen, fired whenever window size changes */
-  public override resize (width: number, height: number) {
-    super.resize(width, height)
-
+  public resize (width: number, height: number) {
     const { screen } = engine()
 
     this.deckPositions = {
@@ -53,7 +51,7 @@ export class Screen1 extends ScreenBaseUI {
   }
 
   /** Show screen with animations */
-  public override async show (): Promise<void> {
+  public async show (): Promise<void> {
 
     let promises = this.cardStack.map(async (card, i) => {
       card.alpha = 0
