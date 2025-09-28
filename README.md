@@ -71,6 +71,12 @@ Make a particle-effect demo showing a great fire effect. Keep the number of
 
 images at max 10 sprites on the screen at the same time.
 
+## Credits
+
+Game assets by [Kenney](https://kenney.nl/) (CC0)
+
+This project uses game assets created by Kenney [https://kenney.nl](https://kenney.nl), released under Creative Commons Zero (CC0) license.
+
 ## Misc
 
 > **["A man chooses, a slave obeys"](https://www.youtube.com/watch?v=oG25S51qJQQ)**\
