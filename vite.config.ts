@@ -42,7 +42,7 @@ export default defineConfig(async ({ command, mode, isPreview }) => {
       }),
       pluginAssetpack(),
     ],
-    clearScreen: false,
+    clearScreen: true,
     server: {
       port: 3489,
       open: false,

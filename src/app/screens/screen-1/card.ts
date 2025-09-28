@@ -1,20 +1,24 @@
 import { Sprite, Texture } from 'pixi.js'
-import { createCustomAnimation } from '@/anime/anime'
+import { anime, createCustomAnimation } from '@/anime/anime'
 import { config } from '@/app/screens/screen-1/config'
+import textures from '@/app/textures'
+import { engine } from '@/engine/engine.singleton'
+import { randomInt } from '@/lib/random'
 
 export class Card extends Sprite {
 
   public cardOption: string = ''
 
   constructor () {
-    const rndIndex = Math.floor(config.cards.options.length * Math.random())
+    const rndIndex = Math.floor(textures.cardOptions.length * Math.random())
     super({
-      texture: Texture.from(config.cards.options[rndIndex]),
+      texture: Texture.from(textures.cardOptions[rndIndex]),
       anchor: 0.5,
       scale: 0.15,
       label: 'Card',
     })
-    this.cardOption = config.cards.options[rndIndex]
+    this.cardOption = textures.cardOptions[rndIndex]
+    this.label = `Card-${textures.cardOptions[rndIndex]}`
   }
 
   public visualWidth = () => {
@@ -25,13 +29,28 @@ export class Card extends Sprite {
     return config.cards.properties.height * this.scale.y
   }
 
-  public animFadeInUp (delay: number = 0) {
-    const anim = createCustomAnimation(
-      { alpha: 0, y: this.y + 20 },
-      { alpha: 1, y: this.y },
-      { delay, duration: 0.5, ease: 'circIn' },
-    )
-    return anim(this)
+  public async animEntry (delay: number) {
+    const { screen } = engine()
+
+    const randX = randomInt(0, screen.width)
+    const randY = randomInt(screen.height + 50, screen.height + 200)
+
+    const promises = Promise.all([
+      createCustomAnimation(
+        { x: randX, y: randY },
+        { x: this.x, y: this.y },
+        { delay, duration: 0.3, ease: 'backOut' },
+      )(this).play(),
+
+      createCustomAnimation(
+        { scale: 0.26 },
+        { scale: [0.2 * 1.1, 0.2 * 0.9] },
+        { delay, type: 'spring' },
+      )(this).play(),
+
+      anime`fade-in duration-0.15`(this, { delay }).play(),
+    ])
+    return promises
   }
 
   public animSlide (x: number, y: number, duration: number = 2, delay: number = 0) {

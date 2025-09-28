@@ -1,15 +1,15 @@
-import type { AppScreens } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
+import { Container } from 'pixi.js'
 import { Card } from '@/app/screens/screen-1/card'
 import { config } from '@/app/screens/screen-1/config'
-import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
+import textures from '@/app/textures'
 import { engine } from '@/engine/engine.singleton'
 import { waitFor } from '@/lib/promise'
 
-export class Screen1 extends ScreenBaseUI {
-  public override definition: AppScreens = 'Screen1'
+export class Screen1 extends Container implements IAppScreen {
+  public definition: AppScreens = 'Screen1'
   public override label: string = 'Screen1'
-  /** Assets bundles required by this screen */
-  public static override assetBundles = ['main', 'ace_of_shadows']
+  public static assetBundles = ['preload', 'main', 'ace_of_shadows'] as TAssetBundleId[]
 
   private cardStack: Card[] = []
   private deckPositions: { [key: string]: { x: number, y: number } } = {}
@@ -25,16 +25,14 @@ export class Screen1 extends ScreenBaseUI {
   }
 
   /** Resize the screen, fired whenever window size changes */
-  public override resize (width: number, height: number) {
-    super.resize(width, height)
-
+  public resize (width: number, height: number) {
     const { screen } = engine()
 
     this.deckPositions = {
-      [config.cards.options[0]]: { x: 150, y: 150 },
-      [config.cards.options[1]]: { x: screen.width - 150, y: 150 },
-      [config.cards.options[2]]: { x: 150, y: screen.height - 150 },
-      [config.cards.options[3]]: { x: screen.width - 150, y: screen.height - 150 },
+      [textures.cardOptions[0]]: { x: 150, y: 150 },
+      [textures.cardOptions[1]]: { x: screen.width - 150, y: 150 },
+      [textures.cardOptions[2]]: { x: 150, y: screen.height - 150 },
+      [textures.cardOptions[3]]: { x: screen.width - 150, y: screen.height - 150 },
     }
 
     const borderOffsetPercentage = config.cards.borderOffsetPercentage
@@ -53,20 +51,27 @@ export class Screen1 extends ScreenBaseUI {
   }
 
   /** Show screen with animations */
-  public override async show (): Promise<void> {
+  public async show (): Promise<void> {
+    const { screen } = engine()
 
-    let promises = this.cardStack.map(async (card, i) => {
-      card.alpha = 0
-      return card.animFadeInUp(i * 0.1).play()
-    })
+    let promises = this.cardStack.map(
+      async (card, i) => {
+        card.scale = 0.3
+        const delay = i * 0.085
+        return card.animEntry(delay)
+      },
+    )
+
+    promises = promises.flat()
     await Promise.all(promises)
 
     await waitFor(1)
 
-    promises = this.cardStack.toReversed().map(async (card, i) => {
-      const { x, y } = this.deckPositions[card.cardOption]
-      return card.animSlide(x, y, 2, i * 0.1).play()
-    })
+    promises = this.cardStack.toReversed()
+      .map(async (card, i) => {
+        const { x, y } = this.deckPositions[card.cardOption]
+        return card.animSlide(x, y, 2, i * 0.1).play()
+      })
     await Promise.all(promises)
   }
 }

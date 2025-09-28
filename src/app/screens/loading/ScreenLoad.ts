@@ -1,28 +1,29 @@
-import type { ObjectTarget } from 'motion/react'
-import type { AppScreens } from '@/engine/navigation.types'
-import { animate } from 'motion'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
 import { Container } from 'pixi.js'
+import { anime } from '@/anime/anime'
 import { Background } from '@/app/screens/loading/Background'
 import { Logo } from '@/app/screens/loading/Logo'
 import { ProgressBar } from '@/app/screens/loading/ProgressBar'
 
 /** Screen shown while loading assets */
-export class LoadScreen extends Container {
+export class LoadScreen extends Container implements IAppScreen {
   public definition: AppScreens = 'LoadScreen'
   /** Assets bundles required by this screen */
-  public static assetBundles = ['preload']
+  public static assetBundles = ['preload'] as TAssetBundleId[]
   /** The PixiJS logo */
   private logo: Logo
   /** Progress Bar */
   private progressBar: ProgressBar
-  private background: Background
+  private bg: Background
 
   constructor () {
     super()
     this.label = 'ScreenAssetLoader'
+    this.interactive = false
+    this.interactiveChildren = false
 
-    this.background = new Background()
-    this.addChild(this.background)
+    this.bg = new Background()
+    this.addChild(this.bg)
 
     this.progressBar = new ProgressBar()
     this.addChild(this.progressBar)
@@ -37,6 +38,7 @@ export class LoadScreen extends Container {
 
   /** Resize the screen, fired whenever window size changes  */
   public resize (width: number, height: number) {
+    this.bg.resize(width, height)
     this.logo.resize(width, height)
     this.progressBar.resize(width, height)
   }
@@ -48,10 +50,6 @@ export class LoadScreen extends Container {
 
   /** Hide screen with animations */
   public async hide () {
-    await animate(this, { alpha: 0 } as ObjectTarget<this>, {
-      duration: 0.3,
-      ease: 'linear',
-      delay: 1,
-    })
+    await anime`fade-out delay-2`(this).play()
   }
 }

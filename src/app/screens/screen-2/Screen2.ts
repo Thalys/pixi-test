@@ -1,7 +1,6 @@
-import type { Container } from 'pixi.js'
-import type { AppScreens } from '@/engine/navigation.types'
+import type { AppScreens, IAppScreen, TAssetBundleId } from '@/engine/navigation.types'
+import { Container } from 'pixi.js'
 import { fetchData, layoutScreen } from '@/app/features/chat'
-import { ScreenBaseUI } from '@/app/screens/ScreenBaseUI'
 import { engine } from '@/engine/engine.singleton'
 
 /**
@@ -11,12 +10,11 @@ import { engine } from '@/engine/engine.singleton'
  * Use it to render a dialogue between characters with the data taken from this
  * endpoint: https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords
  */
-export class Screen2 extends ScreenBaseUI {
-  public override definition: AppScreens = 'Screen2'
+export class Screen2 extends Container implements IAppScreen {
+  public definition: AppScreens = 'Screen2'
   public override label: string = 'Screen2'
   public _chatContainer: Container | null = null
-  /** Assets bundles required by this screen */
-  public static override assetBundles = ['main']
+  public static assetBundles = ['main'] as TAssetBundleId[]
 
   constructor () {
     super()
@@ -35,17 +33,10 @@ export class Screen2 extends ScreenBaseUI {
 
   }
 
-  public override resize (width: number, height: number): void {
+  public resize (width: number, height: number): void {
     if (!this._chatContainer) return
 
     this._chatContainer.y = 75
     this._chatContainer.x = width / 2 - this._chatContainer.getSize().width / 2
   }
-
-  /** Show screen with animations */
-  public override async show (): Promise<void> {
-
-  }
-
-  public override async hide () {}
 }

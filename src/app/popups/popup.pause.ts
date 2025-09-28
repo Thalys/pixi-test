@@ -1,13 +1,18 @@
-import type { AppScreens } from '@/engine/navigation.types'
+import type { FancyButton } from '@pixi/ui'
+import type { AppScreens, IAppScreen } from '@/engine/navigation.types'
 import { animate } from 'motion'
-import { BlurFilter, Container, Sprite, Texture } from 'pixi.js'
-import { Button } from '@/app/ui/Button'
+import { BlurFilter, Container, NineSliceSprite, Sprite, Texture } from 'pixi.js'
+import { anime, createCustomAnimation } from '@/anime/anime'
+import actions from '@/app/actions'
+import buttons from '@/app/buttons'
+import textures from '@/app/textures'
 import { Label } from '@/app/ui/Label'
-import { RoundedBox } from '@/app/ui/RoundedBox'
+import { ZINC } from '@/app/utils/colors'
 import { engine } from '@/engine/engine.singleton'
 
 /** Popup that shows up when gameplay is paused */
-export class PopupPause extends Container {
+export class PopupPause extends Container implements IAppScreen {
+
   public definition: AppScreens = 'PopupPause'
   /** The dark semi-transparent background covering current screen */
   private bg: Sprite
@@ -16,9 +21,7 @@ export class PopupPause extends Container {
   /** The popup title label */
   private title: Label
   /** Button that closes the popup */
-  private doneButton: Button
-  /** The panel background */
-  private panelBase: RoundedBox
+  private doneButton: FancyButton
 
   constructor () {
     super()
@@ -31,30 +34,36 @@ export class PopupPause extends Container {
     this.panel = new Container()
     this.addChild(this.panel)
 
-    this.panelBase = new RoundedBox({ height: 300 })
-    this.panel.addChild(this.panelBase)
+    const panelBg = new NineSliceSprite({
+      texture: textures.popupBg,
+      leftWidth: 42,
+      topHeight: 42,
+      rightWidth: 42,
+      bottomHeight: 42,
+      width: 300,
+      height: 280,
+    })
+    panelBg.anchor.set(0.5)
+    this.panel.addChild(panelBg)
 
     this.title = new Label({
-      text: 'Paused',
-      style: { fill: 0xEC1561, fontSize: 50 },
+      text: 'PAUSED',
+      style: { fill: ZINC[800], fontSize: 42 },
     })
-    this.title.y = -80
+    this.title.y = -70
     this.panel.addChild(this.title)
 
-    this.doneButton = new Button({ text: 'Resume' })
+    this.doneButton = buttons.createBtnPopupDone('RESUME')
     this.doneButton.y = 70
-    this.doneButton.onPress.connect(() => {
-      void engine().navigation.dismissPopup()
-    })
     this.panel.addChild(this.doneButton)
   }
 
   /** Resize the popup, fired whenever window size changes */
   public resize (width: number, height: number) {
+    this.bg.position.set(0)
     this.bg.width = width
     this.bg.height = height
-    this.panel.x = width * 0.5
-    this.panel.y = height * 0.5
+    this.panel.position.set(width * 0.5, height * 0.5)
   }
 
   /** Present the popup, animated */
@@ -66,13 +75,21 @@ export class PopupPause extends Container {
       ]
     }
     this.bg.alpha = 0
+    anime`popup-bg-in`(
+      this.bg,
+      {
+        onComplete: () => {
+          this.bg.once('pointerup', () => actions.dismissPopup)
+        },
+      },
+    ).play()
+
     this.panel.pivot.y = -400
-    animate(this.bg, { alpha: 0.8 }, { duration: 0.2, ease: 'linear' })
-    await animate(
-      this.panel.pivot,
+    await createCustomAnimation(
+      { y: -400 },
       { y: 0 },
       { duration: 0.3, ease: 'backOut' },
-    )
+    )(this.panel.pivot).play()
   }
 
   /** Dismiss the popup, animated */

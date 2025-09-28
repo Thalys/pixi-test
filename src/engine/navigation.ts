@@ -1,19 +1,25 @@
 import type { CreationEngine } from '@/engine/engine'
 import type { AppScreens, IAppScreen, IAppScreenConstructor } from '@/engine/navigation.types'
+import type { Ruler } from '@/engine/scene/stage-ruler'
 import { Assets, BigPool, Container } from 'pixi.js'
 import { ScreenMain } from '@/app/screens/main/ScreenMain'
 import { Screen1 } from '@/app/screens/screen-1/Screen1'
 import { Screen2 } from '@/app/screens/screen-2/Screen2'
 import { Screen3 } from '@/app/screens/screen-3/Screen3'
 import { userSettings } from '@/app/utils/user.settings'
-import { Measure } from '@/engine/scene/stage-ruler'
 
 export class Navigation {
   /** Reference to the main application */
   public app!: CreationEngine
 
-  /** Container for screens */
-  public container = new Container()
+  public cLayers = new Container()
+  /** Containers as layers */
+  public cBackground = new Container()
+  public cRuler = new Container()
+  public cScreen = new Container()
+  public cScreenOverlay = new Container()
+  public cPopups = new Container()
+  public cLoading = new Container()
 
   /** Application width */
   public width = 0
@@ -23,6 +29,9 @@ export class Navigation {
 
   /** Constant background view for all screens */
   public background?: IAppScreen
+
+  /** Constant background view for all screens */
+  public overlay?: IAppScreen
 
   /** Measurement overlay for development */
   public measureLayer?: IAppScreen
@@ -45,46 +54,53 @@ export class Navigation {
 
   public init (app: CreationEngine) {
     this.app = app
-    this.container.label = 'navigation'
+    this.cLayers.label = 'cLayer'
+    this.cBackground.label = 'cBackground'
+    this.cRuler.label = 'cRuler'
+    this.cScreen.label = 'cScreen'
+    this.cScreenOverlay.label = 'cScreenOverlay'
+    this.cPopups.label = 'cPopups'
+    this.cLoading.label = 'cLoading'
+
+    // define layers
+    app.stage.addChild(this.cLayers)
+    this.cLayers.addChild(this.cBackground)
+    this.cLayers.addChild(this.cRuler)
+    this.cLayers.addChild(this.cScreen)
+    this.cLayers.addChild(this.cScreenOverlay)
+    this.cLayers.addChild(this.cPopups)
+    this.cLayers.addChild(this.cLoading)
   }
 
   /** Set the default background screen */
   public setBackground (ctor: IAppScreenConstructor) {
     this.background = new ctor() // eslint-disable-line new-cap
-    this.addAndShowScreen(this.background)
+    this.addAndShowScreen(this.background, this.cBackground)
+  }
+
+  /** Set the overlay layer */
+  public setOverlay (ctor: IAppScreenConstructor) {
+    this.overlay = new ctor() // eslint-disable-line new-cap
+    this.addAndShowScreen(this.overlay, this.cScreenOverlay)
   }
 
   /** Set the measurement overlay layer */
-  public setMeasureLayer (ctor: IAppScreenConstructor) {
+  public setRulerLayer (ctor: IAppScreenConstructor) {
     this.measureLayer = new ctor() // eslint-disable-line new-cap
-    this.addAndShowScreen(this.measureLayer)
+    this.addAndShowScreen(this.measureLayer, this.cRuler)
   }
 
   /** Add screen to the stage, link update & resize functions */
-  private async addAndShowScreen (screen: IAppScreen) {
-    // Add navigation container to stage if it does not have a parent yet
-    if (!this.container.parent) {
-      this.app.stage.addChild(this.container)
-    }
-
+  private async addAndShowScreen (screen: IAppScreen, container: Container) {
     // Add screen to stage
-    this.container.addChild(screen)
+    container.addChild(screen)
 
-    // Setup things and pre-organise screen before showing
-    if (screen.prepare) {
-      screen.prepare()
-    }
-
-    // Add screen's resize handler, if available
-    if (screen.resize) {
-      // Trigger a first resize
-      screen.resize(this.width, this.height)
-    }
-
+    // Setup things and pre-organize screen before showing
+    if (screen.prepare) screen.prepare()
+    // Trigger a first resize, if available
+    if (screen.resize) screen.resize(this.width, this.height)
     // Add update function if available
-    if (screen.update) {
-      this.app.ticker.add(screen.update, screen)
-    }
+    if (screen.update) this.app.ticker.add(screen.update, screen)
 
     // Show the new screen
     if (screen.show) {
@@ -100,24 +116,13 @@ export class Navigation {
     screen.interactiveChildren = false
 
     // Hide screen if method is available
-    if (screen.hide) {
-      await screen.hide()
-    }
-
+    if (screen.hide) await screen.hide()
     // Unlink update function if method is available
-    if (screen.update) {
-      this.app.ticker.remove(screen.update, screen)
-    }
-
+    if (screen.update) this.app.ticker.remove(screen.update, screen)
     // Remove screen from its parent (usually app.stage, if not changed)
-    if (screen.parent) {
-      screen.parent.removeChild(screen)
-    }
-
+    if (screen.parent) screen.parent.removeChild(screen)
     // Clean up the screen so that instance can be reused again later
-    if (screen.reset) {
-      screen.reset()
-    }
+    if (screen.reset) screen.reset()
   }
 
   /**
@@ -126,9 +131,7 @@ export class Navigation {
    */
   public async showScreen (ctor: IAppScreenConstructor) {
     // Block interactivity in current screen
-    if (this.currentScreen) {
-      this.currentScreen.interactiveChildren = false
-    }
+    if (this.currentScreen) this.currentScreen.interactiveChildren = false
 
     // Load assets for the new screen, if available
     if (ctor.assetBundles) {
@@ -140,23 +143,17 @@ export class Navigation {
       })
     }
 
-    if (this.currentScreen?.onLoad) {
-      this.currentScreen.onLoad(100)
-    }
-
+    if (this.currentScreen?.onLoad) this.currentScreen.onLoad(100)
     // If there is a screen already created, hide and destroy it
-    if (this.currentScreen) {
-      await this.hideAndRemoveScreen(this.currentScreen)
-    }
+    if (this.currentScreen) await this.hideAndRemoveScreen(this.currentScreen)
 
     // Create the new screen and add that to the stage
     this.currentScreen = BigPool.get(ctor)
-    await this.addAndShowScreen(this.currentScreen)
+    await this.addAndShowScreen(this.currentScreen, this.cScreen)
 
     const ref = this.crossReference(this.currentScreen.definition)
-    if (ref === null) {
-      return
-    }
+    if (ref === null) return
+
     userSettings.setLastScreen(ref)
     this.stackScreenState(ref)
   }
@@ -172,6 +169,7 @@ export class Navigation {
     this.currentScreen?.resize?.(width, height)
     this.currentPopup?.resize?.(width, height)
     this.background?.resize?.(width, height)
+    this.overlay?.resize?.(width, height)
     this.measureLayer?.resize?.(width, height)
   }
 
@@ -184,12 +182,10 @@ export class Navigation {
       await this.currentScreen.pause?.()
     }
 
-    if (this.currentPopup) {
-      await this.hideAndRemoveScreen(this.currentPopup)
-    }
+    if (this.currentPopup) await this.hideAndRemoveScreen(this.currentPopup)
 
     this.currentPopup = new ctor() // eslint-disable-line new-cap
-    await this.addAndShowScreen(this.currentPopup)
+    await this.addAndShowScreen(this.currentPopup, this.cPopups)
   }
 
   /**
@@ -213,6 +209,7 @@ export class Navigation {
     this.currentScreen?.blur?.()
     this.currentPopup?.blur?.()
     this.background?.blur?.()
+    this.overlay?.blur?.()
     this.measureLayer?.blur?.()
   }
 
@@ -223,10 +220,11 @@ export class Navigation {
     this.currentScreen?.focus?.()
     this.currentPopup?.focus?.()
     this.background?.focus?.()
+    this.overlay?.focus?.()
     this.measureLayer?.focus?.()
   }
 
-  stackScreenState (value: AppScreens) {
+  private stackScreenState (value: AppScreens) {
     history.pushState({ page: value }, value)
   }
 
@@ -241,7 +239,7 @@ export class Navigation {
   private _onPopState = (e?: PopStateEvent) => {
     e?.preventDefault()
     // This fires when the user hits the browser/Android back button.
-    // console.log('Back button pressed. Emitting "goBack" signal.')
+    // logger.log('Back button pressed. Emitting "goBack" signal.')
     this.showScreen(ScreenMain)
   }
 
@@ -255,6 +253,7 @@ export class Navigation {
         return 'Screen3'
       case 'Measure':
       case 'LoadScreen':
+      case 'OverlayUI':
         return null // don't save for loading screen
       case 'PopupPause':
       case 'PopupSettings':
@@ -274,6 +273,7 @@ export class Navigation {
         return Screen3
       case 'Measure':
       case 'LoadScreen':
+      case 'OverlayUI':
         return null // don't save for loading screen
       case 'PopupPause':
       case 'PopupSettings':
@@ -298,16 +298,7 @@ export class Navigation {
    */
   public toggleMeasureLayer () {
     if (this.measureLayer && 'toggle' in this.measureLayer) {
-      ;(this.measureLayer as Measure).toggle()
-    }
-  }
-
-  /**
-   * Initialize the measurement layer for development
-   */
-  public initMeasureLayer () {
-    if (!this.measureLayer) {
-      this.setMeasureLayer(Measure as unknown as IAppScreenConstructor)
+      (this.measureLayer as Ruler).toggle()
     }
   }
 }

@@ -8,6 +8,8 @@ export const appScreens = [
   'Screen2',
   'Screen3',
 
+  'OverlayUI',
+
   'PopupSettings',
   'PopupPause',
 
@@ -43,9 +45,11 @@ export interface IAppScreen extends Container {
   onLoad?: (progress: number) => void
 }
 
+export type TAssetBundleId = 'preload' | 'main' | 'fire' | 'ace_of_shadows'
+
 /** Interface for app screens constructors */
 export interface IAppScreenConstructor {
   new (): IAppScreen
   /** List of assets bundles required by the screen */
-  assetBundles?: string[]
+  assetBundles?: TAssetBundleId[]
 }
